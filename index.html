@@ -3,84 +3,100 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Acquedotto Interattivo</title>
+<title>Acquedotto Interattivo · Scuola Sacra Famiglia</title>
+<link rel="icon" href="logo.jpg" />
+<link rel="apple-touch-icon" href="logo.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+  :root{
+    --blu:#123E90;        /* blu istituzionale Scuola Sacra Famiglia */
+    --blu2:#1f5fc0;       /* accento acqua (variante chiara) */
+    --bluD:#0c2a63;
+    --gold:#B8860B;       /* accento */
+    --ink:#1b2a3a;
+    --muted:#5a6b7c;
+    --card:#ffffff;
+    --warm:#eef4fb;
+    --brd:#cdd9ea;
+    --body:'Atkinson Hyperlegible',Helvetica,Arial,sans-serif;
+    --head:'Lexend',sans-serif;
+  }
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;font-family:"Trebuchet MS",system-ui,Arial,sans-serif;color:#23303a;
-    background:radial-gradient(1200px 600px at 50% -10%,#eaf4fb,#dbe6ec 60%,#cdd9e0);
-    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-    min-height:100vh;padding:34px 16px 26px;text-align:center}
-  .logo{width:96px;height:96px;object-fit:contain;border-radius:18px;background:#fff;
-    padding:8px;box-shadow:0 8px 22px rgba(0,0,0,.18);margin-bottom:4px}
-  .school{margin:8px 0 0;font-size:13px;font-weight:700;letter-spacing:1px;color:#5a6b78;text-transform:uppercase}
-  .badge{font-size:40px;line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15))}
-  h1{margin:8px 0 2px;font-size:clamp(30px,6vw,52px);letter-spacing:.5px}
-  .sub{margin:0 0 4px;font-size:clamp(16px,3vw,22px);font-weight:700;letter-spacing:2px}
-  .sub .reale{color:#7a4f24}
-  .sub .virt{color:#1f86c8}
+  body{margin:0;font-family:var(--body);color:var(--ink);font-size:18px;line-height:1.5;
+    background:radial-gradient(1200px 600px at 50% -10%,#eaf2fb,#dce7f3 60%,#cdd9ea);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    height:100vh;overflow:hidden;padding:14px 16px;text-align:center}
+  h1,h2,.sub,.school,.cta,.tag,.m-title{font-family:var(--head)}
+  .logo{width:74px;height:74px;object-fit:contain;border-radius:16px;background:#fff;
+    padding:7px;box-shadow:0 8px 22px rgba(18,62,144,.22);margin-bottom:2px}
+  .school{margin:4px 0 0;font-size:13px;font-weight:700;letter-spacing:1.5px;color:var(--blu);text-transform:uppercase}
+  .badge{margin:8px auto 0;width:54px;height:54px;display:flex;align-items:center;justify-content:center;
+    background:#fff;border-radius:50%;box-shadow:0 6px 16px rgba(18,62,144,.18)}
+  h1{margin:6px 0 2px;font-size:clamp(28px,5vw,46px);letter-spacing:.3px;color:var(--bluD);font-weight:700}
+  .sub{margin:0 0 4px;font-size:clamp(15px,3vw,21px);font-weight:600;letter-spacing:2px}
+  .sub .reale{color:#8a6a3a}
+  .sub .virt{color:var(--blu2)}
   .sub .slash{color:#9aa6ad;margin:0 8px}
-  .tagline{margin:6px 0 22px;color:#5a6b78;font-size:15px;max-width:560px}
-  .hero{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;align-items:stretch;margin-bottom:26px}
-  figure{margin:0;background:#fff;border-radius:18px;padding:10px;box-shadow:0 14px 36px rgba(0,0,0,.16);
-    width:min(300px,80vw);display:flex;flex-direction:column;transition:transform .2s}
-  figure:hover{transform:translateY(-4px)}
-  figure img{width:100%;height:300px;object-fit:cover;border-radius:12px;display:block;background:#eef}
-  figcaption{margin-top:8px;font-size:13px;font-weight:700;color:#6b7884}
-  figure.real{outline:3px solid #d8b98a}
+  .tagline{margin:6px 0 22px;color:var(--muted);font-size:16px;max-width:560px}
+  .hero{margin:2px 0 6px}
+  figure{margin:0 auto;background:#fff;border-radius:18px;padding:8px;box-shadow:0 14px 36px rgba(18,62,144,.16);
+    display:inline-block;transition:transform .2s}
+  figure:hover{transform:translateY(-3px)}
+  figure img{display:block;max-width:min(760px,92vw);max-height:27vh;width:auto;height:auto;
+    object-fit:contain;border-radius:12px;background:#eef}
+  figcaption{margin-top:6px;font-size:13px;font-weight:700;color:var(--muted)}
   .cta{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
-    background:linear-gradient(180deg,#34a8e8,#1f86c8);color:#fff;font-size:20px;font-weight:800;
-    padding:16px 34px;border-radius:40px;box-shadow:0 10px 26px rgba(31,134,200,.45);
+    background:linear-gradient(180deg,var(--blu2),var(--blu));color:#fff;font-size:19px;font-weight:600;
+    padding:16px 32px;border-radius:40px;box-shadow:0 10px 26px rgba(18,62,144,.40);
     transition:transform .12s,box-shadow .2s}
-  .cta:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(31,134,200,.55)}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(18,62,144,.52)}
   .cta:active{transform:translateY(0)}
-  .cta.alt{background:linear-gradient(180deg,#4bbf7a,#2f9d5e);box-shadow:0 10px 26px rgba(47,157,94,.42)}
-  .cta.alt:hover{box-shadow:0 14px 32px rgba(47,157,94,.55)}
+  .cta.alt{background:linear-gradient(180deg,#2f9d5e,#1f7d49);box-shadow:0 10px 26px rgba(31,125,73,.38)}
+  .cta.alt:hover{box-shadow:0 14px 32px rgba(31,125,73,.5)}
+  .cta svg{width:22px;height:22px;flex:0 0 auto}
   .ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
-  .arrow{font-size:22px}
-  .project{margin:2px 0 18px;max-width:620px;font-size:14px;line-height:1.5;color:#46586a;
-    background:#ffffffcc;border-radius:14px;padding:12px 18px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
-  .project b{color:#1f86c8}
-  .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-  .tag{font-size:12px;font-weight:700;padding:4px 11px;border-radius:20px;background:#eaf4fb;color:#1f6fa3}
-  .tag.t2{background:#eef7ee;color:#2f9d5e}
-  .tag.t3{background:#fdf0ea;color:#c0563a}
-  .foot{margin-top:22px;font-size:12.5px;color:#7c8a94}
+  .project{margin:2px 0 4px;max-width:640px;font-size:14px;line-height:1.45;color:#3a4a5c;
+    background:#ffffffcc;border-radius:14px;padding:8px 18px;box-shadow:0 6px 18px rgba(18,62,144,.10)}
+  .project b{color:var(--blu)}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:5px 12px;
+    border-radius:20px;background:var(--warm);color:var(--blu)}
+  .tag.t2{background:#eef7ee;color:#1f7d49}
+  .tag.t3{background:#fbf2e6;color:#9a6a13}
+  .tag svg{width:14px;height:14px}
+  .foot{margin-top:22px;font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
   <img class="logo" src="logo.jpg" alt="Logo Scuola Sacra Famiglia" />
   <p class="school">Scuola Sacra Famiglia</p>
-  <div class="badge">💧</div>
   <h1>Acquedotto Interattivo</h1>
   <p class="sub"><span class="reale">reale</span><span class="slash">/</span><span class="virt">virtuale</span></p>
-  <p class="tagline">Dal plastico reale costruito in classe al simulatore virtuale: scopri come l'acqua arriva nelle case passando da cisterna, pompa, filtri e rubinetti.</p>
 
   <div class="project">
     Un <b>progetto di Tecnologia</b> che collega anche <b>Informatica</b> ed <b>Educazione alla cittadinanza</b>:
     dalla costruzione del modello reale alla simulazione digitale, per capire come funziona un acquedotto
     e imparare a usare l'acqua in modo responsabile.
     <div class="tags">
-      <span class="tag">🔧 Tecnologia</span>
-      <span class="tag t2">💻 Informatica</span>
-      <span class="tag t3">🏛️ Educazione civica</span>
+      <span class="tag"><svg viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a4 4 0 0 1-5.1 5.1l-4.2 4.2a1.5 1.5 0 0 0 2.1 2.1l4.2-4.2a4 4 0 0 0 5.1-5.1l-2 2-1.8-.3-.3-1.8 2-2Z" stroke="#123E90" stroke-width="1.5" stroke-linejoin="round"/></svg> Tecnologia</span>
+      <span class="tag t2"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="12" rx="1.5" stroke="#1f7d49" stroke-width="1.5"/><path d="M8 20h8M12 16v4" stroke="#1f7d49" stroke-width="1.5" stroke-linecap="round"/></svg> Informatica</span>
+      <span class="tag t3"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20h16M5 20V10l7-5 7 5v10M9 20v-6h6v6" stroke="#9a6a13" stroke-width="1.5" stroke-linejoin="round"/></svg> Educazione civica</span>
     </div>
   </div>
 
   <div class="hero">
-    <figure class="real">
-      <img src="1.jpg" alt="Il plastico reale dell'acquedotto" />
-      <figcaption>Il modello reale · la cisterna e l'anello</figcaption>
-    </figure>
-    <figure class="real">
-      <img src="2.jpg" alt="Particolare del plastico con pompa, filtri e case" />
-      <figcaption>Il modello reale · pompa, filtri e case</figcaption>
+    <figure>
+      <img src="3.jpg" alt="Il plastico reale dell'acquedotto costruito in classe" />
+      <figcaption>Il modello reale costruito in classe</figcaption>
     </figure>
   </div>
 
   <div class="ctas">
-    <a class="cta" href="simulatore.html"><span class="arrow">▶</span> Entra nel simulatore</a>
-    <a class="cta alt" href="sprechi.html"><span class="arrow">💧</span> Sprechi e consigli</a>
+    <a class="cta" href="simulatore.html"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7L8 5Z"/></svg> Entra nel simulatore</a>
+    <a class="cta alt" href="sprechi.html"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5Z" fill="#fff"/><path d="M9 14.5a3 3 0 0 0 3 3" stroke="#2f9d5e" stroke-width="1.6" stroke-linecap="round"/></svg> Sprechi e consigli</a>
   </div>
 
   <p class="foot">Scuola Sacra Famiglia · attività didattica sull'acquedotto</p>

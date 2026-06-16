@@ -3,77 +3,139 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sprechi dell'acqua · consigli utili</title>
+<title>Sprechi dell'acqua · consigli utili · Scuola Sacra Famiglia</title>
+<link rel="icon" href="logo.jpg" />
+<link rel="apple-touch-icon" href="logo.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+  :root{
+    --blu:#123E90; --blu2:#1f5fc0; --bluD:#0c2a63;
+    --gold:#B8860B; --goldL:rgba(184,134,11,.10);
+    --ok:#2f9d5e; --okL:#e8f7ec;
+    --warn:#B8860B; --warnL:#fbf3e2;
+    --ink:#1b2a3a; --muted:#5a6b7c;
+    --card:#ffffff; --warm:#eef4fb; --brd:#cdd9ea;
+    --body:'Atkinson Hyperlegible',Helvetica,Arial,sans-serif;
+    --head:'Lexend',sans-serif;
+  }
   *{box-sizing:border-box}
-  body{margin:0;font-family:"Trebuchet MS",system-ui,Arial,sans-serif;color:#23303a;
-    background:radial-gradient(1200px 600px at 50% -10%,#eaf4fb,#dbe6ec 60%,#cdd9e0);
+  body{margin:0;font-family:var(--body);color:var(--ink);font-size:18px;line-height:1.65;
+    background:radial-gradient(1200px 600px at 50% -10%,#eaf2fb,#dce7f3 60%,#cdd9ea);
     min-height:100vh;padding:0 0 48px}
+  h1,h2,h3,.bigbtn,.tag,.fact .n{font-family:var(--head)}
   .home-link{position:fixed;top:10px;left:12px;z-index:10;background:#fff;border-radius:9px;
-    padding:6px 12px;font-size:13px;font-weight:700;text-decoration:none;color:#2b6cb0;
-    box-shadow:0 2px 8px rgba(0,0,0,.15)}
+    padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none;color:var(--blu);
+    box-shadow:0 2px 8px rgba(18,62,144,.18);display:inline-flex;align-items:center;gap:6px}
+  .home-link svg{width:15px;height:15px}
   header{text-align:center;padding:54px 16px 10px}
-  header .badge{font-size:42px}
-  h1{margin:6px 0 2px;font-size:clamp(26px,5vw,42px)}
-  header p{margin:4px auto 0;max-width:620px;color:#56697a;font-size:15px;line-height:1.5}
+  header .badge{width:58px;height:58px;margin:0 auto;display:flex;align-items:center;justify-content:center;
+    background:#fff;border-radius:50%;box-shadow:0 6px 16px rgba(18,62,144,.18)}
+  h1{margin:12px 0 2px;font-size:clamp(26px,5vw,42px);color:var(--bluD);font-weight:700}
+  header p{margin:6px auto 0;max-width:640px;color:var(--muted);font-size:16px;line-height:1.55}
   .wrap{max-width:880px;margin:0 auto;padding:0 16px}
-  .card{background:#fff;border-radius:18px;padding:20px 22px;margin:18px 0;
-    box-shadow:0 10px 28px rgba(0,0,0,.10)}
-  .card h2{margin:0 0 12px;font-size:21px;display:flex;align-items:center;gap:10px}
-  .card h2 .ic{font-size:24px}
-  .lead{color:#46586a;font-size:15px;line-height:1.55;margin:0 0 12px}
+  .card{background:#fff;border-radius:18px;padding:22px 24px;margin:18px 0;
+    box-shadow:0 10px 28px rgba(18,62,144,.10)}
+  .card h2{margin:0 0 14px;font-size:22px;display:flex;align-items:center;gap:11px;color:var(--blu);font-weight:600}
+  .card h2 .ic{width:28px;height:28px;flex:0 0 auto}
+  .lead{color:#3a4a5c;font-size:16px;line-height:1.6;margin:0 0 14px}
   .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:6px}
-  .fact{background:#f3f8fc;border-radius:13px;padding:13px 14px;border-left:5px solid #34a8e8}
-  .fact .n{font-size:24px;font-weight:800;color:#1f86c8;line-height:1}
-  .fact .t{font-size:13px;color:#4d5e6b;margin-top:5px;line-height:1.35}
+  .fact{background:var(--warm);border-radius:13px;padding:14px 15px;border-left:5px solid var(--blu2)}
+  .fact .n{font-size:25px;font-weight:700;color:var(--blu);line-height:1}
+  .fact .t{font-size:14px;color:#4d5e6b;margin-top:6px;line-height:1.4}
   .tips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
-  .tips li{background:#f1faf3;border-radius:12px;padding:12px 14px;font-size:14.5px;line-height:1.4;
-    display:flex;gap:10px;align-items:flex-start}
-  .tips li .e{font-size:20px;line-height:1}
-  .law{border-left:5px solid #c0563a;background:#fdf3ef;border-radius:12px;padding:12px 16px;margin:10px 0}
-  .law .nm{font-weight:800;color:#b1492f}
-  .law .ds{font-size:13.5px;color:#5a4a44;margin-top:3px;line-height:1.4}
+  .tips li{background:#eef4fb;border-radius:12px;padding:13px 15px;font-size:15.5px;line-height:1.45;
+    display:flex;gap:11px;align-items:flex-start}
+  .tips li svg{width:22px;height:22px;flex:0 0 auto;margin-top:1px}
+  .law{border-left:5px solid var(--blu2);background:var(--warm);border-radius:12px;padding:13px 17px;margin:11px 0}
+  .law .nm{font-weight:700;color:var(--blu)}
+  .law .ds{font-size:15px;color:#46586a;margin-top:4px;line-height:1.45}
+  .action{margin-top:14px;background:var(--goldL);border:1px solid rgba(184,134,11,.3);border-radius:12px;padding:12px 16px;
+    font-size:15px;color:#5a4a1a}
+  .action b{color:var(--gold)}
 
   /* QUIZ */
-  .q{margin:0 0 18px;padding:0 0 14px;border-bottom:1px dashed #e0e6eb}
+  .q{margin:0 0 20px;padding:0 0 16px;border-bottom:1px dashed #dbe3ee}
   .q:last-of-type{border-bottom:none}
-  .q .qt{font-weight:700;font-size:15.5px;margin:0 0 9px}
-  .q .qt .num{display:inline-block;min-width:26px;height:26px;line-height:26px;text-align:center;
-    background:#1f86c8;color:#fff;border-radius:50%;font-size:13px;margin-right:8px}
-  .opt{display:block;width:100%;text-align:left;background:#f4f7fa;border:2px solid #e3e9ee;
-    border-radius:11px;padding:11px 14px;margin:7px 0;font:inherit;font-size:14.5px;cursor:pointer;
+  .q .qt{font-weight:700;font-size:16.5px;margin:0 0 4px;display:flex;gap:10px;align-items:flex-start}
+  .q .qt .num{flex:0 0 28px;display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;
+    background:var(--blu);color:#fff;border-radius:50%;font-size:14px;font-family:var(--head)}
+  .q .qtype{font-size:12.5px;font-weight:700;color:var(--blu2);text-transform:uppercase;letter-spacing:.5px;
+    margin:2px 0 8px 38px}
+  .opts{margin-left:38px}
+  .opt{display:block;width:100%;text-align:left;background:#f3f7fc;border:2px solid #e1e9f2;
+    border-radius:11px;padding:12px 15px;margin:7px 0;font:inherit;font-size:15.5px;cursor:pointer;
     transition:background .15s,border-color .15s}
-  .opt:hover{background:#eaf2f8}
-  .opt.sel{border-color:#1f86c8;background:#e7f2fb}
-  .opt.correct{border-color:#2f9d5e;background:#e8f7ec}
-  .opt.correct::after{content:" ✓";color:#2f9d5e;font-weight:800}
-  .opt.review{border-color:#e0a52a;background:#fdf6e6}
-  .opt.review::after{content:" ↻ da rivedere";color:#b9831c;font-weight:700;font-size:12px}
+  .opt:hover{background:#e9f1fa}
+  .opt.sel{border-color:var(--blu2);background:#e4eefb}
+  .opt.correct{border-color:var(--ok);background:var(--okL)}
+  .opt.correct::after{content:" \2713";color:var(--ok);font-weight:800}
+  .opt.review{border-color:var(--warn);background:var(--warnL)}
+  .opt.review::after{content:" \21BB da rivedere";color:#9a6a13;font-weight:700;font-size:13px}
   .opt.locked{cursor:default}
-  .quizfoot{margin-top:6px}
-  .bigbtn{display:inline-block;border:none;border-radius:30px;padding:14px 30px;font-size:17px;font-weight:800;
-    color:#fff;background:linear-gradient(180deg,#34a8e8,#1f86c8);cursor:pointer;
-    box-shadow:0 10px 24px rgba(31,134,200,.4)}
+  .tf{display:flex;gap:10px;margin-left:38px}
+  .tf .opt{flex:1;text-align:center}
+  /* ordinamento */
+  .order{margin-left:38px}
+  .order .oi{display:flex;align-items:center;gap:10px;background:#f3f7fc;border:2px solid #e1e9f2;
+    border-radius:11px;padding:11px 14px;margin:7px 0;font-size:15.5px;cursor:pointer;transition:.15s}
+  .order .oi:hover{background:#e9f1fa}
+  .order .oi .pos{flex:0 0 26px;width:26px;height:26px;line-height:26px;text-align:center;border-radius:50%;
+    background:#dde6f2;color:#5a6b7c;font-weight:700;font-size:13px;font-family:var(--head)}
+  .order .oi.picked .pos{background:var(--blu2);color:#fff}
+  .order .oi.correct{border-color:var(--ok);background:var(--okL)}
+  .order .oi.review{border-color:var(--warn);background:var(--warnL)}
+  .order-hint{margin:6px 0 0 38px;font-size:13.5px;color:var(--muted)}
+  .order .reset-mini{margin:4px 0 0 38px;background:none;border:none;color:var(--blu2);font:inherit;
+    font-size:13.5px;cursor:pointer;text-decoration:underline}
+  /* abbinamento */
+  .match{margin-left:38px;display:flex;flex-direction:column;gap:9px}
+  .match .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .match .ml{flex:1 1 200px;background:#f3f7fc;border:2px solid #e1e9f2;border-radius:11px;padding:11px 14px;font-size:15px}
+  .match select{flex:1 1 200px;font:inherit;font-size:15px;padding:10px 12px;border-radius:11px;
+    border:2px solid #e1e9f2;background:#fff;color:var(--ink)}
+  .match .row.correct .ml{border-color:var(--ok);background:var(--okL)}
+  .match .row.correct select{border-color:var(--ok)}
+  .match .row.review .ml{border-color:var(--warn);background:var(--warnL)}
+  .match .row.review select{border-color:var(--warn)}
+  .match .fix{flex-basis:100%;font-size:13.5px;color:#9a6a13;margin-left:2px}
+
+  .quizfoot{margin-top:10px}
+  .bigbtn{display:inline-flex;align-items:center;gap:9px;border:none;border-radius:30px;padding:14px 30px;
+    font-size:17px;font-weight:600;color:#fff;background:linear-gradient(180deg,var(--blu2),var(--blu));cursor:pointer;
+    box-shadow:0 10px 24px rgba(18,62,144,.38)}
   .bigbtn:hover{transform:translateY(-2px)}
-  .bigbtn.retry{background:linear-gradient(180deg,#9aa6ad,#76828a);box-shadow:none;font-size:14px;padding:10px 20px}
-  .result{display:none;margin-top:16px;border-radius:16px;padding:18px 20px;background:linear-gradient(135deg,#eaf7ff,#eafbef);
-    border:2px solid #bfe6cf}
+  .bigbtn svg{width:18px;height:18px}
+  .bigbtn.retry{background:linear-gradient(180deg,#8d99a6,#6e7b88);box-shadow:none;font-size:14.5px;padding:10px 22px}
+  .result{display:none;margin-top:18px;border-radius:16px;padding:20px 22px;
+    background:linear-gradient(135deg,#eaf2fb,#eafbef);border:2px solid #bfe6cf}
   .result.show{display:block;animation:pop .3s ease}
   @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
-  .result .badge2{font-size:40px}
-  .result h3{margin:6px 0 4px;font-size:22px}
-  .result .msg{font-size:15px;color:#3e5160;line-height:1.5}
-  .result .score{font-size:14px;color:#5a6b78;margin-top:8px}
-  .note{font-size:12.5px;color:#7c8a94;text-align:center;margin-top:10px}
-  .foot{text-align:center;margin-top:22px;font-size:12.5px;color:#7c8a94}
+  .result .badge2{width:48px;height:48px}
+  .result h3{margin:8px 0 4px;font-size:23px;color:var(--bluD)}
+  .result .msg{font-size:16px;color:#3e5160;line-height:1.55}
+  .result .score{font-size:15px;color:var(--muted);margin-top:10px}
+  .result .bar{height:14px;border-radius:8px;background:#dce7f3;overflow:hidden;margin-top:10px}
+  .result .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--blu2),var(--ok));border-radius:8px;transition:width .5s}
+  .note{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
+  /* metacognizione */
+  .meta .mq{margin:12px 0}
+  .meta label{display:block;font-weight:700;color:var(--blu);margin-bottom:5px;font-size:16px}
+  .meta textarea{width:100%;min-height:62px;font:inherit;font-size:18px;padding:11px 13px;border-radius:12px;
+    border:2px solid var(--brd);background:#fff;color:var(--ink);resize:vertical;line-height:1.5}
+  .meta textarea:focus{outline:none;border-color:var(--blu2)}
+  .foot{text-align:center;margin-top:22px;font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
-<a class="home-link" href="index.html">← Home</a>
+<a class="home-link" href="index.html"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#123E90" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Home</a>
 
 <header>
-  <div class="badge">💧</div>
-  <h1>Sprechi dell'acqua &amp; consigli</h1>
+  <div class="badge" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="none"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5Z" fill="#1f5fc0"/><path d="M9 14.5a3 3 0 0 0 3 3" stroke="#bfe0ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </div>
+  <h1>Sprechi dell'acqua e consigli</h1>
   <p>L'acqua è un bene prezioso e limitato. Scopri quanto se ne può sprecare, impara i gesti giusti
      e mettiti alla prova con il test finale.</p>
 </header>
@@ -81,7 +143,7 @@
 <div class="wrap">
 
   <div class="card">
-    <h2><span class="ic">🚱</span> Quanta acqua sprechiamo?</h2>
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5Z" stroke="#123E90" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 4l4-1.5M16 8l4 0" stroke="#B8860B" stroke-width="1.6" stroke-linecap="round"/></svg> Quanta acqua sprechiamo?</h2>
     <p class="lead">Piccoli gesti ripetuti ogni giorno fanno una grande differenza. Ecco alcuni esempi:</p>
     <div class="facts">
       <div class="fact"><div class="n">~30 L</div><div class="t">sprecati lasciando il rubinetto aperto mentre ti lavi i denti</div></div>
@@ -92,21 +154,13 @@
   </div>
 
   <div class="card">
-    <h2><span class="ic">✅</span> Consigli utili per gli studenti</h2>
-    <ul class="tips">
-      <li><span class="e">🪥</span> Chiudi il rubinetto mentre ti lavi i denti o ti insaponi le mani.</li>
-      <li><span class="e">🚿</span> Preferisci una doccia breve al bagno nella vasca.</li>
-      <li><span class="e">🚽</span> Usa lo sciacquone a doppio tasto: il tasto piccolo quando basta.</li>
-      <li><span class="e">🔧</span> Segnala a un adulto perdite e rubinetti che gocciolano.</li>
-      <li><span class="e">🌱</span> Innaffia le piante la sera o la mattina presto: l'acqua evapora meno.</li>
-      <li><span class="e">🍝</span> Riusa l'acqua di cottura (fredda) per le piante.</li>
-      <li><span class="e">🪣</span> Lava frutta e verdura in una bacinella, non sotto l'acqua corrente.</li>
-      <li><span class="e">💡</span> Bevi l'acqua del rubinetto: è controllata e riduce la plastica.</li>
-    </ul>
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4 10-10" stroke="#2f9d5e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Consigli utili per gli studenti</h2>
+    <ul class="tips" id="tipsList"></ul>
+    <div class="action"><b>La tua azione:</b> scegli <b>un</b> consiglio da provare questa settimana, a casa o a scuola, e raccontalo a un compagno. Un piccolo gesto vale più di una buona intenzione.</div>
   </div>
 
   <div class="card">
-    <h2><span class="ic">🏛️</span> Normativa di riferimento</h2>
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 20h16M5 20V10l7-4 7 4v10M9 20v-7M12 20v-7M15 20v-7" stroke="#123E90" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg> Normativa di riferimento</h2>
     <p class="lead">L'uso e la tutela dell'acqua sono regolati da norme italiane, europee e internazionali:</p>
     <div class="law"><div class="nm">Costituzione Italiana – art. 9</div>
       <div class="ds">Tutela il paesaggio e, dalla riforma del 2022, l'ambiente, la biodiversità e gli ecosistemi anche nell'interesse delle future generazioni.</div></div>
@@ -121,21 +175,32 @@
   </div>
 
   <div class="card">
-    <h2><span class="ic">📝</span> Test finale</h2>
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="#123E90" stroke-width="1.7"/><path d="M9 3.5h6v3H9z" stroke="#123E90" stroke-width="1.5"/><path d="M8.5 11l2 2 4-4" stroke="#2f9d5e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 17h7" stroke="#123E90" stroke-width="1.5" stroke-linecap="round"/></svg> Test finale</h2>
     <p class="lead">Non è un'interrogazione e non ci sono voti: serve solo a capire cosa hai imparato.
-       Scegli una risposta per ogni domanda, poi premi <b>Vedi il risultato</b>. Puoi rifarlo quante volte vuoi!</p>
+       Ci sono <b>tipi di domanda diversi</b> (scelta, vero o falso, ordinamento, abbinamento).
+       Rispondi a ognuna, poi premi <b>Vedi il risultato</b>. Puoi rifarlo quante volte vuoi.</p>
     <div id="quiz"></div>
     <div class="quizfoot">
-      <button class="bigbtn" id="submitBtn">Vedi il risultato</button>
+      <button class="bigbtn" id="submitBtn"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4 10-10" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Vedi il risultato</button>
     </div>
     <div class="result" id="result">
-      <div class="badge2" id="rBadge">💧</div>
+      <svg class="badge2" id="rBadge" viewBox="0 0 24 24" fill="none"></svg>
       <h3 id="rTitle"></h3>
       <div class="msg" id="rMsg"></div>
+      <div class="bar"><i id="rBar" style="width:0"></i></div>
       <div class="score" id="rScore"></div>
-      <div style="margin-top:12px"><button class="bigbtn retry" id="retryBtn">↻ Riprova il test</button></div>
+      <div style="margin-top:14px"><button class="bigbtn retry" id="retryBtn"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12a7 7 0 1 1 2 5M5 17v-4h4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Riprova il test</button></div>
     </div>
-    <p class="note">Valutazione non giudicante: ogni risposta è un'occasione per imparare. 🌍</p>
+    <p class="note">Valutazione non giudicante: ogni risposta è un'occasione per imparare.</p>
+  </div>
+
+  <div class="card meta">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3a6 6 0 0 0-3 11v2h6v-2a6 6 0 0 0-3-11Z" stroke="#B8860B" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 20h5M10 22h4" stroke="#123E90" stroke-width="1.6" stroke-linecap="round"/></svg> Cosa porto a casa</h2>
+    <p class="lead">Prima di chiudere, fermati un momento a pensare. Scrivere aiuta a fissare quello che hai capito.</p>
+    <div class="mq"><label for="m1">Cosa ho capito?</label><textarea id="m1" placeholder="La cosa più importante che ho imparato sull'acqua è…"></textarea></div>
+    <div class="mq"><label for="m2">Come ci sono arrivato/a?</label><textarea id="m2" placeholder="Mi è stato utile soprattutto… (il simulatore, i consigli, il test…)"></textarea></div>
+    <div class="mq"><label for="m3">Cosa cambierei?</label><textarea id="m3" placeholder="Da domani, a casa o a scuola, proverò a…"></textarea></div>
+    <p class="note">Quello che scrivi resta solo su questo dispositivo: serve a te, non viene inviato a nessuno.</p>
   </div>
 
   <p class="foot">Scuola Sacra Famiglia · attività didattica sull'acquedotto · Tecnologia · Informatica · Educazione civica</p>
@@ -144,79 +209,275 @@
 <script>
 (function(){
   "use strict";
-  const QUESTIONS=[
-    {q:"Lasci il rubinetto aperto mentre ti lavi i denti. Cosa succede?",
-     opts:["Si possono sprecare anche 30 litri d'acqua","Si risparmia acqua","Non cambia nulla"],a:0},
-    {q:"Quale gesto consuma MENO acqua?",
-     opts:["Riempire la vasca da bagno","Fare una doccia breve","Lasciare scorrere l'acqua a lungo"],a:1},
-    {q:"Un rubinetto che gocciola tutto il giorno...",
-     opts:["Non spreca quasi niente","Può sprecare molti litri d'acqua","Aiuta a risparmiare"],a:1},
-    {q:"A cosa serve lo sciacquone con il doppio tasto?",
-     opts:["A fare più rumore","A scegliere di usare meno acqua quando basta","A consumare sempre di più"],a:1},
-    {q:"Quand'è meglio innaffiare le piante per non sprecare acqua?",
-     opts:["A mezzogiorno con il sole forte","La sera o la mattina presto","Quando piove di più"],a:1},
-    {q:"Quanta dell'acqua della Terra è dolce e facilmente utilizzabile?",
-     opts:["Pochissima: va protetta","Quasi tutta","Esattamente la metà"],a:0},
-    {q:"L'Obiettivo 6 dell'Agenda 2030 dell'ONU riguarda...",
-     opts:["Le auto elettriche","Acqua pulita e servizi igienici per tutti","Lo spazio e i pianeti"],a:1},
-    {q:"Vedi una perdita d'acqua nei bagni della scuola. Cosa fai?",
-     opts:["Lo dico subito a un adulto","Faccio finta di niente","Apro anche gli altri rubinetti"],a:0}
-  ];
-  const answers=new Array(QUESTIONS.length).fill(-1);
-  let locked=false;
-  const quizEl=document.getElementById("quiz");
 
-  QUESTIONS.forEach((item,qi)=>{
-    const wrap=document.createElement("div"); wrap.className="q";
+  /* ---------- CONSIGLI (badge SVG, zero emoji) ---------- */
+  const TIPS=[
+    "Chiudi il rubinetto mentre ti lavi i denti o ti insaponi le mani.",
+    "Preferisci una doccia breve al bagno nella vasca.",
+    "Usa lo sciacquone a doppio tasto: il tasto piccolo quando basta.",
+    "Segnala a un adulto perdite e rubinetti che gocciolano.",
+    "Innaffia le piante la sera o la mattina presto: l'acqua evapora meno.",
+    "Riusa l'acqua di cottura (fredda) per le piante.",
+    "Lava frutta e verdura in una bacinella, non sotto l'acqua corrente.",
+    "Bevi l'acqua del rubinetto: è controllata e riduce la plastica."
+  ];
+  const DROP='<svg viewBox="0 0 24 24" fill="none"><path d="M12 3C12 3 6 9 6 14a6 6 0 0 0 12 0c0-5-6-11-6-11Z" stroke="#1f5fc0" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5" stroke="#2f9d5e" stroke-width="1.5" stroke-linecap="round"/></svg>';
+  const tipsList=document.getElementById("tipsList");
+  TIPS.forEach(t=>{
+    const li=document.createElement("li");
+    li.innerHTML=DROP+'<span>'+t+'</span>';
+    tipsList.appendChild(li);
+  });
+
+  /* ---------- TEST: tipi diversi ----------
+     mc    -> scelta multipla (opts, a=indice)
+     tf    -> vero/falso (a=true|false)
+     order -> ordinamento (items in ordine corretto; si mescolano)
+     match -> abbinamento (pairs: sinistra->destra)
+  */
+  const QUESTIONS=[
+    {type:"mc", q:"Lasci il rubinetto aperto mentre ti lavi i denti. Cosa succede?",
+     opts:["Si possono sprecare anche 30 litri d'acqua","Si risparmia acqua","Non cambia nulla"], a:0},
+    {type:"tf", q:"Una doccia breve consuma in genere meno acqua di un bagno nella vasca.", a:true},
+    {type:"mc", q:"Un rubinetto che gocciola tutto il giorno...",
+     opts:["Non spreca quasi niente","Può sprecare molti litri d'acqua","Aiuta a risparmiare"], a:1},
+    {type:"order", q:"Metti in ordine i passaggi dell'acquedotto, dalla sorgente al rubinetto di casa.",
+     items:["Diga / sorgente","Pompa","Cisterna","Filtri","Anello di distribuzione","Rubinetto di casa"]},
+    {type:"tf", q:"Più del 50% dell'acqua della Terra è dolce e pronta da bere.", a:false},
+    {type:"match", q:"Abbina ogni norma al suo tema.",
+     pairs:[
+       {l:"Agenda 2030 · Obiettivo 6", r:"Acqua pulita per tutti"},
+       {l:"Legge Galli (36/1994)", r:"L'acqua è una risorsa pubblica"},
+       {l:"Direttiva 2000/60/CE", r:"Proteggere fiumi e laghi in Europa"}
+     ]},
+    {type:"mc", q:"A cosa serve lo sciacquone con il doppio tasto?",
+     opts:["A fare più rumore","A scegliere di usare meno acqua quando basta","A consumare sempre di più"], a:1},
+    {type:"mc", q:"Vedi una perdita d'acqua nei bagni della scuola. Cosa fai?",
+     opts:["Lo dico subito a un adulto","Faccio finta di niente","Apro anche gli altri rubinetti"], a:0}
+  ];
+  const N=QUESTIONS.length;
+  const TYPE_LABEL={mc:"Scelta multipla", tf:"Vero o falso", order:"Ordinamento", match:"Abbinamento"};
+  const quizEl=document.getElementById("quiz");
+  let locked=false;
+
+  // stato risposte per indice domanda
+  const state=QUESTIONS.map(q=>{
+    if(q.type==="mc") return {choice:-1};
+    if(q.type==="tf") return {choice:null};
+    if(q.type==="order") return {seq:[], shuffled:shuffleIdx(q.items.length)};
+    if(q.type==="match") return {sel:new Array(q.pairs.length).fill(-1)};
+  });
+
+  function shuffleIdx(n){
+    const a=Array.from({length:n},(_,i)=>i);
+    for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+    // evita (raramente) l'ordine già corretto
+    if(a.every((v,i)=>v===i)) a.reverse();
+    return a;
+  }
+
+  QUESTIONS.forEach((q,qi)=>{
+    const wrap=document.createElement("div"); wrap.className="q"; wrap.dataset.qi=qi;
     const t=document.createElement("p"); t.className="qt";
-    t.innerHTML='<span class="num">'+(qi+1)+'</span>'+item.q;
+    t.innerHTML='<span class="num">'+(qi+1)+'</span><span>'+q.q+'</span>';
     wrap.appendChild(t);
-    item.opts.forEach((op,oi)=>{
+    const tl=document.createElement("div"); tl.className="qtype"; tl.textContent=TYPE_LABEL[q.type];
+    wrap.appendChild(tl);
+    if(q.type==="mc") buildMC(wrap,q,qi);
+    else if(q.type==="tf") buildTF(wrap,q,qi);
+    else if(q.type==="order") buildOrder(wrap,q,qi);
+    else if(q.type==="match") buildMatch(wrap,q,qi);
+    quizEl.appendChild(wrap);
+  });
+
+  function buildMC(wrap,q,qi){
+    const box=document.createElement("div"); box.className="opts";
+    q.opts.forEach((op,oi)=>{
       const b=document.createElement("button");
       b.className="opt"; b.type="button"; b.textContent=op;
       b.addEventListener("click",()=>{
-        if(locked)return;
-        answers[qi]=oi;
-        wrap.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"));
+        if(locked)return; state[qi].choice=oi;
+        box.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"));
         b.classList.add("sel");
       });
-      wrap.appendChild(b);
+      box.appendChild(b);
     });
-    quizEl.appendChild(wrap);
-  });
+    wrap.appendChild(box);
+  }
+
+  function buildTF(wrap,q,qi){
+    const box=document.createElement("div"); box.className="tf";
+    [["Vero",true],["Falso",false]].forEach(([lab,val])=>{
+      const b=document.createElement("button");
+      b.className="opt"; b.type="button"; b.textContent=lab;
+      b.addEventListener("click",()=>{
+        if(locked)return; state[qi].choice=val;
+        box.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"));
+        b.classList.add("sel");
+      });
+      box.appendChild(b);
+    });
+    wrap.appendChild(box);
+  }
+
+  function buildOrder(wrap,q,qi){
+    const box=document.createElement("div"); box.className="order";
+    const hint=document.createElement("div"); hint.className="order-hint";
+    hint.textContent="Clicca gli elementi nell'ordine giusto: a ognuno verrà assegnato un numero.";
+    wrap.appendChild(hint);
+    state[qi].shuffled.forEach(origIdx=>{
+      const row=document.createElement("div"); row.className="oi"; row.dataset.orig=origIdx;
+      row.innerHTML='<span class="pos"></span><span class="lab">'+q.items[origIdx]+'</span>';
+      row.addEventListener("click",()=>{
+        if(locked)return;
+        const seq=state[qi].seq, pos=seq.indexOf(origIdx);
+        if(pos>=0) seq.splice(pos,1); else seq.push(origIdx);
+        renderOrder(box,q,qi);
+      });
+      box.appendChild(row);
+    });
+    wrap.appendChild(box);
+    const rb=document.createElement("button"); rb.className="reset-mini"; rb.type="button"; rb.textContent="azzera ordine";
+    rb.addEventListener("click",()=>{ if(locked)return; state[qi].seq=[]; renderOrder(box,q,qi); });
+    wrap.appendChild(rb);
+  }
+  function renderOrder(box,q,qi){
+    const seq=state[qi].seq;
+    box.querySelectorAll(".oi").forEach(row=>{
+      const orig=+row.dataset.orig, pos=seq.indexOf(orig);
+      row.classList.toggle("picked",pos>=0);
+      row.querySelector(".pos").textContent=pos>=0?(pos+1):"";
+    });
+  }
+
+  function buildMatch(wrap,q,qi){
+    const box=document.createElement("div"); box.className="match";
+    const rights=q.pairs.map(p=>p.r).slice().sort(()=>Math.random()-0.5);
+    q.pairs.forEach((p,ri)=>{
+      const row=document.createElement("div"); row.className="row"; row.dataset.ri=ri;
+      const l=document.createElement("div"); l.className="ml"; l.textContent=p.l;
+      const sel=document.createElement("select");
+      sel.innerHTML='<option value="-1">scegli…</option>'+rights.map((r,idx)=>'<option value="'+idx+'">'+r+'</option>').join("");
+      sel.dataset.rights=JSON.stringify(rights);
+      sel.addEventListener("change",()=>{ if(locked){sel.value=state[qi].sel[ri];return;} state[qi].sel[ri]=+sel.value; });
+      row.appendChild(l); row.appendChild(sel);
+      const fix=document.createElement("div"); fix.className="fix"; fix.style.display="none";
+      row.appendChild(fix);
+      box.appendChild(row);
+    });
+    wrap.appendChild(box);
+  }
+
+  /* ---------- VALUTAZIONE ---------- */
+  function gradeMC(wrap,q,qi){
+    const opts=wrap.querySelectorAll(".opts .opt");
+    opts.forEach(o=>{o.classList.add("locked");o.classList.remove("sel");});
+    opts[q.a].classList.add("correct");
+    const c=state[qi].choice;
+    if(c===q.a) return true;
+    if(c>=0) opts[c].classList.add("review");
+    return false;
+  }
+  function gradeTF(wrap,q,qi){
+    const opts=wrap.querySelectorAll(".tf .opt"); // [Vero, Falso]
+    opts.forEach(o=>{o.classList.add("locked");o.classList.remove("sel");});
+    const correctIdx=q.a?0:1;
+    opts[correctIdx].classList.add("correct");
+    const c=state[qi].choice;
+    if(c===q.a) return true;
+    if(c===true||c===false) opts[c?0:1].classList.add("review");
+    return false;
+  }
+  function gradeOrder(wrap,q,qi){
+    const seq=state[qi].seq, full=seq.length===q.items.length;
+    const ok=full && seq.every((v,i)=>v===i);
+    wrap.querySelectorAll(".oi").forEach(row=>{
+      const orig=+row.dataset.orig, pos=seq.indexOf(orig);
+      row.style.cursor="default";
+      // mostra l'ordine corretto come riferimento
+      row.querySelector(".pos").textContent=(orig+1);
+      if(pos===orig) row.classList.add("correct"); else row.classList.add(ok?"correct":"review");
+    });
+    const hint=wrap.querySelector(".order-hint");
+    if(hint) hint.textContent= ok ? "Sequenza corretta!" : "Ordine giusto: "+q.items.map((it,i)=>(i+1)+". "+it).join("  ·  ");
+    const rb=wrap.querySelector(".reset-mini"); if(rb) rb.style.display="none";
+    return ok;
+  }
+  function gradeMatch(wrap,q,qi){
+    let allOk=true;
+    wrap.querySelectorAll(".match .row").forEach((row,ri)=>{
+      const sel=row.querySelector("select");
+      const rights=JSON.parse(sel.dataset.rights);
+      const chosen=state[qi].sel[ri];
+      const chosenText=chosen>=0?rights[chosen]:null;
+      sel.disabled=true;
+      if(chosenText===q.pairs[ri].r){ row.classList.add("correct"); }
+      else{
+        row.classList.add("review"); allOk=false;
+        const fix=row.querySelector(".fix");
+        fix.style.display="block";
+        fix.textContent="Da rivedere · giusto: "+q.pairs[ri].r;
+      }
+    });
+    return allOk;
+  }
+
+  const BADGES={
+    top:'<path d="M12 3l2.3 4.7 5.2.8-3.8 3.7.9 5.2L12 15.7 7.4 17.4l.9-5.2L4.5 8.5l5.2-.8L12 3Z" stroke="#B8860B" stroke-width="1.6" fill="#fbeec8" stroke-linejoin="round"/>',
+    mid:'<path d="M12 3l2.3 4.7 5.2.8-3.8 3.7.9 5.2L12 15.7 7.4 17.4l.9-5.2L4.5 8.5l5.2-.8L12 3Z" stroke="#1f5fc0" stroke-width="1.6" fill="#dbe9fb" stroke-linejoin="round"/>',
+    low:'<path d="M12 4C9 9 7 11 7 14a5 5 0 0 0 10 0c0-3-2-5-5-10Z" stroke="#2f9d5e" stroke-width="1.6" fill="#e8f7ec" stroke-linejoin="round"/>'
+  };
 
   const result=document.getElementById("result");
   function submit(){
     locked=true;
     let score=0;
-    document.querySelectorAll(".q").forEach((qEl,qi)=>{
-      const opts=qEl.querySelectorAll(".opt");
-      opts.forEach(o=>{o.classList.add("locked");o.classList.remove("sel");});
-      const correct=QUESTIONS[qi].a, chosen=answers[qi];
-      opts[correct].classList.add("correct");
-      if(chosen===correct) score++;
-      else if(chosen>=0) opts[chosen].classList.add("review");
+    document.querySelectorAll(".q").forEach(wrap=>{
+      const qi=+wrap.dataset.qi, q=QUESTIONS[qi];
+      let ok=false;
+      if(q.type==="mc") ok=gradeMC(wrap,q,qi);
+      else if(q.type==="tf") ok=gradeTF(wrap,q,qi);
+      else if(q.type==="order") ok=gradeOrder(wrap,q,qi);
+      else if(q.type==="match") ok=gradeMatch(wrap,q,qi);
+      if(ok) score++;
     });
-    const n=QUESTIONS.length;
-    let title,msg,emoji;
-    if(score>=n-1){ emoji="🏆"; title="Sei un vero Guardiano dell'acqua!";
-      msg="Hai capito benissimo come si usa l'acqua senza sprecarla. Ora puoi insegnarlo anche agli altri!"; }
-    else if(score>=n/2){ emoji="🌟"; title="Bravissimo/a, stai imparando tanto!";
+    let title,msg,badge;
+    if(score>=N-1){ badge=BADGES.top; title="Sei un vero Guardiano dell'acqua!";
+      msg="Hai capito benissimo come funziona l'acquedotto e come non sprecare l'acqua. Ora puoi spiegarlo anche agli altri."; }
+    else if(score>=N/2){ badge=BADGES.mid; title="Stai imparando tanto, bravo/a!";
       msg="Conosci già molti gesti giusti. Riguarda i punti segnati « da rivedere » e diventerai un esperto."; }
-    else { emoji="🌱"; title="Hai fatto il primo passo!";
-      msg="Ogni esperto ha iniziato da qui. Rileggi i consigli qui sopra e riprova il test quando vuoi: imparerai in fretta!"; }
-    document.getElementById("rBadge").textContent=emoji;
+    else { badge=BADGES.low; title="Hai fatto il primo passo!";
+      msg="Ogni esperto ha iniziato da qui. Rileggi i consigli e riprova il test quando vuoi: imparerai in fretta."; }
+    document.getElementById("rBadge").innerHTML=badge;
     document.getElementById("rTitle").textContent=title;
     document.getElementById("rMsg").textContent=msg;
-    document.getElementById("rScore").textContent="Risposte giuste: "+score+" su "+n+" · nessun voto, solo per imparare 😊";
+    document.getElementById("rBar").style.width=Math.round(score/N*100)+"%";
+    document.getElementById("rScore").textContent="Risposte giuste: "+score+" su "+N+" · nessun voto, solo per imparare.";
     result.classList.add("show");
     result.scrollIntoView({behavior:"smooth",block:"center"});
   }
   function retry(){
     locked=false;
-    answers.fill(-1);
-    document.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel","correct","review","locked"));
     result.classList.remove("show");
+    // ricostruisce il quiz da zero (rimescola ordine/abbinamenti)
+    quizEl.innerHTML="";
+    QUESTIONS.forEach((q,qi)=>{
+      if(q.type==="mc") state[qi]={choice:-1};
+      else if(q.type==="tf") state[qi]={choice:null};
+      else if(q.type==="order") state[qi]={seq:[], shuffled:shuffleIdx(q.items.length)};
+      else if(q.type==="match") state[qi]={sel:new Array(q.pairs.length).fill(-1)};
+      const wrap=document.createElement("div"); wrap.className="q"; wrap.dataset.qi=qi;
+      const t=document.createElement("p"); t.className="qt";
+      t.innerHTML='<span class="num">'+(qi+1)+'</span><span>'+q.q+'</span>';
+      wrap.appendChild(t);
+      const tl=document.createElement("div"); tl.className="qtype"; tl.textContent=TYPE_LABEL[q.type];
+      wrap.appendChild(tl);
+      if(q.type==="mc") buildMC(wrap,q,qi);
+      else if(q.type==="tf") buildTF(wrap,q,qi);
+      else if(q.type==="order") buildOrder(wrap,q,qi);
+      else if(q.type==="match") buildMatch(wrap,q,qi);
+      quizEl.appendChild(wrap);
+    });
     quizEl.scrollIntoView({behavior:"smooth",block:"start"});
   }
   document.getElementById("submitBtn").addEventListener("click",submit);

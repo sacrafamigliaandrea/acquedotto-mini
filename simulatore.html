@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Simulatore · Acquedotto Interattivo</title>
+<title>Simulatore · Acquedotto Interattivo · Scuola Sacra Famiglia</title>
+<link rel="icon" href="logo.jpg" />
+<link rel="apple-touch-icon" href="logo.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --sand:#d9c6a5; --wood:#7a4f24;
@@ -11,33 +16,51 @@
     --water:#2ba6e6; --raw:#2ba6e6; --clean:#2ba6e6; --waste:#8a6a3a;
     --ink:#23303a; --panel:#f4efe6;
     --ok:#27ae60; --off:#d14b4b;
+    --blu:#123E90; --blu2:#1f5fc0; --gold:#B8860B;
+    --body:'Atkinson Hyperlegible',Helvetica,Arial,sans-serif;
+    --head:'Lexend',sans-serif;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:"Trebuchet MS",system-ui,Arial,sans-serif;color:var(--ink);
+  body{margin:0;font-family:var(--body);color:var(--ink);
        background:linear-gradient(160deg,#eef3f6,#dbe6ec)}
+  h2,h3,.m-title,.mini,.bigbtn{font-family:var(--head)}
   .home-link{position:fixed;top:10px;left:12px;z-index:10;background:#fff;border-radius:9px;
-    padding:6px 12px;font-size:13px;font-weight:700;text-decoration:none;color:#2b6cb0;
-    box-shadow:0 2px 8px rgba(0,0,0,.15)}
+    padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none;color:var(--blu);
+    box-shadow:0 2px 8px rgba(18,62,144,.18);display:inline-flex;align-items:center;gap:6px}
+  .home-link svg{width:15px;height:15px}
   .app{display:flex;gap:16px;align-items:flex-start;max-width:1700px;margin:8px auto 24px;padding:14px 14px 0;flex-wrap:wrap}
   .stage{flex:1 1 980px;min-width:320px;background:#fff;border-radius:16px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
-  svg{width:100%;height:auto;display:block;border-radius:12px}
+  .stage > svg{width:100%;height:auto;display:block;border-radius:12px}
   .panel{flex:0 0 320px;background:var(--panel);border-radius:16px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
-  .panel h2{margin:2px 0 8px;font-size:18px}
+  .panel h2{margin:2px 0 8px;font-size:18px;color:var(--blu);font-weight:600;display:flex;align-items:center;gap:9px}
+  .panel h2 svg{width:22px;height:22px;flex:0 0 auto}
+  .info-row svg{width:17px;height:17px;vertical-align:-3px;margin-right:5px}
+  .mini svg{width:15px;height:15px;vertical-align:-2px;margin-right:5px}
+  .mini.nav-btn{display:inline-flex;align-items:center;justify-content:center;padding:6px 9px}
+  .mini.nav-btn svg{margin:0;width:14px;height:14px}
   .status{background:#fff;border:1px solid #e2dccf;border-radius:10px;padding:10px 12px;font-size:14px;min-height:44px;line-height:1.35;margin:10px 0}
-  .status.warn{background:#fff3f0;border-color:#f0c4ba;color:#a33}
+  .status.warn{background:#fbf3e2;border-color:#e6cf9a;color:#8a6a13}
   .group{margin-top:12px}
   .group h3{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#6b7884}
 
   .mission{background:#fff;border:1px solid #e2dccf;border-radius:12px;padding:10px 12px}
-  .m-title{font-size:15px;font-weight:700;color:#2b6cb0}
+  .m-title{font-size:15px;font-weight:700;color:var(--blu)}
   .m-desc{font-size:13px;margin:4px 0 6px;line-height:1.35}
   .m-moves{font-size:13px}
-  .m-moves.over b{color:var(--off)}
+  .m-moves.over b{color:var(--gold)}
   .m-feedback{font-size:12.5px;margin-top:5px;min-height:16px;line-height:1.3}
   .m-feedback.ok{color:var(--ok);font-weight:700}
   .m-feedback.warn{color:#c9700f;font-weight:700}
   .m-nav{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
   .m-count{font-size:12px;color:#6b7884}
+  .m-steps{list-style:none;margin:6px 0 2px;padding:0;display:flex;flex-direction:column;gap:3px}
+  .m-steps li{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#6b7884;line-height:1.25}
+  .m-steps .num{flex:0 0 18px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-size:11px;font-weight:700;background:#e7e0d2;color:#8a8472}
+  .m-steps li.done{color:var(--blu)}
+  .m-steps li.done .num{background:var(--ok);color:#fff}
+  .m-steps li.current{color:#23303a;font-weight:700}
+  .m-steps li.current .num{background:var(--blu);color:#fff;box-shadow:0 0 0 3px rgba(18,62,144,.18)}
 
   .info{margin-top:10px}
   .info-row{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:4px}
@@ -51,15 +74,15 @@
   .mini:hover{transform:translateY(-1px)}
   .mini.wide{display:block;width:100%;margin-top:8px}
   .mini.off{opacity:.55}
-  .mini.reset{background:#fdecec;color:#a23}
+  .mini.reset{background:#eef2f7;color:#5a6b7c}
   .btnrow{display:flex;gap:8px;margin-top:10px}
   .btnrow .mini.wide{margin-top:0}
 
   .c-row{display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:9px;
     padding:6px 10px;margin:5px 0;font-size:13px;box-shadow:0 2px 5px rgba(0,0,0,.06)}
-  .c-row.school{outline:2px solid #c9a3e0}
+  .c-row.school{outline:2px solid #9bb4e0}
   .c-name{font-weight:600}
-  .c-lit{font-variant-numeric:tabular-nums;font-weight:700;color:#2f8fff}
+  .c-lit{font-variant-numeric:tabular-nums;font-weight:700;color:var(--blu)}
 
   .legend{font-size:12px;color:#54636e;margin-top:14px;line-height:1.6}
   .legend .sw{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:5px}
@@ -77,13 +100,15 @@
   @keyframes flowdn{to{stroke-dashoffset:-21}}
   .clogged .flow.clean{stroke:#b07a2e}
   .clickable{cursor:pointer}
-  .label{font:600 13px "Trebuchet MS",sans-serif;fill:#3a4750;text-anchor:middle;pointer-events:none}
-  .label.sm{font-size:11px;fill:#5d6b75}
-  .hname{font:700 12px "Trebuchet MS",sans-serif;fill:#3a4750;text-anchor:middle;pointer-events:none}
-  .house.school .hname{fill:#a4332a}
-  .scarico-lbl{font:600 9px "Trebuchet MS",sans-serif;fill:#5b5145;text-anchor:middle;pointer-events:none}
-  .label,.hname{paint-order:stroke;stroke:#ffffff;stroke-width:3.4px;stroke-linejoin:round;stroke-linecap:round}
-  .scarico-lbl{paint-order:stroke;stroke:#ffffff;stroke-width:2.6px;stroke-linejoin:round}
+  /* etichette mappa: pillola blu con testo bianco */
+  .label{font:600 16px 'Atkinson Hyperlegible',sans-serif;fill:#ffffff;text-anchor:middle;pointer-events:none}
+  .label.sm{font-size:14px}
+  .hname{font:700 15px 'Atkinson Hyperlegible',sans-serif;fill:#ffffff;text-anchor:middle;pointer-events:none}
+  .pill{fill:var(--blu);stroke:#ffffff;stroke-width:1.5px}
+  /* indicatore binario 0/1 sulle valvole */
+  .vbitbg{fill:#ffffff;stroke:#cdd9ea;stroke-width:1.2px}
+  .vbit{font:700 14px 'Lexend',sans-serif;fill:#5c6268;text-anchor:middle;pointer-events:none}
+  .vbit.one{fill:var(--blu2)}
 
   .house .glow{opacity:0;transition:opacity .3s}
   .house.on .glow{opacity:.85}
@@ -95,6 +120,7 @@
 
   .spout{opacity:0;transition:opacity .25s}
   .house.on .spout{opacity:1}
+  .pool.on .spout{opacity:1}
   .spurtPuddle{fill:#3f9bff;opacity:.45}
   .spurtDrop{fill:#3f9bff;animation:arc .7s linear infinite}
   .clogged .spurtDrop,.clogged .spurtPuddle,.clogged .drop{fill:#b58a45}
@@ -107,10 +133,33 @@
   #filtLed.alarm{animation:blink .5s steps(1) infinite}
   @keyframes blink{50%{opacity:.25}}
   #pumpLed.on{filter:drop-shadow(0 0 4px #6cff9a)}
+
+  /* perdita d'acqua da isolare */
+  .leak{opacity:0;transition:opacity .2s;pointer-events:none}
+  .leak.on{opacity:1}
+  .leakring{fill:none;stroke:#e0a52a;stroke-width:3}
+  .leak.on .leakring{animation:leakpulse .9s ease-out infinite}
+  @keyframes leakpulse{0%{r:7;opacity:.9}100%{r:24;opacity:0}}
+  .leakdrop{fill:#2ba6e6}
+  .leak.on .leakdrop{animation:leakspray .6s linear infinite}
+  @keyframes leakspray{0%{transform:translate(0,0);opacity:1}100%{transform:translate(var(--dx,0),-20px);opacity:0}}
+
+  /* pannello lettura binaria */
+  .binread{background:#fff;border:1px solid #e2dccf;border-radius:10px;padding:8px 10px}
+  .bits{display:flex;gap:6px;justify-content:space-between}
+  .bit{flex:1;text-align:center;border-radius:7px;background:#eef2f7;padding:4px 0}
+  .bit .bl{display:block;font-size:10px;font-weight:700;color:#8a93a0;text-transform:uppercase;letter-spacing:.4px}
+  .bit .bv{display:block;font-family:var(--head);font-size:18px;font-weight:700;color:#9aa3b0;line-height:1}
+  .bit.one{background:#e7f0ff}
+  .bit.one .bl{color:var(--blu)}
+  .bit.one .bv{color:var(--blu2)}
+  .bindec{margin-top:6px;font-size:13px;text-align:center;color:#5a6b7c}
+  .bindec b{font-family:var(--head);font-size:16px;color:var(--blu)}
+  .bindec .bstr{font-family:'Lexend',monospace;letter-spacing:2px;color:var(--blu2);font-weight:700}
 </style>
 </head>
 <body>
-<a class="home-link" href="index.html">← Home</a>
+<a class="home-link" href="index.html"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#123E90" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Home</a>
 <div class="app">
   <div class="stage">
     <svg id="map" viewBox="0 0 1000 720" role="img" aria-label="Mappa dell'acquedotto">
@@ -145,17 +194,20 @@
 
       <!-- DIGA (sorgente) -->
       <g id="dam">
-        <path d="M34,112 L104,112 C96,142 96,176 104,208 L34,208 Z" fill="#2f8fd0"/>
+        <!-- bacino / lago -->
+        <path d="M34,112 L122,112 C114,142 114,176 122,208 L34,208 Z" fill="#2f8fd0"/>
         <path d="M44,132 q9,-4 18,0 t18,0" fill="none" stroke="#bfe3ff" stroke-width="2" opacity=".7"/>
         <path d="M44,152 q9,-4 18,0 t18,0" fill="none" stroke="#bfe3ff" stroke-width="2" opacity=".6"/>
         <path d="M44,172 q9,-4 18,0 t18,0" fill="none" stroke="#bfe3ff" stroke-width="2" opacity=".5"/>
-        <path d="M104,108 C120,150 120,172 104,212 L130,212 C148,172 148,150 130,108 Z" fill="#cdd2d6" stroke="#8b9197" stroke-width="2"/>
-        <path d="M100,108 L134,108 L138,99 L96,99 Z" fill="#aeb4ba" stroke="#8b9197" stroke-width="1.5"/>
-        <line x1="112" y1="118" x2="112" y2="204" stroke="#aeb4ba" stroke-width="1"/>
-        <line x1="122" y1="116" x2="122" y2="206" stroke="#aeb4ba" stroke-width="1"/>
-        <rect x="110" y="150" width="16" height="22" rx="2" fill="#7e8288" stroke="#5c6268" stroke-width="1.5"/>
-        <circle cx="118" cy="161" r="3" fill="#cdd6df"/>
-        <text class="label sm" x="86" y="94">Diga · sorgente</text>
+        <!-- muraglione ad arco, disegnato SOPRA l'acqua -->
+        <path d="M98,104 C116,150 116,172 98,216 L126,216 C144,172 144,150 126,104 Z" fill="#cdd2d6" stroke="#8b9197" stroke-width="2"/>
+        <path d="M94,104 L130,104 L134,95 L90,95 Z" fill="#aeb4ba" stroke="#8b9197" stroke-width="1.5"/>
+        <line x1="108" y1="112" x2="108" y2="210" stroke="#aeb4ba" stroke-width="1"/>
+        <line x1="118" y1="110" x2="118" y2="212" stroke="#aeb4ba" stroke-width="1"/>
+        <!-- presa d'acqua / paratoia (uscita verso la pompa) -->
+        <rect x="114" y="150" width="16" height="22" rx="2" fill="#7e8288" stroke="#5c6268" stroke-width="1.5"/>
+        <circle cx="122" cy="161" r="3" fill="#cdd6df"/>
+        <text class="label sm" x="92" y="92">Diga · sorgente</text>
       </g>
 
       <!-- COLLINA di Casa Bianchi -->
@@ -182,16 +234,16 @@
         <ellipse cx="500" cy="100" rx="64" ry="18" fill="#b6bcc1" stroke="#6c7278" stroke-width="2"/>
         <rect x="492" y="70" width="16" height="32" rx="4" fill="#aeb4ba"/>
         <circle cx="500" cy="70" r="9" fill="#c7ccd1"/>
-        <text class="label" x="500" y="150" style="fill:#1f2a32">Cisterna</text>
-        <text class="label sm" x="500" y="166" style="fill:#33414b">1000 L</text>
+        <text class="label" x="500" y="140">Cisterna</text>
+        <text class="label sm" x="500" y="176">1000 L</text>
       </g>
 
       <g id="pump" class="clickable" data-action="pump">
-        <rect x="452" y="246" width="42" height="60" rx="8" fill="#34495e"/>
-        <circle cx="473" cy="276" r="15" fill="#5d6f80"/>
-        <circle id="pumpRotor" cx="473" cy="276" r="8" fill="#cdd6df"/>
-        <circle id="pumpLed" cx="487" cy="252" r="4.5" fill="#d14b4b"/>
-        <text class="label sm" x="438" y="288" style="text-anchor:end">Pompa</text>
+        <rect x="408" y="250" width="54" height="42" rx="9" fill="#34495e"/>
+        <circle cx="435" cy="271" r="15" fill="#5d6f80"/>
+        <circle id="pumpRotor" cx="435" cy="271" r="8" fill="#cdd6df"/>
+        <circle id="pumpLed" cx="452" cy="257" r="4.5" fill="#d14b4b"/>
+        <text class="label sm" x="400" y="276" style="text-anchor:end">Pompa</text>
       </g>
 
       <g id="filters" class="clickable" data-action="cleanFilter">
@@ -212,30 +264,31 @@
   </div>
 
   <div class="panel">
-    <h2>🎯 Missione</h2>
+    <h2><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#123E90" stroke-width="1.7"/><circle cx="12" cy="12" r="4.5" stroke="#1f5fc0" stroke-width="1.7"/><circle cx="12" cy="12" r="1.4" fill="#B8860B"/></svg> Missione</h2>
     <div class="mission">
       <div class="m-title" id="mTitle"></div>
       <div class="m-desc" id="mDesc"></div>
+      <ol class="m-steps" id="mSteps"></ol>
       <div class="m-moves" id="mMovesWrap">Mosse: <b id="mMoves">0</b> <span id="mMax"></span></div>
       <div class="m-feedback" id="mFb"></div>
       <div class="m-nav">
-        <button class="mini" data-action="prevMission">◀</button>
+        <button class="mini nav-btn" data-action="prevMission" aria-label="Missione precedente"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#123E90" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <span id="mCount" class="m-count"></span>
-        <button class="mini" data-action="nextMission">▶</button>
+        <button class="mini nav-btn" data-action="nextMission" aria-label="Missione successiva"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#123E90" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
 
     <div id="status" class="status"></div>
 
     <div class="info">
-      <div class="info-row"><span>🛢️ Cisterna</span><span id="tankTxt">0% · 0 L</span></div>
+      <div class="info-row"><span><svg viewBox="0 0 24 24" fill="none"><path d="M6 4h12v3a6 6 0 0 1-6 6 6 6 0 0 1-6-6V4Z" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 13v6a3 3 0 0 0 6 0v-6" stroke="#123E90" stroke-width="1.6"/></svg>Cisterna</span><span id="tankTxt">0% · 0 L</span></div>
       <div class="gauge"><div id="tankBar" class="gauge-fill"></div></div>
     </div>
 
     <div class="info">
-      <div class="info-row"><span>🧪 Filtri</span><span id="filtTxt">puliti</span></div>
+      <div class="info-row"><span><svg viewBox="0 0 24 24" fill="none"><path d="M9 3h6M10 3v6l-4.5 9A2 2 0 0 0 7.3 21h9.4a2 2 0 0 0 1.8-3L14 9V3" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/></svg>Filtri</span><span id="filtTxt">puliti</span></div>
       <div class="gauge"><div id="filtBar" class="gauge-fill dirt"></div></div>
-      <button class="mini wide" data-action="cleanFilter">🧽 Pulisci filtri</button>
+      <button class="mini wide" data-action="cleanFilter"><svg viewBox="0 0 24 24" fill="none"><path d="M16 3l5 5-9 9-5 1 1-5 8-10Z" stroke="#123E90" stroke-width="1.7" stroke-linejoin="round"/></svg>Pulisci i filtri</button>
     </div>
 
     <div class="group">
@@ -243,9 +296,17 @@
       <div id="consumi"></div>
     </div>
 
+    <div class="group">
+      <h3>Lettura binaria · rubinetti</h3>
+      <div class="binread">
+        <div class="bits" id="binBits"></div>
+        <div class="bindec"><span class="bstr" id="binStr">0000</span> = <b id="binDec">0</b> in base 10</div>
+      </div>
+    </div>
+
     <div class="btnrow">
-      <button class="mini wide" id="audioBtn" data-action="audio">🔊 Suono</button>
-      <button class="mini wide reset" data-action="reset">↺ Ricomincia</button>
+      <button class="mini wide" id="audioBtn" data-action="audio"><svg id="audioIcon" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4Z" stroke="#123E90" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 9a4 4 0 0 1 0 6" stroke="#123E90" stroke-width="1.7" stroke-linecap="round"/></svg><span id="audioLbl">Suono</span></button>
+      <button class="mini wide reset" data-action="reset"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12a7 7 0 1 1 2 5M5 17v-4h4" stroke="#5a6b7c" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Ricomincia</button>
     </div>
 
     <div class="legend">
@@ -267,7 +328,9 @@
           </svg>chiusa
         </span>
       </div>
-      <div style="margin-top:6px">⛰️ <b>Casa Bianchi</b> è in collina, più in alto della cisterna: serve la <b>pompa</b> accesa per dare pressione.</div>
+      <div style="margin-top:6px;display:flex;gap:6px;align-items:flex-start">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:2px"><path d="M3 19h18L15 7l-3 5-2-3-7 10Z" stroke="#1f7d49" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span><b>Casa Bianchi</b> è in collina, più in alto della cisterna: serve la <b>pompa</b> accesa per dare pressione.</span></div>
     </div>
   </div>
 </div>
@@ -321,9 +384,9 @@
 
   /* ---------- TOPOLOGIA ---------- */
   const SEGMENTS=[
-    ["p_in1","raw","M118,160 L300,160"],
-    ["p_in2","raw","M300,160 L440,160"],
-    ["p_riser","raw","M473,246 L473,124 L484,124"],
+    ["p_in1","raw","M122,160 L300,160"],
+    ["p_in2","raw","M300,160 L300,270 L408,270"],
+    ["p_up","raw","M462,270 L480,270 L480,196"],
     ["p_down","raw","M520,196 L520,242"],
     ["p_feed","clean","M500,322 L500,350"],
     ["e_MA","clean","M500,350 L270,350"],
@@ -334,7 +397,7 @@
     ["e_SC","clean","M500,590 L730,590"],
     ["e_HTL","clean","M270,350 L150,350 L150,330"],
     ["e_HTR","clean","M730,350 L832,350 L832,150"],
-    ["e_HBR","clean","M730,590 L881,590 L881,612"],
+    ["e_HBR","clean","M730,590 L800,590 L800,612"],
     ["e_HBL","clean","M270,590 L150,590 L150,556"],
   ];
   const EDGES=[
@@ -345,17 +408,17 @@
     {id:"e_HBR",a:"C",b:"HBR",valve:"vH_BR"},{id:"e_HBL",a:"D",b:"HBL",valve:"vH_BL"},
   ];
   const VALVES={
-    vIn:{x:230,y:160,pipe:"h"}, vPump:{x:473,y:212,pipe:"v"}, vMain:{x:520,y:216,pipe:"v"}, vFeed:{x:500,y:338,pipe:"v"},
+    vIn:{x:200,y:160,pipe:"h"}, vPump:{x:480,y:232,pipe:"v"}, vMain:{x:520,y:216,pipe:"v"}, vFeed:{x:500,y:338,pipe:"v"},
     vNW:{x:385,y:350,pipe:"h"}, vNE:{x:615,y:350,pipe:"h"}, vW:{x:270,y:470,pipe:"v"}, vE:{x:730,y:470,pipe:"v"},
     vSW:{x:385,y:590,pipe:"h"}, vSE:{x:615,y:590,pipe:"h"},
-    vH_TL:{x:210,y:350,pipe:"h"}, vH_TR:{x:785,y:350,pipe:"h"}, vH_BR:{x:790,y:590,pipe:"h"}, vH_BL:{x:210,y:590,pipe:"h"},
+    vH_TL:{x:210,y:350,pipe:"h"}, vH_TR:{x:785,y:350,pipe:"h"}, vH_BR:{x:739,y:590,pipe:"h"}, vH_BL:{x:210,y:590,pipe:"h"},
   };
   const HOUSES=["HTL","HTR","HBR","HBL"];
   const ELEVATED=new Set(["HTR"]); // Casa Bianchi in collina: serve la pompa
   const HOUSE_DEF={
     HTL:{x:88,y:300,name:"Casa Rossi",  roof:"#b5532f",wall:"#f3ead6",door:"#7c4a25",spout:{x:84,y:331,flip:true}},
     HTR:{x:792,y:86,name:"Casa Bianchi",roof:"#54616e",wall:"#f6f3ec",door:"#6b7682",spout:{x:884,y:118,flip:false},hill:true},
-    HBR:{x:826,y:520,w:110,h:96,name:"Scuola Sacra Famiglia",roof:"#c0392b",wall:"#f6efe6",door:"#b23a2e",band:"#c0392b",school:true,spout:{x:944,y:592,flip:false}},
+    HBR:{x:746,y:520,w:80,h:96,name:"Scuola Sacra Famiglia",roof:"#c0392b",wall:"#f6efe6",door:"#6b4a2a",band:"#c0392b",school:true,spout:{x:740,y:602,flip:true}},
     HBL:{x:88,y:556,name:"Casa Verdi", roof:"#3e7d4f",wall:"#ecf2e2",door:"#2f5d3a",spout:{x:84,y:587,flip:true}},
   };
 
@@ -366,6 +429,7 @@
   const valveLayer=document.getElementById("valveLayer");
   const houseLayer=document.getElementById("houseLayer");
   const flowEls={}, drainEls={};
+  let poolGroup=null, poolFlowEl=null;
 
   SEGMENTS.forEach(([id,stage,d])=>{
     pipeBase.appendChild(mk("path",{d:d,class:"pipe-edge"}));
@@ -380,17 +444,26 @@
     g.appendChild(mk("rect",{class:"glow",x:x-7,y:y-39,width:w+14,height:h+47,rx:8,fill:"none",stroke:"#3f9bff","stroke-width":3}));
     g.appendChild(mk("ellipse",{cx:cx,cy:y+h+5,rx:w*0.6,ry:7,fill:"rgba(0,0,0,.12)"}));
     g.appendChild(mk("rect",{x:x,y:y,width:w,height:h,rx:3,fill:d.wall,stroke:"#b9a77f","stroke-width":2}));
-    const peak = d.school ? y-26 : y-32;
-    g.appendChild(mk("path",{class:"roof",d:"M"+(x-8)+","+y+" L"+cx+","+peak+" L"+(x+w+8)+","+y+" Z",fill:d.roof,stroke:"#0003","stroke-width":1}));
+    const peak = d.school ? y-46 : y-32;
+    const eave = d.school ? 13 : 8;
+    g.appendChild(mk("path",{class:"roof",d:"M"+(x-eave)+","+y+" L"+cx+","+peak+" L"+(x+w+eave)+","+y+" Z",fill:d.roof,stroke:"#0003","stroke-width":1}));
     g.appendChild(mk("line",{x1:cx,y1:peak,x2:cx,y2:y,stroke:"#ffffff33","stroke-width":2}));
+    if(d.school){
+      // falda frontale: nervature del tetto + gronda
+      [-0.55,0.55].forEach(function(s){
+        g.appendChild(mk("line",{x1:cx+(w/2+eave)*s*0.5,y1:(y+peak)/2,x2:cx+(w/2+eave)*s,y2:y,stroke:"#ffffff22","stroke-width":1.5}));
+      });
+      g.appendChild(mk("rect",{x:x-eave,y:y-3,width:w+2*eave,height:5,rx:2,fill:"#8a2f26"}));
+    }
 
     if(d.school){
-      const fr=d.band;               // colore rosso dei dettagli
-      // finestra: due piani x tre colonne
+      const fr=d.band;               // colore rosso dei dettagli (fasce)
+      const br="#6b4a2a";            // marrone legno per i profili delle finestre
+      // finestra: due piani x tre colonne, profili marroni
       function win(wx,wy){
-        g.appendChild(mk("rect",{x:wx,y:wy,width:18,height:16,rx:2,fill:"#bfe0f5",stroke:fr,"stroke-width":2}));
-        g.appendChild(mk("line",{x1:wx+9,y1:wy,x2:wx+9,y2:wy+16,stroke:fr,"stroke-width":1.4}));
-        g.appendChild(mk("line",{x1:wx,y1:wy+8,x2:wx+18,y2:wy+8,stroke:fr,"stroke-width":1.4}));
+        g.appendChild(mk("rect",{x:wx,y:wy,width:18,height:16,rx:2,fill:"#bfe0f5",stroke:br,"stroke-width":2}));
+        g.appendChild(mk("line",{x1:wx+9,y1:wy,x2:wx+9,y2:wy+16,stroke:br,"stroke-width":1.4}));
+        g.appendChild(mk("line",{x1:wx,y1:wy+8,x2:wx+18,y2:wy+8,stroke:br,"stroke-width":1.4}));
       }
       const cols=[x+w*0.16-9, cx-9, x+w*0.84-9];
       cols.forEach(wx=>win(wx,y+10));                       // piano superiore: 3 finestre
@@ -399,16 +472,15 @@
       g.appendChild(mk("rect",{x:x,y:y+h/2-4,width:w,height:8,fill:fr}));
       // zoccolo rosso
       g.appendChild(mk("rect",{x:x,y:y+h-7,width:w,height:7,fill:fr,opacity:".85"}));
-      // portone centrale rosso al piano terra
-      g.appendChild(mk("rect",{x:cx-13,y:y+h-30,width:26,height:30,rx:2,fill:d.door}));
-      g.appendChild(mk("line",{x1:cx,y1:y+h-30,x2:cx,y2:y+h,stroke:"#ffffff55","stroke-width":1.5}));
-      g.appendChild(mk("circle",{cx:cx+7,cy:y+h-14,r:1.8,fill:"#ffe08a"}));
-      // campanile con croce
-      g.appendChild(mk("rect",{x:x+6,y:y-46,width:16,height:46,fill:d.wall,stroke:"#b9a77f","stroke-width":2}));
-      g.appendChild(mk("path",{d:"M"+(x+3)+","+(y-46)+" L"+(x+14)+","+(y-62)+" L"+(x+25)+","+(y-46)+" Z",fill:d.roof}));
-      g.appendChild(mk("rect",{x:x+10,y:y-30,width:8,height:12,rx:1,fill:"#bfe0f5",stroke:fr,"stroke-width":1.4}));
-      g.appendChild(mk("rect",{x:x+12.5,y:y-80,width:3,height:15,fill:"#d4af37"}));
-      g.appendChild(mk("rect",{x:x+8,y:y-75,width:12,height:3,fill:"#d4af37"}));
+      // portone ad arco in legno marrone al piano terra
+      const dw=28, ar=dw/2, dx0=cx-ar, dbot=y+h, dtop=dbot-24;
+      g.appendChild(mk("path",{d:"M"+dx0+","+dbot+" L"+dx0+","+dtop+" A"+ar+","+ar+" 0 0 1 "+(dx0+dw)+","+dtop+" L"+(dx0+dw)+","+dbot+" Z",fill:d.door,stroke:"#4a3219","stroke-width":1.5}));
+      // assi verticali del legno
+      g.appendChild(mk("line",{x1:cx,y1:dtop-ar,x2:cx,y2:dbot,stroke:"#4a3219","stroke-width":1.3}));
+      g.appendChild(mk("line",{x1:dx0+7,y1:dtop,x2:dx0+7,y2:dbot,stroke:"#553a20","stroke-width":1}));
+      g.appendChild(mk("line",{x1:dx0+dw-7,y1:dtop,x2:dx0+dw-7,y2:dbot,stroke:"#553a20","stroke-width":1}));
+      // maniglia
+      g.appendChild(mk("circle",{cx:cx+7,cy:y+h-13,r:1.8,fill:"#d4af37"}));
     }else{
       g.appendChild(mk("rect",{x:cx-9,y:y+h-26,width:18,height:26,rx:2,fill:d.door}));
       g.appendChild(mk("circle",{cx:cx+5,cy:y+h-13,r:1.6,fill:"#ffe08a"}));
@@ -429,7 +501,6 @@
       drainEls[id]=mk("path",{class:"drainflow",d:"M"+cx+","+(y+h)+" L"+cx+","+(gy+5)}); drainBase.appendChild(drainEls[id]);
       g.appendChild(mk("rect",{x:cx-18,y:gy,width:36,height:10,rx:2,fill:"#5b5145",stroke:"#3f372e","stroke-width":1}));
       [-11,-4,3,10].forEach(o=>g.appendChild(mk("line",{x1:cx+o,y1:gy+1,x2:cx+o,y2:gy+9,stroke:"#2f281f","stroke-width":1.6})));
-      const sl=mk("text",{class:"scarico-lbl",x:cx,y:gy+22}); sl.textContent="scarico"; g.appendChild(sl);
     }
 
     // zampillo
@@ -444,16 +515,81 @@
   }
   HOUSES.forEach(buildHouse);
 
-  const valveHandles={};
+  /* ---------- PISCINA ANDREANA (edificio ad un piano, tetto piatto blu) ---------- */
+  function buildPool(){
+    const px=862,py=520,pw=66,ph=44,cx=px+pw/2;
+    const g=mk("g",{class:"pool"});
+    g.appendChild(mk("ellipse",{cx:cx,cy:py+ph+26,rx:pw*0.56,ry:7,fill:"rgba(0,0,0,.10)"}));
+    g.appendChild(mk("rect",{x:px,y:py,width:pw,height:ph,rx:3,fill:"#eef3f7",stroke:"#b9c2cc","stroke-width":2}));
+    // tetto piatto blu
+    g.appendChild(mk("rect",{x:px-5,y:py-14,width:pw+10,height:16,rx:3,fill:"#1f5fc0",stroke:"#163f86","stroke-width":1.5}));
+    g.appendChild(mk("rect",{x:px-5,y:py-14,width:pw+10,height:4,rx:2,fill:"#2f74d6"}));
+    // porta a vetri
+    g.appendChild(mk("rect",{x:cx-11,y:py+ph-22,width:22,height:22,rx:2,fill:"#bfe0f5",stroke:"#7d96a8","stroke-width":2}));
+    g.appendChild(mk("line",{x1:cx,y1:py+ph-22,x2:cx,y2:py+ph,stroke:"#7d96a8","stroke-width":1.5}));
+    // finestre a nastro
+    [[px+8,py+11],[px+pw-25,py+11]].forEach(p=>{
+      g.appendChild(mk("rect",{x:p[0],y:p[1],width:17,height:11,rx:2,fill:"#bfe0f5",stroke:"#7d96a8","stroke-width":2}));
+    });
+    // vasca con corsie davanti all'edificio
+    const wx=px+11,wy=py+ph+6,ww=pw-22,wh=15;
+    g.appendChild(mk("rect",{x:wx-3,y:wy-3,width:ww+6,height:wh+6,rx:5,fill:"#d8e6ef"}));
+    g.appendChild(mk("rect",{x:wx,y:wy,width:ww,height:wh,rx:3,fill:"#2ba6e6"}));
+    [wy+5,wy+10].forEach(ly=>g.appendChild(mk("line",{x1:wx+4,y1:ly,x2:wx+ww-4,y2:ly,stroke:"#bfe9ff","stroke-width":2,"stroke-dasharray":"7 6"})));
+    const t=mk("text",{class:"hname",x:cx,y:wy+wh+22,"text-anchor":"middle"}); t.textContent="Piscina Andreana"; g.appendChild(t);
+    // zampillo della piscina: getto d'acqua che riempie la vasca quando arriva l'acqua
+    const ps=mk("g",{class:"spout",transform:"translate("+(wx+2)+","+(wy-7)+")"});
+    ps.appendChild(mk("rect",{x:-14,y:-4,width:16,height:8,rx:2,fill:"#7e8288"}));
+    ps.appendChild(mk("rect",{x:-3,y:-6,width:7,height:12,rx:2,fill:"#5d6f80"}));
+    ps.appendChild(mk("ellipse",{class:"spurtPuddle",cx:24,cy:24,rx:13,ry:4}));
+    [0,0.23,0.46].forEach(function(dl,i){var c=mk("circle",{class:"spurtDrop",cx:0,cy:0,r:3.6-i*0.3});c.style.animationDelay=dl+"s";ps.appendChild(c);});
+    g.appendChild(ps);
+    poolGroup=g;
+    houseLayer.appendChild(g);
+  }
+  buildPool();
+
+  /* ---------- CONDUTTURA scuola → piscina (stesso livello) ---------- */
+  (function(){
+    const cy=548, x0=822, x1=868, d="M"+x0+","+cy+" L"+x1+","+cy;
+    pipeBase.appendChild(mk("path",{d:d,class:"pipe-edge"}));
+    pipeBase.appendChild(mk("path",{d:d,class:"pipe"}));
+    // flusso d'acqua nella conduttura (animato quando la Scuola è servita)
+    poolFlowEl=mk("path",{d:d,class:"flow clean"});
+    flowLayer.appendChild(poolFlowEl);
+    // giunti/flange alle estremità
+    [x0+3,x1-3].forEach(function(fx){
+      pipeBase.appendChild(mk("rect",{x:fx-3,y:cy-8,width:6,height:16,rx:2,fill:"#9aa1a8",stroke:"#5c6268","stroke-width":1}));
+    });
+  })();
+
+  const valveHandles={}, valveBits={};
   Object.entries(VALVES).forEach(([id,v])=>{
     const g=mk("g",{class:"valve clickable",id:id,"data-action":id,transform:"translate("+v.x+","+v.y+")"});
     g.appendChild(mk("rect",{x:-10,y:-10,width:20,height:20,rx:4,fill:"#9aa1a8",stroke:"#5c6268","stroke-width":1.5}));
     const handle=mk("rect",{class:"handle",x:-20,y:-5,width:40,height:10,rx:4});
     g.appendChild(handle);
     g.appendChild(mk("circle",{r:3.2,fill:"#55585c"}));
-    valveHandles[id]=handle;
+    // indicatore binario 0/1 (0 = chiusa, 1 = aperta) — chip bianco per leggibilità
+    g.appendChild(mk("circle",{class:"vbitbg",cx:0,cy:-19,r:9.5}));
+    const bit=mk("text",{class:"vbit",x:0,y:-14.5,"text-anchor":"middle"}); bit.textContent="0"; g.appendChild(bit);
+    valveHandles[id]=handle; valveBits[id]=bit;
     valveLayer.appendChild(g);
   });
+
+  /* ---------- PERDITA (spruzzi su ogni segmento dell'anello) ---------- */
+  const RING_EDGES=["e_MA","e_MB","e_AD","e_BC","e_DS","e_SC"];
+  const EDGE_MID={e_MA:[385,350],e_MB:[615,350],e_AD:[270,470],e_BC:[730,470],e_DS:[385,590],e_SC:[615,590]};
+  const leakEls=new Map();
+  RING_EDGES.forEach(id=>{
+    const m=EDGE_MID[id];
+    const g=mk("g",{class:"leak",transform:"translate("+m[0]+","+m[1]+")"});
+    g.appendChild(mk("circle",{class:"leakring",r:7}));
+    [-9,0,9].forEach((dx,i)=>{const d=mk("circle",{class:"leakdrop",cx:0,cy:0,r:3.4-i*0.2});d.style.setProperty("--dx",dx+"px");d.style.animationDelay=(i*0.2)+"s";g.appendChild(d);});
+    leakEls.set(id,g);
+    pipeBase.parentNode.appendChild(g);
+  });
+  let leakEdge=null;
 
   /* ---------- MISSIONI ---------- */
   const MISSIONS=[
@@ -461,8 +597,20 @@
     {title:"2 · Acqua in collina", desc:"Fai arrivare l'acqua alla Casa Bianchi (in collina): ricorda la pompa!", target:["HTR"], exact:false, maxMoves:9, done:false},
     {title:"3 · I due in basso", desc:"Servi la Scuola e Casa Verdi (le due case in basso) e nient'altro.", target:["HBL","HBR"], exact:true, maxMoves:13, done:false},
     {title:"4 · Tutto il paese", desc:"Fai arrivare l'acqua contemporaneamente a TUTTE e 4 le case.", target:["HTL","HTR","HBR","HBL"], exact:true, maxMoves:16, done:false},
+    {title:"5 · Livello PRO · l'ordine giusto", desc:"Come un vero tecnico dell'acquedotto: apri i comandi nell'ORDINE corretto, dalla sorgente fino al rubinetto della Scuola.",
+      type:"order", target:["HBR"], maxMoves:6, done:false,
+      steps:[
+        {action:"vIn",   label:"Apri la valvola d'ingresso (dalla diga)"},
+        {action:"pump",  label:"Accendi la pompa per riempire la cisterna"},
+        {action:"vMain", label:"Apri l'uscita della cisterna"},
+        {action:"vNE",   label:"Apri la valvola dell'anello (nord-est)"},
+        {action:"vE",    label:"Apri la valvola di discesa (est)"},
+        {action:"vH_BR", label:"Apri il rubinetto della Scuola"},
+      ]},
+    {title:"6 · Isola la perdita", desc:"Una tubazione dell'anello si è incrinata e perde (lampeggia in giallo). Chiudi la valvola del tubo rotto e porta comunque l'acqua alla Scuola passando dall'ALTRO lato dell'anello.",
+      type:"leak", target:["HBR"], maxMoves:8, done:false},
   ];
-  let mIndex=0, moves=0;
+  let mIndex=0, moves=0, proStep=0, proHint="";
 
   /* ---------- STATO ---------- */
   function initState(){return {pump:false,vIn:false,vPump:true,vMain:false,vFeed:true,
@@ -483,6 +631,17 @@
     row.innerHTML='<span class="c-name">'+HOUSE_DEF[h].name+'</span><span class="c-lit" id="c_'+h+'">0 L</span>';
     consumiEl.appendChild(row);
   });
+
+  // lettura binaria: ogni rubinetto di casa è un bit (0 chiuso · 1 aperto)
+  const BIN_TAPS=[["vH_TL","Ros"],["vH_TR","Bia"],["vH_BR","Scu"],["vH_BL","Ver"]];
+  const binBitsEl=document.getElementById("binBits");
+  const binChips=BIN_TAPS.map(([id,lbl])=>{
+    const c=document.createElement("div"); c.className="bit";
+    c.innerHTML='<span class="bl">'+lbl+'</span><span class="bv">0</span>';
+    binBitsEl.appendChild(c);
+    return {id:id,el:c,val:c.querySelector(".bv")};
+  });
+  const binStrEl=document.getElementById("binStr"), binDecEl=document.getElementById("binDec");
 
   function reachable(){
     const set=new Set();
@@ -506,21 +665,68 @@
     document.getElementById("mDesc").textContent=m.desc;
     document.getElementById("mMax").textContent="/ max "+m.maxMoves;
     document.getElementById("mCount").textContent="Missione "+(mIndex+1)+" di "+MISSIONS.length;
+    const stepsEl=document.getElementById("mSteps");
+    stepsEl.innerHTML="";
+    if(m.type==="order"){
+      m.steps.forEach((s,i)=>{
+        const li=document.createElement("li");
+        li.dataset.step=i;
+        li.innerHTML='<span class="num">'+(i+1)+'</span><span class="lab">'+s.label+'</span>';
+        stepsEl.appendChild(li);
+      });
+    }
+    updateProSteps();
+  }
+  function updateProSteps(){
+    const m=MISSIONS[mIndex];
+    if(m.type!=="order")return;
+    document.querySelectorAll("#mSteps li").forEach((li,i)=>{
+      li.classList.toggle("done",i<proStep);
+      li.classList.toggle("current",i===proStep);
+    });
   }
   function checkMission(servedSet){
     const m=MISSIONS[mIndex];
+    const fb=document.getElementById("mFb");
+    if(m.type==="leak"){
+      const leaking = leakEdge && flowEls[leakEdge].classList.contains("on");
+      const served = m.target.every(h=>servedSet.has(h));
+      if(!leaking && served && moves<=m.maxMoves){
+        if(!m.done){m.done=true;Sound.success();}
+        fb.className="m-feedback ok"; fb.innerHTML="Perdita isolata e Scuola servita! Hai sfruttato l'anello per girare intorno al tubo rotto.";
+      }else if(leaking){
+        fb.className="m-feedback warn"; fb.innerHTML="Sta passando acqua nel tubo che perde: chiudi la sua valvola e usa l'altro lato dell'anello.";
+      }else if(served && moves>m.maxMoves){
+        fb.className="m-feedback warn"; fb.innerHTML="Scuola servita, ma in troppe mosse. Premi Ricomincia e riprova con calma.";
+      }else{
+        fb.className="m-feedback"; fb.innerHTML="Chiudi la valvola del tubo che perde, poi porta l'acqua alla Scuola dall'altra parte dell'anello.";
+      }
+      return;
+    }
+    if(m.type==="order"){
+      const done=proStep>=m.steps.length && m.target.every(h=>servedSet.has(h));
+      if(done){
+        if(!m.done){m.done=true;Sound.success();}
+        fb.className="m-feedback ok"; fb.innerHTML="Perfetto! Hai seguito la sequenza giusta, da tecnico dell'acquedotto.";
+      }else if(proHint){
+        fb.className="m-feedback warn"; fb.innerHTML=proHint+" — nessun problema, puoi richiuderlo e procedere con calma.";
+      }else if(proStep>0){
+        const next=m.steps[proStep];
+        fb.className="m-feedback"; fb.innerHTML=next?"Prossimo passo: <b>"+next.label+"</b>":"";
+      }else{ fb.className="m-feedback"; fb.innerHTML=""; }
+      return;
+    }
     const served=HOUSES.filter(h=>servedSet.has(h));
     let ok;
     if(m.exact) ok=served.length===m.target.length && m.target.every(h=>servedSet.has(h));
     else ok=m.target.every(h=>servedSet.has(h));
-    const fb=document.getElementById("mFb");
     if(ok && moves<=m.maxMoves){
       if(!m.done){m.done=true;Sound.success();}
-      fb.className="m-feedback ok"; fb.innerHTML="✅ Completata in "+moves+" mosse! Premi ▶ per la prossima.";
+      fb.className="m-feedback ok"; fb.innerHTML="Completata in "+moves+" mosse! Vai alla missione successiva con la freccia avanti.";
     }else if(ok && moves>m.maxMoves){
-      fb.className="m-feedback warn"; fb.innerHTML="🎯 Obiettivo raggiunto ma in troppe mosse ("+moves+" > "+m.maxMoves+"). Premi ↺ e riprova!";
+      fb.className="m-feedback warn"; fb.innerHTML="Obiettivo raggiunto, ma in troppe mosse ("+moves+" > "+m.maxMoves+"). Premi Ricomincia e riprova!";
     }else if(moves>m.maxMoves){
-      fb.className="m-feedback warn"; fb.innerHTML="Hai superato il limite di mosse. Premi ↺ per ricominciare.";
+      fb.className="m-feedback warn"; fb.innerHTML="Hai superato il limite di mosse. Premi <b>Ricomincia</b> per riprovare.";
     }else{ fb.className="m-feedback"; fb.innerHTML=""; }
   }
 
@@ -533,7 +739,7 @@
 
     flowEls.p_in1.classList.toggle("on",supply);
     flowEls.p_in2.classList.toggle("on",supply);
-    flowEls.p_riser.classList.toggle("on",supply && state.vPump);
+    flowEls.p_up.classList.toggle("on",supply && state.vPump);
     flowEls.p_down.classList.toggle("on",state.level>1 && state.vMain);
     flowEls.p_feed.classList.toggle("on",energized);
     for(const e of EDGES){
@@ -553,12 +759,28 @@
       document.getElementById("c_"+h).textContent=Math.round(litres[h])+" L";
     });
 
+    // la piscina è alimentata dalla conduttura della Scuola: stesso stato della Scuola
+    const poolOn=servedSet.has("HBR");
+    if(poolFlowEl) poolFlowEl.classList.toggle("on",poolOn);
+    if(poolGroup) poolGroup.classList.toggle("on",poolOn);
+
     Object.keys(VALVES).forEach(id=>{
       const open=state[id],pipe=VALVES[id].pipe;
       document.getElementById(id).classList.toggle("open",open);
       const a=open?(pipe==="h"?0:90):(pipe==="h"?90:0);
       valveHandles[id].style.transform="rotate("+a+"deg)";
+      valveBits[id].textContent=open?"1":"0";
+      valveBits[id].classList.toggle("one",open);
     });
+
+    // lettura binaria dei rubinetti
+    let binStr="";
+    binChips.forEach(c=>{const on=!!state[c.id]; c.val.textContent=on?"1":"0"; c.el.classList.toggle("one",on); binStr+=on?"1":"0";});
+    binStrEl.textContent=binStr;
+    binDecEl.textContent=parseInt(binStr,2);
+
+    // perdita: spruzza se il segmento incrinato è in pressione
+    leakEls.forEach((g,id)=>{ g.classList.toggle("on", id===leakEdge && flowEls[id].classList.contains("on")); });
 
     const led=document.getElementById("pumpLed");
     led.setAttribute("fill",state.pump?"#27e36b":"#d14b4b");
@@ -593,19 +815,19 @@
 
   function updateStatus(served,ringHasWater,bad,bianchiNeedsPump){
     let m,warn=false;
-    if(bad && served>0){ m="⚠️ <b>Filtri intasati!</b> L'acqua che arriva è sporca: pulisci i filtri 🧽"; warn=true; }
+    if(bad && served>0){ m="<b>Filtri intasati!</b> L'acqua che arriva è sporca: premi <b>Pulisci i filtri</b>."; warn=true; }
     else if(state.level<99 && !(state.vMain && state.vFeed && served>0)){
-      if(!state.vIn) m="<b>Passo 1:</b> apri la <b>valvola d'ingresso</b> (a sinistra). 🚰";
-      else if(!state.vPump) m="Apri la <b>valvola di mandata della pompa</b>. 🔧";
-      else if(!state.pump) m="<b>Passo 2:</b> clicca la <b>pompa</b> per riempire la cisterna. ⚙️";
-      else m="La pompa riempie la cisterna… <b>"+Math.round(state.level)+"%</b> 💧";
+      if(!state.vIn) m="<b>Passo 1:</b> apri la <b>valvola d'ingresso</b> (a sinistra).";
+      else if(!state.vPump) m="Apri la <b>valvola di mandata della pompa</b>.";
+      else if(!state.pump) m="<b>Passo 2:</b> clicca la <b>pompa</b> per riempire la cisterna.";
+      else m="La pompa riempie la cisterna… <b>"+Math.round(state.level)+"%</b>";
     }else{
-      if(!state.vMain) m="<b>Passo 3:</b> apri la <b>valvola di uscita</b> della cisterna. 🔧";
-      else if(!state.vFeed) m="Apri la <b>valvola di distribuzione</b>. 🔧";
-      else if(bianchiNeedsPump) m="⛰️ La <b>Casa Bianchi</b> è in collina: accendi la <b>pompa</b> per dare pressione e far salire l'acqua.";
-      else if(served>0) m="Ottimo! Stai servendo <b>"+served+"</b> "+(served===1?"casa":"case")+". 💧 L'acqua usata va allo scarico.";
-      else if(ringHasWater) m="L'acqua è nell'anello: apri il <b>rubinetto di una casa</b>. 🏠";
-      else m="<b>Passo 4:</b> apri le <b>valvole dell'anello</b> per distribuire l'acqua. ↔️";
+      if(!state.vMain) m="<b>Passo 3:</b> apri la <b>valvola di uscita</b> della cisterna.";
+      else if(!state.vFeed) m="Apri la <b>valvola di distribuzione</b>.";
+      else if(bianchiNeedsPump) m="La <b>Casa Bianchi</b> è in collina: accendi la <b>pompa</b> per dare pressione e far salire l'acqua.";
+      else if(served>0) m="Ottimo! Stai servendo <b>"+served+"</b> "+(served===1?"casa":"case")+". L'acqua usata va allo scarico.";
+      else if(ringHasWater) m="L'acqua è nell'anello: apri il <b>rubinetto di una casa</b>.";
+      else m="<b>Passo 4:</b> apri le <b>valvole dell'anello</b> per distribuire l'acqua.";
     }
     statusEl.innerHTML=m;
     statusEl.classList.toggle("warn",warn);
@@ -630,32 +852,65 @@
 
   let rot=0;
   setInterval(()=>{if(!state.pump)return;rot=(rot+20)%360;
-    document.getElementById("pumpRotor").setAttribute("transform","rotate("+rot+" 473 276)");},40);
+    document.getElementById("pumpRotor").setAttribute("transform","rotate("+rot+" 435 271)");},40);
 
   setInterval(()=>{ if(clogged()) Sound.alarm(); },650);
 
   /* ---------- AZIONI ---------- */
-  function resetCircuit(){ state=initState(); HOUSES.forEach(h=>litres[h]=0); moves=0; compute(); }
-  function startMission(i){ mIndex=(i+MISSIONS.length)%MISSIONS.length; renderMissionMeta(); resetCircuit(); }
+  function resetCircuit(){ state=initState(); HOUSES.forEach(h=>litres[h]=0); moves=0; proStep=0; proHint=""; updateProSteps(); compute(); }
+  function startMission(i){ mIndex=(i+MISSIONS.length)%MISSIONS.length;
+    leakEdge = MISSIONS[mIndex].type==="leak" ? RING_EDGES[Math.floor(Math.random()*RING_EDGES.length)] : null;
+    renderMissionMeta(); resetCircuit(); }
 
   function doAction(a){
     Sound.resume();
     if(a==="reset"){ resetCircuit(); return; }
     if(a==="audio"){ const on=Sound.toggle(); const b=document.getElementById("audioBtn");
-      b.textContent=on?"🔊 Suono":"🔇 Muto"; b.classList.toggle("off",!on); return; }
+      document.getElementById("audioLbl").textContent=on?"Suono":"Muto";
+      document.getElementById("audioIcon").innerHTML=on
+        ? '<path d="M4 9v6h4l5 4V5L8 9H4Z" stroke="#123E90" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 9a4 4 0 0 1 0 6" stroke="#123E90" stroke-width="1.7" stroke-linecap="round"/>'
+        : '<path d="M4 9v6h4l5 4V5L8 9H4Z" stroke="#5a6b7c" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 9l5 6M21 9l-5 6" stroke="#5a6b7c" stroke-width="1.7" stroke-linecap="round"/>';
+      b.classList.toggle("off",!on); return; }
     if(a==="cleanFilter"){ state.dirt=0; Sound.clean(); compute(); return; }
     if(a==="prevMission"){ startMission(mIndex-1); return; }
     if(a==="nextMission"){ startMission(mIndex+1); return; }
-    if(a==="pump"){ state.pump=!state.pump; moves++; Sound.valve(state.pump); compute(); return; }
-    if(a in state && typeof state[a]==="boolean"){ state[a]=!state[a]; moves++; Sound.valve(state[a]); compute(); return; }
+    if(a==="pump"){ state.pump=!state.pump; moves++; Sound.valve(state.pump); recordPro(a,state.pump); compute(); return; }
+    if(a in state && typeof state[a]==="boolean"){ state[a]=!state[a]; moves++; Sound.valve(state[a]); recordPro(a,state[a]); compute(); return; }
+  }
+  function recordPro(a,turnedOn){
+    const m=MISSIONS[mIndex];
+    if(m.type!=="order" || !turnedOn) return;
+    const expected=m.steps[proStep];
+    if(expected && a===expected.action){
+      proStep++; proHint="";
+    }else if(m.steps.some(s=>s.action===a)){
+      // un comando della sequenza, ma non è il momento giusto
+      proHint="Quasi! Prima conviene completare: <b>"+(expected?expected.label:"")+"</b>";
+    }
+    updateProSteps();
   }
   document.addEventListener("click",e=>{
     const el=e.target.closest("[data-action]");
     if(el) doAction(el.dataset.action);
   });
 
+  // etichette mappa come pillole blu (rettangolo arrotondato dietro al testo bianco)
+  function pillify(){
+    document.querySelectorAll('#map text.label, #map text.hname').forEach(t=>{
+      const prev=t.previousSibling;
+      if(prev&&prev.classList&&prev.classList.contains('pill'))return;
+      const bb=t.getBBox();
+      const padX=9,padY=4,ph=bb.height+padY*2;
+      const r=mk('rect',{class:'pill',x:(bb.x-padX).toFixed(1),y:(bb.y-padY).toFixed(1),
+        width:(bb.width+padX*2).toFixed(1),height:ph.toFixed(1),rx:(ph/2).toFixed(1)});
+      t.parentNode.insertBefore(r,t);
+      t.style.fill='#ffffff';
+    });
+  }
+
   renderMissionMeta();
   compute();
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(pillify);}else{pillify();}
 })();
 </script>
 </body>
