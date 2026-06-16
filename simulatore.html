@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Simulatore · Acquedotto Interattivo</title>
+<style>
+  :root{
+    --sand:#d9c6a5; --wood:#7a4f24;
+    --pipe:#b9bcc2; --pipe-d:#7e8288;
+    --water:#2ba6e6; --raw:#2ba6e6; --clean:#2ba6e6; --waste:#8a6a3a;
+    --ink:#23303a; --panel:#f4efe6;
+    --ok:#27ae60; --off:#d14b4b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Trebuchet MS",system-ui,Arial,sans-serif;color:var(--ink);
+       background:linear-gradient(160deg,#eef3f6,#dbe6ec)}
+  .home-link{position:fixed;top:10px;left:12px;z-index:10;background:#fff;border-radius:9px;
+    padding:6px 12px;font-size:13px;font-weight:700;text-decoration:none;color:#2b6cb0;
+    box-shadow:0 2px 8px rgba(0,0,0,.15)}
+  .app{display:flex;gap:16px;align-items:flex-start;max-width:1700px;margin:8px auto 24px;padding:14px 14px 0;flex-wrap:wrap}
+  .stage{flex:1 1 980px;min-width:320px;background:#fff;border-radius:16px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+  svg{width:100%;height:auto;display:block;border-radius:12px}
+  .panel{flex:0 0 320px;background:var(--panel);border-radius:16px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+  .panel h2{margin:2px 0 8px;font-size:18px}
+  .status{background:#fff;border:1px solid #e2dccf;border-radius:10px;padding:10px 12px;font-size:14px;min-height:44px;line-height:1.35;margin:10px 0}
+  .status.warn{background:#fff3f0;border-color:#f0c4ba;color:#a33}
+  .group{margin-top:12px}
+  .group h3{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#6b7884}
+
+  .mission{background:#fff;border:1px solid #e2dccf;border-radius:12px;padding:10px 12px}
+  .m-title{font-size:15px;font-weight:700;color:#2b6cb0}
+  .m-desc{font-size:13px;margin:4px 0 6px;line-height:1.35}
+  .m-moves{font-size:13px}
+  .m-moves.over b{color:var(--off)}
+  .m-feedback{font-size:12.5px;margin-top:5px;min-height:16px;line-height:1.3}
+  .m-feedback.ok{color:var(--ok);font-weight:700}
+  .m-feedback.warn{color:#c9700f;font-weight:700}
+  .m-nav{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+  .m-count{font-size:12px;color:#6b7884}
+
+  .info{margin-top:10px}
+  .info-row{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:4px}
+  .gauge{height:14px;border-radius:8px;background:#e7e0d2;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.12)}
+  .gauge-fill{height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,#56b0ff,#2f8fff);transition:width .15s,background .3s}
+  .gauge-fill.dirt{background:linear-gradient(90deg,#7fc97f,#caa05a)}
+  .gauge-fill.dirt.bad{background:linear-gradient(90deg,#d98a3a,#c0392b)}
+
+  .mini{border:none;border-radius:9px;background:#fff;color:var(--ink);font-size:13px;font-weight:700;
+    padding:7px 10px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+  .mini:hover{transform:translateY(-1px)}
+  .mini.wide{display:block;width:100%;margin-top:8px}
+  .mini.off{opacity:.55}
+  .mini.reset{background:#fdecec;color:#a23}
+  .btnrow{display:flex;gap:8px;margin-top:10px}
+  .btnrow .mini.wide{margin-top:0}
+
+  .c-row{display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:9px;
+    padding:6px 10px;margin:5px 0;font-size:13px;box-shadow:0 2px 5px rgba(0,0,0,.06)}
+  .c-row.school{outline:2px solid #c9a3e0}
+  .c-name{font-weight:600}
+  .c-lit{font-variant-numeric:tabular-nums;font-weight:700;color:#2f8fff}
+
+  .legend{font-size:12px;color:#54636e;margin-top:14px;line-height:1.6}
+  .legend .sw{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+
+  .pipe{fill:none;stroke:var(--pipe);stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
+  .pipe-edge{fill:none;stroke:var(--pipe-d);stroke-width:18;stroke-linecap:round;stroke-linejoin:round}
+  .drainpipe{fill:none;stroke:#6f6256;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+  .flow{fill:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:15 19;opacity:0;transition:opacity .25s}
+  .flow.on{opacity:1;animation:flow .7s linear infinite}
+  .flow.raw{stroke:var(--water)}
+  .flow.clean{stroke:var(--water)}
+  .drainflow{fill:none;stroke:var(--waste);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:9 12;opacity:0}
+  .drainflow.on{opacity:.9;animation:flowdn .8s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-34}}
+  @keyframes flowdn{to{stroke-dashoffset:-21}}
+  .clogged .flow.clean{stroke:#b07a2e}
+  .clickable{cursor:pointer}
+  .label{font:600 13px "Trebuchet MS",sans-serif;fill:#3a4750;text-anchor:middle;pointer-events:none}
+  .label.sm{font-size:11px;fill:#5d6b75}
+  .hname{font:700 12px "Trebuchet MS",sans-serif;fill:#3a4750;text-anchor:middle;pointer-events:none}
+  .house.school .hname{fill:#a4332a}
+  .scarico-lbl{font:600 9px "Trebuchet MS",sans-serif;fill:#5b5145;text-anchor:middle;pointer-events:none}
+  .label,.hname{paint-order:stroke;stroke:#ffffff;stroke-width:3.4px;stroke-linejoin:round;stroke-linecap:round}
+  .scarico-lbl{paint-order:stroke;stroke:#ffffff;stroke-width:2.6px;stroke-linejoin:round}
+
+  .house .glow{opacity:0;transition:opacity .3s}
+  .house.on .glow{opacity:.85}
+  .house .drop{opacity:0;transition:opacity .3s}
+  .house.on .drop{opacity:1}
+
+  .valve .handle{fill:#1d1f22;transform-box:fill-box;transform-origin:center;
+    transition:transform .4s cubic-bezier(.34,1.25,.5,1)}
+
+  .spout{opacity:0;transition:opacity .25s}
+  .house.on .spout{opacity:1}
+  .spurtPuddle{fill:#3f9bff;opacity:.45}
+  .spurtDrop{fill:#3f9bff;animation:arc .7s linear infinite}
+  .clogged .spurtDrop,.clogged .spurtPuddle,.clogged .drop{fill:#b58a45}
+  @keyframes arc{
+    0%{transform:translate(2px,-2px);opacity:0}
+    12%{opacity:1}
+    70%{opacity:.95}
+    100%{transform:translate(30px,28px);opacity:0}
+  }
+  #filtLed.alarm{animation:blink .5s steps(1) infinite}
+  @keyframes blink{50%{opacity:.25}}
+  #pumpLed.on{filter:drop-shadow(0 0 4px #6cff9a)}
+</style>
+</head>
+<body>
+<a class="home-link" href="index.html">← Home</a>
+<div class="app">
+  <div class="stage">
+    <svg id="map" viewBox="0 0 1000 720" role="img" aria-label="Mappa dell'acquedotto">
+      <defs>
+        <pattern id="grass" width="46" height="46" patternUnits="userSpaceOnUse" patternTransform="rotate(2)">
+          <rect width="46" height="46" fill="#7eb457"/>
+          <ellipse cx="11" cy="13" rx="15" ry="10" fill="#86bd60" opacity=".55"/>
+          <ellipse cx="34" cy="32" rx="17" ry="11" fill="#72a84f" opacity=".5"/>
+          <ellipse cx="40" cy="8" rx="9" ry="6" fill="#8cc56a" opacity=".5"/>
+          <g stroke-linecap="round" fill="none">
+            <path d="M5,42 q-1,-7 2,-12" stroke="#5f9440" stroke-width="2"/>
+            <path d="M9,43 q2,-6 0,-13" stroke="#6fa64b" stroke-width="2"/>
+            <path d="M14,41 q-2,-6 1,-11" stroke="#4f8237" stroke-width="2"/>
+            <path d="M20,44 q1,-7 -1,-12" stroke="#84bd5c" stroke-width="2"/>
+            <path d="M26,42 q2,-6 1,-12" stroke="#5f9440" stroke-width="2"/>
+            <path d="M32,43 q-1,-6 2,-12" stroke="#79b052" stroke-width="2"/>
+            <path d="M38,41 q2,-6 0,-11" stroke="#4f8237" stroke-width="2"/>
+            <path d="M43,44 q-1,-7 1,-12" stroke="#8fc468" stroke-width="2"/>
+            <path d="M3,20 q-1,-5 1,-9" stroke="#6fa64b" stroke-width="1.8"/>
+            <path d="M17,18 q2,-5 0,-9" stroke="#5f9440" stroke-width="1.8"/>
+            <path d="M29,16 q-1,-5 2,-9" stroke="#84bd5c" stroke-width="1.8"/>
+            <path d="M41,19 q1,-5 -1,-9" stroke="#79b052" stroke-width="1.8"/>
+          </g>
+        </pattern>
+        <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#8d949b"/><stop offset=".5" stop-color="#c7ccd1"/><stop offset="1" stop-color="#7f868d"/>
+        </linearGradient>
+        <clipPath id="tankClip"><rect x="442" y="102" width="116" height="92" rx="14"/></clipPath>
+      </defs>
+      <rect x="22" y="22" width="956" height="676" rx="22" fill="var(--wood)"/>
+      <rect x="30" y="30" width="940" height="660" rx="18" fill="url(#grass)"/>
+
+      <!-- DIGA (sorgente) -->
+      <g id="dam">
+        <path d="M34,112 L104,112 C96,142 96,176 104,208 L34,208 Z" fill="#2f8fd0"/>
+        <path d="M44,132 q9,-4 18,0 t18,0" fill="none" stroke="#bfe3ff" stroke-width="2" opacity=".7"/>
+        <path d="M44,152 q9,-4 18,0 t18,0" fill="none" stroke="#bfe3ff" stroke-width="2" opacity=".6"/>
+        <path d="M44,172 q9,-4 18,0 t18,0" fill="none" stroke="#bfe3ff" stroke-width="2" opacity=".5"/>
+        <path d="M104,108 C120,150 120,172 104,212 L130,212 C148,172 148,150 130,108 Z" fill="#cdd2d6" stroke="#8b9197" stroke-width="2"/>
+        <path d="M100,108 L134,108 L138,99 L96,99 Z" fill="#aeb4ba" stroke="#8b9197" stroke-width="1.5"/>
+        <line x1="112" y1="118" x2="112" y2="204" stroke="#aeb4ba" stroke-width="1"/>
+        <line x1="122" y1="116" x2="122" y2="206" stroke="#aeb4ba" stroke-width="1"/>
+        <rect x="110" y="150" width="16" height="22" rx="2" fill="#7e8288" stroke="#5c6268" stroke-width="1.5"/>
+        <circle cx="118" cy="161" r="3" fill="#cdd6df"/>
+        <text class="label sm" x="86" y="94">Diga · sorgente</text>
+      </g>
+
+      <!-- COLLINA di Casa Bianchi -->
+      <g id="hill">
+        <path d="M712,338 C726,196 772,150 832,150 C892,150 938,196 952,338 Z" fill="#bcd693" stroke="#9bb86f" stroke-width="2"/>
+        <path d="M742,300 C770,232 800,212 832,212 C864,212 894,232 922,300" fill="none" stroke="#a6c47e" stroke-width="3" opacity=".7"/>
+        <path d="M760,255 C784,222 808,210 832,210 C856,210 880,222 904,255" fill="none" stroke="#a6c47e" stroke-width="3" opacity=".6"/>
+        <text class="label sm" x="898" y="318" style="fill:#3f5a2a">collina</text>
+      </g>
+
+      <g id="drainBase"></g>
+      <g id="pipeBase"></g>
+      <g id="flowLayer"></g>
+
+      <!-- CISTERNA (1000 litri) -->
+      <g>
+        <path d="M460,196 L432,348" stroke="#9aa1a8" stroke-width="8" stroke-linecap="round"/>
+        <path d="M484,196 L478,348" stroke="#9aa1a8" stroke-width="8" stroke-linecap="round"/>
+        <path d="M516,196 L522,348" stroke="#9aa1a8" stroke-width="8" stroke-linecap="round"/>
+        <path d="M540,196 L568,348" stroke="#9aa1a8" stroke-width="8" stroke-linecap="round"/>
+        <rect x="440" y="100" width="120" height="96" rx="16" fill="url(#steel)" stroke="#6c7278" stroke-width="2"/>
+        <rect id="tankWater" x="442" y="194" width="116" height="0" fill="#3f9bff" clip-path="url(#tankClip)" opacity=".85"/>
+        <ellipse cx="500" cy="196" rx="60" ry="11" fill="#7f868d" opacity=".5"/>
+        <ellipse cx="500" cy="100" rx="64" ry="18" fill="#b6bcc1" stroke="#6c7278" stroke-width="2"/>
+        <rect x="492" y="70" width="16" height="32" rx="4" fill="#aeb4ba"/>
+        <circle cx="500" cy="70" r="9" fill="#c7ccd1"/>
+        <text class="label" x="500" y="150" style="fill:#1f2a32">Cisterna</text>
+        <text class="label sm" x="500" y="166" style="fill:#33414b">1000 L</text>
+      </g>
+
+      <g id="pump" class="clickable" data-action="pump">
+        <rect x="452" y="246" width="42" height="60" rx="8" fill="#34495e"/>
+        <circle cx="473" cy="276" r="15" fill="#5d6f80"/>
+        <circle id="pumpRotor" cx="473" cy="276" r="8" fill="#cdd6df"/>
+        <circle id="pumpLed" cx="487" cy="252" r="4.5" fill="#d14b4b"/>
+        <text class="label sm" x="438" y="288" style="text-anchor:end">Pompa</text>
+      </g>
+
+      <g id="filters" class="clickable" data-action="cleanFilter">
+        <rect x="446" y="308" width="116" height="14" rx="4" fill="#1f5f3a"/>
+        <rect x="500" y="236" width="22" height="10" rx="3" fill="#1f5f3a"/>
+        <rect x="528" y="236" width="22" height="10" rx="3" fill="#1f5f3a"/>
+        <rect x="500" y="242" width="22" height="66" rx="6" fill="#2e7d4f"/>
+        <rect x="528" y="242" width="22" height="66" rx="6" fill="#2e7d4f"/>
+        <rect id="filtDirt1" x="500" y="308" width="22" height="0" rx="6" fill="#7a5a2a"/>
+        <rect id="filtDirt2" x="528" y="308" width="22" height="0" rx="6" fill="#7a5a2a"/>
+        <circle id="filtLed" cx="566" cy="244" r="5" fill="#27ae60"/>
+        <text class="label sm" x="576" y="278" style="text-anchor:start">Filtri</text>
+      </g>
+
+      <g id="houseLayer"></g>
+      <g id="valveLayer"></g>
+    </svg>
+  </div>
+
+  <div class="panel">
+    <h2>🎯 Missione</h2>
+    <div class="mission">
+      <div class="m-title" id="mTitle"></div>
+      <div class="m-desc" id="mDesc"></div>
+      <div class="m-moves" id="mMovesWrap">Mosse: <b id="mMoves">0</b> <span id="mMax"></span></div>
+      <div class="m-feedback" id="mFb"></div>
+      <div class="m-nav">
+        <button class="mini" data-action="prevMission">◀</button>
+        <span id="mCount" class="m-count"></span>
+        <button class="mini" data-action="nextMission">▶</button>
+      </div>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div class="info">
+      <div class="info-row"><span>🛢️ Cisterna</span><span id="tankTxt">0% · 0 L</span></div>
+      <div class="gauge"><div id="tankBar" class="gauge-fill"></div></div>
+    </div>
+
+    <div class="info">
+      <div class="info-row"><span>🧪 Filtri</span><span id="filtTxt">puliti</span></div>
+      <div class="gauge"><div id="filtBar" class="gauge-fill dirt"></div></div>
+      <button class="mini wide" data-action="cleanFilter">🧽 Pulisci filtri</button>
+    </div>
+
+    <div class="group">
+      <h3>Consumo per casa</h3>
+      <div id="consumi"></div>
+    </div>
+
+    <div class="btnrow">
+      <button class="mini wide" id="audioBtn" data-action="audio">🔊 Suono</button>
+      <button class="mini wide reset" data-action="reset">↺ Ricomincia</button>
+    </div>
+
+    <div class="legend">
+      <div><span class="sw" style="background:var(--water)"></span>Acqua in pressione nei tubi</div>
+      <div><span class="sw" style="background:var(--waste)"></span>Acqua di scarico (fognatura)</div>
+      <div style="margin-top:4px;display:flex;gap:14px;align-items:center">
+        <span style="display:inline-flex;align-items:center;gap:5px">
+          <svg width="38" height="20" viewBox="-22 -12 44 24">
+            <line x1="-20" y1="0" x2="20" y2="0" stroke="#b9bcc2" stroke-width="7" stroke-linecap="round"/>
+            <rect x="-10" y="-10" width="20" height="20" rx="4" fill="#9aa1a8" stroke="#5c6268" stroke-width="1.5"/>
+            <rect x="-16" y="-4" width="32" height="8" rx="4" fill="#1d1f22"/><circle r="2.6" fill="#55585c"/>
+          </svg>aperta
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:5px">
+          <svg width="38" height="20" viewBox="-22 -12 44 24">
+            <line x1="-20" y1="0" x2="20" y2="0" stroke="#b9bcc2" stroke-width="7" stroke-linecap="round"/>
+            <rect x="-10" y="-10" width="20" height="20" rx="4" fill="#9aa1a8" stroke="#5c6268" stroke-width="1.5"/>
+            <rect x="-4" y="-10" width="8" height="20" rx="4" fill="#1d1f22"/><circle r="2.6" fill="#55585c"/>
+          </svg>chiusa
+        </span>
+      </div>
+      <div style="margin-top:6px">⛰️ <b>Casa Bianchi</b> è in collina, più in alto della cisterna: serve la <b>pompa</b> accesa per dare pressione.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const SVGNS="http://www.w3.org/2000/svg";
+  function mk(tag,attrs){const e=document.createElementNS(SVGNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+  /* ---------- AUDIO ---------- */
+  const Sound=(function(){
+    let ctx,master,pumpGain,waterGain,started=false,enabled=true,unlocked=false;
+    function ensure(){
+      if(started||!unlocked)return;
+      try{ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return;}
+      master=ctx.createGain();master.gain.value=enabled?0.9:0;master.connect(ctx.destination);
+      pumpGain=ctx.createGain();pumpGain.gain.value=0;pumpGain.connect(master);
+      const po=ctx.createOscillator();po.type="sawtooth";po.frequency.value=68;
+      const pf=ctx.createBiquadFilter();pf.type="lowpass";pf.frequency.value=300;
+      po.connect(pf);pf.connect(pumpGain);po.start();
+      const buf=ctx.createBuffer(1,ctx.sampleRate*1.5,ctx.sampleRate);
+      const dd=buf.getChannelData(0);for(let i=0;i<dd.length;i++)dd[i]=Math.random()*2-1;
+      const ws=ctx.createBufferSource();ws.buffer=buf;ws.loop=true;
+      const wf=ctx.createBiquadFilter();wf.type="bandpass";wf.frequency.value=1900;wf.Q.value=0.6;
+      waterGain=ctx.createGain();waterGain.gain.value=0;
+      ws.connect(wf);wf.connect(waterGain);waterGain.connect(master);ws.start();
+      started=true;
+    }
+    function blip(f0,f1,dur,vol){
+      ensure();if(!started||!enabled)return;
+      const t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();
+      o.type="triangle";o.frequency.setValueAtTime(f0,t);
+      o.frequency.exponentialRampToValueAtTime(Math.max(40,f1),t+dur);
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(vol||0.45,t+0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+      o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+0.02);
+    }
+    return {
+      resume(){unlocked=true;ensure();if(ctx&&ctx.state==="suspended")ctx.resume();},
+      valve(open){blip(open?420:340,open?780:200,0.16);},
+      clean(){blip(600,900,0.12,0.4);},
+      success(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>blip(f,f,0.16,0.4),i*120));},
+      alarm(){blip(900,900,0.12,0.35);setTimeout(()=>blip(700,700,0.12,0.35),150);},
+      setPump(on){ensure();if(pumpGain)pumpGain.gain.setTargetAtTime(on?0.16:0,ctx.currentTime,0.12);},
+      setWater(v){ensure();if(waterGain)waterGain.gain.setTargetAtTime(v,ctx.currentTime,0.15);},
+      toggle(){enabled=!enabled;if(master)master.gain.value=enabled?0.9:0;return enabled;}
+    };
+  })();
+
+  /* ---------- TOPOLOGIA ---------- */
+  const SEGMENTS=[
+    ["p_in1","raw","M118,160 L300,160"],
+    ["p_in2","raw","M300,160 L440,160"],
+    ["p_riser","raw","M473,246 L473,124 L484,124"],
+    ["p_down","raw","M520,196 L520,242"],
+    ["p_feed","clean","M500,322 L500,350"],
+    ["e_MA","clean","M500,350 L270,350"],
+    ["e_MB","clean","M500,350 L730,350"],
+    ["e_AD","clean","M270,350 L270,590"],
+    ["e_BC","clean","M730,350 L730,590"],
+    ["e_DS","clean","M270,590 L500,590"],
+    ["e_SC","clean","M500,590 L730,590"],
+    ["e_HTL","clean","M270,350 L150,350 L150,330"],
+    ["e_HTR","clean","M730,350 L832,350 L832,150"],
+    ["e_HBR","clean","M730,590 L881,590 L881,612"],
+    ["e_HBL","clean","M270,590 L150,590 L150,556"],
+  ];
+  const EDGES=[
+    {id:"e_MA",a:"M",b:"A",valve:"vNW"},{id:"e_MB",a:"M",b:"B",valve:"vNE"},
+    {id:"e_AD",a:"A",b:"D",valve:"vW"},{id:"e_BC",a:"B",b:"C",valve:"vE"},
+    {id:"e_DS",a:"D",b:"S",valve:"vSW"},{id:"e_SC",a:"S",b:"C",valve:"vSE"},
+    {id:"e_HTL",a:"A",b:"HTL",valve:"vH_TL"},{id:"e_HTR",a:"B",b:"HTR",valve:"vH_TR"},
+    {id:"e_HBR",a:"C",b:"HBR",valve:"vH_BR"},{id:"e_HBL",a:"D",b:"HBL",valve:"vH_BL"},
+  ];
+  const VALVES={
+    vIn:{x:230,y:160,pipe:"h"}, vPump:{x:473,y:212,pipe:"v"}, vMain:{x:520,y:216,pipe:"v"}, vFeed:{x:500,y:338,pipe:"v"},
+    vNW:{x:385,y:350,pipe:"h"}, vNE:{x:615,y:350,pipe:"h"}, vW:{x:270,y:470,pipe:"v"}, vE:{x:730,y:470,pipe:"v"},
+    vSW:{x:385,y:590,pipe:"h"}, vSE:{x:615,y:590,pipe:"h"},
+    vH_TL:{x:210,y:350,pipe:"h"}, vH_TR:{x:785,y:350,pipe:"h"}, vH_BR:{x:790,y:590,pipe:"h"}, vH_BL:{x:210,y:590,pipe:"h"},
+  };
+  const HOUSES=["HTL","HTR","HBR","HBL"];
+  const ELEVATED=new Set(["HTR"]); // Casa Bianchi in collina: serve la pompa
+  const HOUSE_DEF={
+    HTL:{x:88,y:300,name:"Casa Rossi",  roof:"#b5532f",wall:"#f3ead6",door:"#7c4a25",spout:{x:84,y:331,flip:true}},
+    HTR:{x:792,y:86,name:"Casa Bianchi",roof:"#54616e",wall:"#f6f3ec",door:"#6b7682",spout:{x:884,y:118,flip:false},hill:true},
+    HBR:{x:826,y:520,w:110,h:96,name:"Scuola Sacra Famiglia",roof:"#c0392b",wall:"#f6efe6",door:"#b23a2e",band:"#c0392b",school:true,spout:{x:944,y:592,flip:false}},
+    HBL:{x:88,y:556,name:"Casa Verdi", roof:"#3e7d4f",wall:"#ecf2e2",door:"#2f5d3a",spout:{x:84,y:587,flip:true}},
+  };
+
+  /* ---------- COSTRUZIONE SVG ---------- */
+  const pipeBase=document.getElementById("pipeBase");
+  const flowLayer=document.getElementById("flowLayer");
+  const drainBase=document.getElementById("drainBase");
+  const valveLayer=document.getElementById("valveLayer");
+  const houseLayer=document.getElementById("houseLayer");
+  const flowEls={}, drainEls={};
+
+  SEGMENTS.forEach(([id,stage,d])=>{
+    pipeBase.appendChild(mk("path",{d:d,class:"pipe-edge"}));
+    pipeBase.appendChild(mk("path",{d:d,class:"pipe"}));
+    const f=mk("path",{d:d,class:"flow "+stage});
+    flowLayer.appendChild(f); flowEls[id]=f;
+  });
+
+  function buildHouse(id){
+    const d=HOUSE_DEF[id],x=d.x,y=d.y,w=d.w||80,h=d.h||62,cx=x+w/2;
+    const g=mk("g",{id:id,class:"house"+(d.school?" school":"")});
+    g.appendChild(mk("rect",{class:"glow",x:x-7,y:y-39,width:w+14,height:h+47,rx:8,fill:"none",stroke:"#3f9bff","stroke-width":3}));
+    g.appendChild(mk("ellipse",{cx:cx,cy:y+h+5,rx:w*0.6,ry:7,fill:"rgba(0,0,0,.12)"}));
+    g.appendChild(mk("rect",{x:x,y:y,width:w,height:h,rx:3,fill:d.wall,stroke:"#b9a77f","stroke-width":2}));
+    const peak = d.school ? y-26 : y-32;
+    g.appendChild(mk("path",{class:"roof",d:"M"+(x-8)+","+y+" L"+cx+","+peak+" L"+(x+w+8)+","+y+" Z",fill:d.roof,stroke:"#0003","stroke-width":1}));
+    g.appendChild(mk("line",{x1:cx,y1:peak,x2:cx,y2:y,stroke:"#ffffff33","stroke-width":2}));
+
+    if(d.school){
+      const fr=d.band;               // colore rosso dei dettagli
+      // finestra: due piani x tre colonne
+      function win(wx,wy){
+        g.appendChild(mk("rect",{x:wx,y:wy,width:18,height:16,rx:2,fill:"#bfe0f5",stroke:fr,"stroke-width":2}));
+        g.appendChild(mk("line",{x1:wx+9,y1:wy,x2:wx+9,y2:wy+16,stroke:fr,"stroke-width":1.4}));
+        g.appendChild(mk("line",{x1:wx,y1:wy+8,x2:wx+18,y2:wy+8,stroke:fr,"stroke-width":1.4}));
+      }
+      const cols=[x+w*0.16-9, cx-9, x+w*0.84-9];
+      cols.forEach(wx=>win(wx,y+10));                       // piano superiore: 3 finestre
+      [cols[0],cols[2]].forEach(wx=>win(wx,y+h/2+10));       // piano terra: 2 finestre laterali
+      // marcapiano (fascia rossa che divide i piani)
+      g.appendChild(mk("rect",{x:x,y:y+h/2-4,width:w,height:8,fill:fr}));
+      // zoccolo rosso
+      g.appendChild(mk("rect",{x:x,y:y+h-7,width:w,height:7,fill:fr,opacity:".85"}));
+      // portone centrale rosso al piano terra
+      g.appendChild(mk("rect",{x:cx-13,y:y+h-30,width:26,height:30,rx:2,fill:d.door}));
+      g.appendChild(mk("line",{x1:cx,y1:y+h-30,x2:cx,y2:y+h,stroke:"#ffffff55","stroke-width":1.5}));
+      g.appendChild(mk("circle",{cx:cx+7,cy:y+h-14,r:1.8,fill:"#ffe08a"}));
+      // campanile con croce
+      g.appendChild(mk("rect",{x:x+6,y:y-46,width:16,height:46,fill:d.wall,stroke:"#b9a77f","stroke-width":2}));
+      g.appendChild(mk("path",{d:"M"+(x+3)+","+(y-46)+" L"+(x+14)+","+(y-62)+" L"+(x+25)+","+(y-46)+" Z",fill:d.roof}));
+      g.appendChild(mk("rect",{x:x+10,y:y-30,width:8,height:12,rx:1,fill:"#bfe0f5",stroke:fr,"stroke-width":1.4}));
+      g.appendChild(mk("rect",{x:x+12.5,y:y-80,width:3,height:15,fill:"#d4af37"}));
+      g.appendChild(mk("rect",{x:x+8,y:y-75,width:12,height:3,fill:"#d4af37"}));
+    }else{
+      g.appendChild(mk("rect",{x:cx-9,y:y+h-26,width:18,height:26,rx:2,fill:d.door}));
+      g.appendChild(mk("circle",{cx:cx+5,cy:y+h-13,r:1.6,fill:"#ffe08a"}));
+      [[x+10,y+12],[x+w-30,y+12]].forEach(p=>{
+        const wx=p[0],wy=p[1];
+        g.appendChild(mk("rect",{x:wx,y:wy,width:20,height:18,rx:2,fill:"#bfe0f5",stroke:"#7d6a44","stroke-width":2}));
+        g.appendChild(mk("line",{x1:wx+10,y1:wy,x2:wx+10,y2:wy+18,stroke:"#7d6a44","stroke-width":1.5}));
+        g.appendChild(mk("line",{x1:wx,y1:wy+9,x2:wx+20,y2:wy+9,stroke:"#7d6a44","stroke-width":1.5}));
+      });
+      g.appendChild(mk("rect",{x:x+w-24,y:y-26,width:10,height:18,fill:"#8a6a4a"}));
+    }
+    g.appendChild(mk("circle",{class:"drop",cx:cx,cy:y-46,r:8,fill:"#2f8fff"}));
+    const t=mk("text",{class:"hname",x:cx,y:y+h+(d.nameDy||44),"text-anchor":"middle"}); t.textContent=d.name; g.appendChild(t);
+
+    // scarico individuale (tombino) per ogni edificio
+    {
+      const gy=y+h+12;
+      drainEls[id]=mk("path",{class:"drainflow",d:"M"+cx+","+(y+h)+" L"+cx+","+(gy+5)}); drainBase.appendChild(drainEls[id]);
+      g.appendChild(mk("rect",{x:cx-18,y:gy,width:36,height:10,rx:2,fill:"#5b5145",stroke:"#3f372e","stroke-width":1}));
+      [-11,-4,3,10].forEach(o=>g.appendChild(mk("line",{x1:cx+o,y1:gy+1,x2:cx+o,y2:gy+9,stroke:"#2f281f","stroke-width":1.6})));
+      const sl=mk("text",{class:"scarico-lbl",x:cx,y:gy+22}); sl.textContent="scarico"; g.appendChild(sl);
+    }
+
+    // zampillo
+    const s=d.spout;
+    const sp=mk("g",{class:"spout",transform:"translate("+s.x+","+s.y+")"+(s.flip?" scale(-1,1)":"")});
+    sp.appendChild(mk("rect",{x:-14,y:-4,width:16,height:8,rx:2,fill:"#7e8288"}));
+    sp.appendChild(mk("rect",{x:-3,y:-6,width:7,height:12,rx:2,fill:"#5d6f80"}));
+    sp.appendChild(mk("ellipse",{class:"spurtPuddle",cx:26,cy:26,rx:14,ry:4}));
+    [0,0.23,0.46].forEach((dl,i)=>{const c=mk("circle",{class:"spurtDrop",cx:0,cy:0,r:3.6-i*0.3});c.style.animationDelay=dl+"s";sp.appendChild(c);});
+    g.appendChild(sp);
+    houseLayer.appendChild(g);
+  }
+  HOUSES.forEach(buildHouse);
+
+  const valveHandles={};
+  Object.entries(VALVES).forEach(([id,v])=>{
+    const g=mk("g",{class:"valve clickable",id:id,"data-action":id,transform:"translate("+v.x+","+v.y+")"});
+    g.appendChild(mk("rect",{x:-10,y:-10,width:20,height:20,rx:4,fill:"#9aa1a8",stroke:"#5c6268","stroke-width":1.5}));
+    const handle=mk("rect",{class:"handle",x:-20,y:-5,width:40,height:10,rx:4});
+    g.appendChild(handle);
+    g.appendChild(mk("circle",{r:3.2,fill:"#55585c"}));
+    valveHandles[id]=handle;
+    valveLayer.appendChild(g);
+  });
+
+  /* ---------- MISSIONI ---------- */
+  const MISSIONS=[
+    {title:"1 · Riscaldamento", desc:"Porta l'acqua alla Scuola Sacra Famiglia (casa in basso a destra).", target:["HBR"], exact:false, maxMoves:9, done:false},
+    {title:"2 · Acqua in collina", desc:"Fai arrivare l'acqua alla Casa Bianchi (in collina): ricorda la pompa!", target:["HTR"], exact:false, maxMoves:9, done:false},
+    {title:"3 · I due in basso", desc:"Servi la Scuola e Casa Verdi (le due case in basso) e nient'altro.", target:["HBL","HBR"], exact:true, maxMoves:13, done:false},
+    {title:"4 · Tutto il paese", desc:"Fai arrivare l'acqua contemporaneamente a TUTTE e 4 le case.", target:["HTL","HTR","HBR","HBL"], exact:true, maxMoves:16, done:false},
+  ];
+  let mIndex=0, moves=0;
+
+  /* ---------- STATO ---------- */
+  function initState(){return {pump:false,vIn:false,vPump:true,vMain:false,vFeed:true,
+    vNW:false,vNE:false,vW:false,vE:false,vSW:false,vSE:false,
+    vH_TL:false,vH_TR:false,vH_BR:false,vH_BL:false,level:0,dirt:0};}
+  let state=initState();
+  const litres={HTL:0,HTR:0,HBR:0,HBL:0};
+
+  const tankWater=document.getElementById("tankWater");
+  const statusEl=document.getElementById("status");
+  const TANK_TOP=102,TANK_H=92;
+  function clogged(){return state.dirt>=100;}
+
+  const consumiEl=document.getElementById("consumi");
+  HOUSES.forEach(h=>{
+    const row=document.createElement("div");
+    row.className="c-row"+(HOUSE_DEF[h].school?" school":"");
+    row.innerHTML='<span class="c-name">'+HOUSE_DEF[h].name+'</span><span class="c-lit" id="c_'+h+'">0 L</span>';
+    consumiEl.appendChild(row);
+  });
+
+  function reachable(){
+    const set=new Set();
+    if(!(state.level>1 && state.vMain && state.vFeed)) return set;
+    set.add("M");
+    let changed=true;
+    while(changed){changed=false;
+      for(const e of EDGES){
+        if(!state[e.valve])continue;
+        if(set.has(e.a)&&!set.has(e.b)){set.add(e.b);changed=true;}
+        else if(set.has(e.b)&&!set.has(e.a)){set.add(e.a);changed=true;}
+      }
+    }
+    return set;
+  }
+  function isServed(h,reach){ return reach.has(h) && (!ELEVATED.has(h) || state.pump); }
+
+  function renderMissionMeta(){
+    const m=MISSIONS[mIndex];
+    document.getElementById("mTitle").textContent=m.title;
+    document.getElementById("mDesc").textContent=m.desc;
+    document.getElementById("mMax").textContent="/ max "+m.maxMoves;
+    document.getElementById("mCount").textContent="Missione "+(mIndex+1)+" di "+MISSIONS.length;
+  }
+  function checkMission(servedSet){
+    const m=MISSIONS[mIndex];
+    const served=HOUSES.filter(h=>servedSet.has(h));
+    let ok;
+    if(m.exact) ok=served.length===m.target.length && m.target.every(h=>servedSet.has(h));
+    else ok=m.target.every(h=>servedSet.has(h));
+    const fb=document.getElementById("mFb");
+    if(ok && moves<=m.maxMoves){
+      if(!m.done){m.done=true;Sound.success();}
+      fb.className="m-feedback ok"; fb.innerHTML="✅ Completata in "+moves+" mosse! Premi ▶ per la prossima.";
+    }else if(ok && moves>m.maxMoves){
+      fb.className="m-feedback warn"; fb.innerHTML="🎯 Obiettivo raggiunto ma in troppe mosse ("+moves+" > "+m.maxMoves+"). Premi ↺ e riprova!";
+    }else if(moves>m.maxMoves){
+      fb.className="m-feedback warn"; fb.innerHTML="Hai superato il limite di mosse. Premi ↺ per ricominciare.";
+    }else{ fb.className="m-feedback"; fb.innerHTML=""; }
+  }
+
+  function compute(){
+    const reach=reachable();
+    const supply=state.pump && state.vIn;
+    const energized=state.level>1 && state.vMain && state.vFeed;
+    const bad=clogged();
+    document.getElementById("map").classList.toggle("clogged",bad);
+
+    flowEls.p_in1.classList.toggle("on",supply);
+    flowEls.p_in2.classList.toggle("on",supply);
+    flowEls.p_riser.classList.toggle("on",supply && state.vPump);
+    flowEls.p_down.classList.toggle("on",state.level>1 && state.vMain);
+    flowEls.p_feed.classList.toggle("on",energized);
+    for(const e of EDGES){
+      let on=state[e.valve] && reach.has(e.a) && reach.has(e.b);
+      if(ELEVATED.has(e.a)||ELEVATED.has(e.b)) on=on && state.pump;
+      flowEls[e.id].classList.toggle("on",on);
+    }
+
+    const servedSet=new Set();
+    let count=0;
+    HOUSES.forEach(h=>{
+      const on=isServed(h,reach);
+      if(on)servedSet.add(h);
+      document.getElementById(h).classList.toggle("on",on);
+      drainEls[h].classList.toggle("on",on);
+      if(on)count++;
+      document.getElementById("c_"+h).textContent=Math.round(litres[h])+" L";
+    });
+
+    Object.keys(VALVES).forEach(id=>{
+      const open=state[id],pipe=VALVES[id].pipe;
+      document.getElementById(id).classList.toggle("open",open);
+      const a=open?(pipe==="h"?0:90):(pipe==="h"?90:0);
+      valveHandles[id].style.transform="rotate("+a+"deg)";
+    });
+
+    const led=document.getElementById("pumpLed");
+    led.setAttribute("fill",state.pump?"#27e36b":"#d14b4b");
+    led.classList.toggle("on",state.pump);
+    Sound.setPump(state.pump && state.vIn && state.vPump);
+    Sound.setWater(count>0?Math.min(0.22,0.06+count*0.045):0);
+
+    const dh=66*state.dirt/100;
+    document.getElementById("filtDirt1").setAttribute("y",242+(66-dh));
+    document.getElementById("filtDirt1").setAttribute("height",dh);
+    document.getElementById("filtDirt2").setAttribute("y",242+(66-dh));
+    document.getElementById("filtDirt2").setAttribute("height",dh);
+    const fled=document.getElementById("filtLed");
+    fled.setAttribute("fill",bad?"#e23b3b":(state.dirt>60?"#e0a52a":"#27ae60"));
+    fled.classList.toggle("alarm",bad);
+    const fbar=document.getElementById("filtBar");
+    fbar.style.width=state.dirt+"%";
+    fbar.classList.toggle("bad",bad);
+    document.getElementById("filtTxt").textContent=bad?"DA PULIRE!":(state.dirt>60?"sporchi":"puliti");
+
+    document.getElementById("tankBar").style.width=state.level+"%";
+    document.getElementById("tankTxt").textContent=Math.round(state.level)+"% · "+Math.round(state.level*10)+" / 1000 L";
+
+    document.getElementById("mMoves").textContent=moves;
+    document.getElementById("mMovesWrap").classList.toggle("over",moves>MISSIONS[mIndex].maxMoves);
+
+    const ringHasWater=["A","B","C","D"].some(n=>reach.has(n));
+    const bianchiNeedsPump=reach.has("HTR") && !state.pump;
+    updateStatus(count,ringHasWater,bad,bianchiNeedsPump);
+    checkMission(servedSet);
+  }
+
+  function updateStatus(served,ringHasWater,bad,bianchiNeedsPump){
+    let m,warn=false;
+    if(bad && served>0){ m="⚠️ <b>Filtri intasati!</b> L'acqua che arriva è sporca: pulisci i filtri 🧽"; warn=true; }
+    else if(state.level<99 && !(state.vMain && state.vFeed && served>0)){
+      if(!state.vIn) m="<b>Passo 1:</b> apri la <b>valvola d'ingresso</b> (a sinistra). 🚰";
+      else if(!state.vPump) m="Apri la <b>valvola di mandata della pompa</b>. 🔧";
+      else if(!state.pump) m="<b>Passo 2:</b> clicca la <b>pompa</b> per riempire la cisterna. ⚙️";
+      else m="La pompa riempie la cisterna… <b>"+Math.round(state.level)+"%</b> 💧";
+    }else{
+      if(!state.vMain) m="<b>Passo 3:</b> apri la <b>valvola di uscita</b> della cisterna. 🔧";
+      else if(!state.vFeed) m="Apri la <b>valvola di distribuzione</b>. 🔧";
+      else if(bianchiNeedsPump) m="⛰️ La <b>Casa Bianchi</b> è in collina: accendi la <b>pompa</b> per dare pressione e far salire l'acqua.";
+      else if(served>0) m="Ottimo! Stai servendo <b>"+served+"</b> "+(served===1?"casa":"case")+". 💧 L'acqua usata va allo scarico.";
+      else if(ringHasWater) m="L'acqua è nell'anello: apri il <b>rubinetto di una casa</b>. 🏠";
+      else m="<b>Passo 4:</b> apri le <b>valvole dell'anello</b> per distribuire l'acqua. ↔️";
+    }
+    statusEl.innerHTML=m;
+    statusEl.classList.toggle("warn",warn);
+  }
+
+  /* ---------- DINAMICA ---------- */
+  setInterval(()=>{
+    const reach=reachable();
+    const servedHouses=HOUSES.filter(h=>isServed(h,reach));
+    const sc=servedHouses.length;
+    if(state.pump && state.vIn && state.vPump) state.level=Math.min(100,state.level+0.5);
+    if(sc>0 && state.level>1 && state.vMain && state.vFeed){
+      state.level=Math.max(0,state.level-sc*0.15);
+      servedHouses.forEach(h=>litres[h]+=0.5);
+      state.dirt=Math.min(100,state.dirt+sc*0.06);
+    }
+    const hh=TANK_H*state.level/100;
+    tankWater.setAttribute("y",TANK_TOP+(TANK_H-hh));
+    tankWater.setAttribute("height",hh);
+    compute();
+  },90);
+
+  let rot=0;
+  setInterval(()=>{if(!state.pump)return;rot=(rot+20)%360;
+    document.getElementById("pumpRotor").setAttribute("transform","rotate("+rot+" 473 276)");},40);
+
+  setInterval(()=>{ if(clogged()) Sound.alarm(); },650);
+
+  /* ---------- AZIONI ---------- */
+  function resetCircuit(){ state=initState(); HOUSES.forEach(h=>litres[h]=0); moves=0; compute(); }
+  function startMission(i){ mIndex=(i+MISSIONS.length)%MISSIONS.length; renderMissionMeta(); resetCircuit(); }
+
+  function doAction(a){
+    Sound.resume();
+    if(a==="reset"){ resetCircuit(); return; }
+    if(a==="audio"){ const on=Sound.toggle(); const b=document.getElementById("audioBtn");
+      b.textContent=on?"🔊 Suono":"🔇 Muto"; b.classList.toggle("off",!on); return; }
+    if(a==="cleanFilter"){ state.dirt=0; Sound.clean(); compute(); return; }
+    if(a==="prevMission"){ startMission(mIndex-1); return; }
+    if(a==="nextMission"){ startMission(mIndex+1); return; }
+    if(a==="pump"){ state.pump=!state.pump; moves++; Sound.valve(state.pump); compute(); return; }
+    if(a in state && typeof state[a]==="boolean"){ state[a]=!state[a]; moves++; Sound.valve(state[a]); compute(); return; }
+  }
+  document.addEventListener("click",e=>{
+    const el=e.target.closest("[data-action]");
+    if(el) doAction(el.dataset.action);
+  });
+
+  renderMissionMeta();
+  compute();
+})();
+</script>
+</body>
+</html>

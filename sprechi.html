@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sprechi dell'acqua · consigli utili</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Trebuchet MS",system-ui,Arial,sans-serif;color:#23303a;
+    background:radial-gradient(1200px 600px at 50% -10%,#eaf4fb,#dbe6ec 60%,#cdd9e0);
+    min-height:100vh;padding:0 0 48px}
+  .home-link{position:fixed;top:10px;left:12px;z-index:10;background:#fff;border-radius:9px;
+    padding:6px 12px;font-size:13px;font-weight:700;text-decoration:none;color:#2b6cb0;
+    box-shadow:0 2px 8px rgba(0,0,0,.15)}
+  header{text-align:center;padding:54px 16px 10px}
+  header .badge{font-size:42px}
+  h1{margin:6px 0 2px;font-size:clamp(26px,5vw,42px)}
+  header p{margin:4px auto 0;max-width:620px;color:#56697a;font-size:15px;line-height:1.5}
+  .wrap{max-width:880px;margin:0 auto;padding:0 16px}
+  .card{background:#fff;border-radius:18px;padding:20px 22px;margin:18px 0;
+    box-shadow:0 10px 28px rgba(0,0,0,.10)}
+  .card h2{margin:0 0 12px;font-size:21px;display:flex;align-items:center;gap:10px}
+  .card h2 .ic{font-size:24px}
+  .lead{color:#46586a;font-size:15px;line-height:1.55;margin:0 0 12px}
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:6px}
+  .fact{background:#f3f8fc;border-radius:13px;padding:13px 14px;border-left:5px solid #34a8e8}
+  .fact .n{font-size:24px;font-weight:800;color:#1f86c8;line-height:1}
+  .fact .t{font-size:13px;color:#4d5e6b;margin-top:5px;line-height:1.35}
+  .tips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+  .tips li{background:#f1faf3;border-radius:12px;padding:12px 14px;font-size:14.5px;line-height:1.4;
+    display:flex;gap:10px;align-items:flex-start}
+  .tips li .e{font-size:20px;line-height:1}
+  .law{border-left:5px solid #c0563a;background:#fdf3ef;border-radius:12px;padding:12px 16px;margin:10px 0}
+  .law .nm{font-weight:800;color:#b1492f}
+  .law .ds{font-size:13.5px;color:#5a4a44;margin-top:3px;line-height:1.4}
+
+  /* QUIZ */
+  .q{margin:0 0 18px;padding:0 0 14px;border-bottom:1px dashed #e0e6eb}
+  .q:last-of-type{border-bottom:none}
+  .q .qt{font-weight:700;font-size:15.5px;margin:0 0 9px}
+  .q .qt .num{display:inline-block;min-width:26px;height:26px;line-height:26px;text-align:center;
+    background:#1f86c8;color:#fff;border-radius:50%;font-size:13px;margin-right:8px}
+  .opt{display:block;width:100%;text-align:left;background:#f4f7fa;border:2px solid #e3e9ee;
+    border-radius:11px;padding:11px 14px;margin:7px 0;font:inherit;font-size:14.5px;cursor:pointer;
+    transition:background .15s,border-color .15s}
+  .opt:hover{background:#eaf2f8}
+  .opt.sel{border-color:#1f86c8;background:#e7f2fb}
+  .opt.correct{border-color:#2f9d5e;background:#e8f7ec}
+  .opt.correct::after{content:" ✓";color:#2f9d5e;font-weight:800}
+  .opt.review{border-color:#e0a52a;background:#fdf6e6}
+  .opt.review::after{content:" ↻ da rivedere";color:#b9831c;font-weight:700;font-size:12px}
+  .opt.locked{cursor:default}
+  .quizfoot{margin-top:6px}
+  .bigbtn{display:inline-block;border:none;border-radius:30px;padding:14px 30px;font-size:17px;font-weight:800;
+    color:#fff;background:linear-gradient(180deg,#34a8e8,#1f86c8);cursor:pointer;
+    box-shadow:0 10px 24px rgba(31,134,200,.4)}
+  .bigbtn:hover{transform:translateY(-2px)}
+  .bigbtn.retry{background:linear-gradient(180deg,#9aa6ad,#76828a);box-shadow:none;font-size:14px;padding:10px 20px}
+  .result{display:none;margin-top:16px;border-radius:16px;padding:18px 20px;background:linear-gradient(135deg,#eaf7ff,#eafbef);
+    border:2px solid #bfe6cf}
+  .result.show{display:block;animation:pop .3s ease}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .result .badge2{font-size:40px}
+  .result h3{margin:6px 0 4px;font-size:22px}
+  .result .msg{font-size:15px;color:#3e5160;line-height:1.5}
+  .result .score{font-size:14px;color:#5a6b78;margin-top:8px}
+  .note{font-size:12.5px;color:#7c8a94;text-align:center;margin-top:10px}
+  .foot{text-align:center;margin-top:22px;font-size:12.5px;color:#7c8a94}
+</style>
+</head>
+<body>
+<a class="home-link" href="index.html">← Home</a>
+
+<header>
+  <div class="badge">💧</div>
+  <h1>Sprechi dell'acqua &amp; consigli</h1>
+  <p>L'acqua è un bene prezioso e limitato. Scopri quanto se ne può sprecare, impara i gesti giusti
+     e mettiti alla prova con il test finale.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2><span class="ic">🚱</span> Quanta acqua sprechiamo?</h2>
+    <p class="lead">Piccoli gesti ripetuti ogni giorno fanno una grande differenza. Ecco alcuni esempi:</p>
+    <div class="facts">
+      <div class="fact"><div class="n">~30 L</div><div class="t">sprecati lasciando il rubinetto aperto mentre ti lavi i denti</div></div>
+      <div class="fact"><div class="n">100 L</div><div class="t">un bagno nella vasca, contro i ~40 L di una doccia breve</div></div>
+      <div class="fact"><div class="n">fino a 90 L</div><div class="t">al giorno per un rubinetto che gocciola in continuazione</div></div>
+      <div class="fact"><div class="n">&lt; 1%</div><div class="t">di tutta l'acqua della Terra è dolce e facilmente disponibile</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">✅</span> Consigli utili per gli studenti</h2>
+    <ul class="tips">
+      <li><span class="e">🪥</span> Chiudi il rubinetto mentre ti lavi i denti o ti insaponi le mani.</li>
+      <li><span class="e">🚿</span> Preferisci una doccia breve al bagno nella vasca.</li>
+      <li><span class="e">🚽</span> Usa lo sciacquone a doppio tasto: il tasto piccolo quando basta.</li>
+      <li><span class="e">🔧</span> Segnala a un adulto perdite e rubinetti che gocciolano.</li>
+      <li><span class="e">🌱</span> Innaffia le piante la sera o la mattina presto: l'acqua evapora meno.</li>
+      <li><span class="e">🍝</span> Riusa l'acqua di cottura (fredda) per le piante.</li>
+      <li><span class="e">🪣</span> Lava frutta e verdura in una bacinella, non sotto l'acqua corrente.</li>
+      <li><span class="e">💡</span> Bevi l'acqua del rubinetto: è controllata e riduce la plastica.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🏛️</span> Normativa di riferimento</h2>
+    <p class="lead">L'uso e la tutela dell'acqua sono regolati da norme italiane, europee e internazionali:</p>
+    <div class="law"><div class="nm">Costituzione Italiana – art. 9</div>
+      <div class="ds">Tutela il paesaggio e, dalla riforma del 2022, l'ambiente, la biodiversità e gli ecosistemi anche nell'interesse delle future generazioni.</div></div>
+    <div class="law"><div class="nm">D.Lgs. 152/2006 – Testo Unico Ambientale</div>
+      <div class="ds">Le "Norme in materia ambientale" disciplinano in Italia la tutela delle acque dall'inquinamento e la gestione delle risorse idriche.</div></div>
+    <div class="law"><div class="nm">Legge 36/1994 – "Legge Galli"</div>
+      <div class="ds">Ha riformato il servizio idrico, affermando che tutte le acque sono una risorsa pubblica da usare con risparmio e solidarietà.</div></div>
+    <div class="law"><div class="nm">Direttiva Europea 2000/60/CE</div>
+      <div class="ds">La "Direttiva quadro sulle acque" impegna gli Stati dell'UE a proteggere fiumi, laghi e falde e a mantenerli in buono stato.</div></div>
+    <div class="law"><div class="nm">Agenda 2030 ONU – Obiettivo 6</div>
+      <div class="ds">"Acqua pulita e servizi igienico-sanitari": garantire a tutti acqua sicura e un uso efficiente e sostenibile delle risorse idriche.</div></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">📝</span> Test finale</h2>
+    <p class="lead">Non è un'interrogazione e non ci sono voti: serve solo a capire cosa hai imparato.
+       Scegli una risposta per ogni domanda, poi premi <b>Vedi il risultato</b>. Puoi rifarlo quante volte vuoi!</p>
+    <div id="quiz"></div>
+    <div class="quizfoot">
+      <button class="bigbtn" id="submitBtn">Vedi il risultato</button>
+    </div>
+    <div class="result" id="result">
+      <div class="badge2" id="rBadge">💧</div>
+      <h3 id="rTitle"></h3>
+      <div class="msg" id="rMsg"></div>
+      <div class="score" id="rScore"></div>
+      <div style="margin-top:12px"><button class="bigbtn retry" id="retryBtn">↻ Riprova il test</button></div>
+    </div>
+    <p class="note">Valutazione non giudicante: ogni risposta è un'occasione per imparare. 🌍</p>
+  </div>
+
+  <p class="foot">Scuola Sacra Famiglia · attività didattica sull'acquedotto · Tecnologia · Informatica · Educazione civica</p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const QUESTIONS=[
+    {q:"Lasci il rubinetto aperto mentre ti lavi i denti. Cosa succede?",
+     opts:["Si possono sprecare anche 30 litri d'acqua","Si risparmia acqua","Non cambia nulla"],a:0},
+    {q:"Quale gesto consuma MENO acqua?",
+     opts:["Riempire la vasca da bagno","Fare una doccia breve","Lasciare scorrere l'acqua a lungo"],a:1},
+    {q:"Un rubinetto che gocciola tutto il giorno...",
+     opts:["Non spreca quasi niente","Può sprecare molti litri d'acqua","Aiuta a risparmiare"],a:1},
+    {q:"A cosa serve lo sciacquone con il doppio tasto?",
+     opts:["A fare più rumore","A scegliere di usare meno acqua quando basta","A consumare sempre di più"],a:1},
+    {q:"Quand'è meglio innaffiare le piante per non sprecare acqua?",
+     opts:["A mezzogiorno con il sole forte","La sera o la mattina presto","Quando piove di più"],a:1},
+    {q:"Quanta dell'acqua della Terra è dolce e facilmente utilizzabile?",
+     opts:["Pochissima: va protetta","Quasi tutta","Esattamente la metà"],a:0},
+    {q:"L'Obiettivo 6 dell'Agenda 2030 dell'ONU riguarda...",
+     opts:["Le auto elettriche","Acqua pulita e servizi igienici per tutti","Lo spazio e i pianeti"],a:1},
+    {q:"Vedi una perdita d'acqua nei bagni della scuola. Cosa fai?",
+     opts:["Lo dico subito a un adulto","Faccio finta di niente","Apro anche gli altri rubinetti"],a:0}
+  ];
+  const answers=new Array(QUESTIONS.length).fill(-1);
+  let locked=false;
+  const quizEl=document.getElementById("quiz");
+
+  QUESTIONS.forEach((item,qi)=>{
+    const wrap=document.createElement("div"); wrap.className="q";
+    const t=document.createElement("p"); t.className="qt";
+    t.innerHTML='<span class="num">'+(qi+1)+'</span>'+item.q;
+    wrap.appendChild(t);
+    item.opts.forEach((op,oi)=>{
+      const b=document.createElement("button");
+      b.className="opt"; b.type="button"; b.textContent=op;
+      b.addEventListener("click",()=>{
+        if(locked)return;
+        answers[qi]=oi;
+        wrap.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"));
+        b.classList.add("sel");
+      });
+      wrap.appendChild(b);
+    });
+    quizEl.appendChild(wrap);
+  });
+
+  const result=document.getElementById("result");
+  function submit(){
+    locked=true;
+    let score=0;
+    document.querySelectorAll(".q").forEach((qEl,qi)=>{
+      const opts=qEl.querySelectorAll(".opt");
+      opts.forEach(o=>{o.classList.add("locked");o.classList.remove("sel");});
+      const correct=QUESTIONS[qi].a, chosen=answers[qi];
+      opts[correct].classList.add("correct");
+      if(chosen===correct) score++;
+      else if(chosen>=0) opts[chosen].classList.add("review");
+    });
+    const n=QUESTIONS.length;
+    let title,msg,emoji;
+    if(score>=n-1){ emoji="🏆"; title="Sei un vero Guardiano dell'acqua!";
+      msg="Hai capito benissimo come si usa l'acqua senza sprecarla. Ora puoi insegnarlo anche agli altri!"; }
+    else if(score>=n/2){ emoji="🌟"; title="Bravissimo/a, stai imparando tanto!";
+      msg="Conosci già molti gesti giusti. Riguarda i punti segnati « da rivedere » e diventerai un esperto."; }
+    else { emoji="🌱"; title="Hai fatto il primo passo!";
+      msg="Ogni esperto ha iniziato da qui. Rileggi i consigli qui sopra e riprova il test quando vuoi: imparerai in fretta!"; }
+    document.getElementById("rBadge").textContent=emoji;
+    document.getElementById("rTitle").textContent=title;
+    document.getElementById("rMsg").textContent=msg;
+    document.getElementById("rScore").textContent="Risposte giuste: "+score+" su "+n+" · nessun voto, solo per imparare 😊";
+    result.classList.add("show");
+    result.scrollIntoView({behavior:"smooth",block:"center"});
+  }
+  function retry(){
+    locked=false;
+    answers.fill(-1);
+    document.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel","correct","review","locked"));
+    result.classList.remove("show");
+    quizEl.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  document.getElementById("submitBtn").addEventListener("click",submit);
+  document.getElementById("retryBtn").addEventListener("click",retry);
+})();
+</script>
+</body>
+</html>
