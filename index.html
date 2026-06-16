@@ -41,27 +41,31 @@
   .sub .virt{color:var(--blu2)}
   .sub .slash{color:#9aa6ad;margin:0 8px}
   .tagline{margin:6px 0 22px;color:var(--muted);font-size:16px;max-width:560px}
-  .hero{margin:2px 0 6px}
-  figure{margin:0 auto;background:#fff;border-radius:18px;padding:8px;box-shadow:0 14px 36px rgba(18,62,144,.16);
+  .middle{display:flex;align-items:center;justify-content:center;gap:20px;width:100%;
+    max-width:1080px;flex-wrap:wrap;margin:4px 0 6px}
+  .hero{margin:0;flex:0 1 auto;min-width:0}
+  figure{margin:0;background:#fff;border-radius:18px;padding:8px;box-shadow:0 14px 36px rgba(18,62,144,.16);
     display:inline-block;transition:transform .2s}
   figure:hover{transform:translateY(-3px)}
-  figure img{display:block;max-width:min(760px,92vw);max-height:27vh;width:auto;height:auto;
+  figure img{display:block;max-width:min(560px,44vw);max-height:52vh;width:auto;height:auto;
     object-fit:contain;border-radius:12px;background:#eef}
   figcaption{margin-top:6px;font-size:13px;font-weight:700;color:var(--muted)}
   .cta{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
     background:linear-gradient(180deg,var(--blu2),var(--blu));color:#fff;font-size:19px;font-weight:600;
-    padding:16px 32px;border-radius:40px;box-shadow:0 10px 26px rgba(18,62,144,.40);
+    padding:14px 26px;border-radius:40px;box-shadow:0 10px 26px rgba(18,62,144,.40);
     transition:transform .12s,box-shadow .2s}
   .cta:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(18,62,144,.52)}
   .cta:active{transform:translateY(0)}
   .cta.alt{background:linear-gradient(180deg,#2f9d5e,#1f7d49);box-shadow:0 10px 26px rgba(31,125,73,.38)}
   .cta.alt:hover{box-shadow:0 14px 32px rgba(31,125,73,.5)}
+  .cta.bin{background:linear-gradient(180deg,#7a5cc0,#5b3fa0);box-shadow:0 10px 26px rgba(91,63,160,.38)}
+  .cta.bin:hover{box-shadow:0 14px 32px rgba(91,63,160,.5)}
   .cta svg{width:22px;height:22px;flex:0 0 auto}
   .ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
-  .project{margin:2px 0 4px;max-width:640px;font-size:14px;line-height:1.45;color:#3a4a5c;
-    background:#ffffffcc;border-radius:14px;padding:8px 18px;box-shadow:0 6px 18px rgba(18,62,144,.10)}
+  .project{margin:0;flex:1 1 300px;max-width:400px;font-size:15px;line-height:1.5;color:#3a4a5c;text-align:left;
+    background:#ffffffcc;border-radius:14px;padding:16px 20px;box-shadow:0 6px 18px rgba(18,62,144,.10)}
   .project b{color:var(--blu)}
-  .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start;margin-top:12px}
   .tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:5px 12px;
     border-radius:20px;background:var(--warm);color:var(--blu)}
   .tag.t2{background:#eef7ee;color:#1f7d49}
@@ -76,6 +80,14 @@
   <h1>Acquedotto Interattivo</h1>
   <p class="sub"><span class="reale">reale</span><span class="slash">/</span><span class="virt">virtuale</span></p>
 
+  <div class="middle">
+  <div class="hero">
+    <figure>
+      <img src="3.jpg" alt="Il plastico reale dell'acquedotto costruito in classe" />
+      <figcaption>Il modello reale costruito in classe</figcaption>
+    </figure>
+  </div>
+
   <div class="project">
     Un <b>progetto di Tecnologia</b> che collega anche <b>Informatica</b> ed <b>Educazione alla cittadinanza</b>:
     dalla costruzione del modello reale alla simulazione digitale, per capire come funziona un acquedotto
@@ -86,17 +98,12 @@
       <span class="tag t3"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20h16M5 20V10l7-5 7 5v10M9 20v-6h6v6" stroke="#9a6a13" stroke-width="1.5" stroke-linejoin="round"/></svg> Educazione civica</span>
     </div>
   </div>
-
-  <div class="hero">
-    <figure>
-      <img src="3.jpg" alt="Il plastico reale dell'acquedotto costruito in classe" />
-      <figcaption>Il modello reale costruito in classe</figcaption>
-    </figure>
   </div>
 
   <div class="ctas">
     <a class="cta" href="simulatore.html"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7L8 5Z"/></svg> Entra nel simulatore</a>
     <a class="cta alt" href="sprechi.html"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5Z" fill="#fff"/><path d="M9 14.5a3 3 0 0 0 3 3" stroke="#2f9d5e" stroke-width="1.6" stroke-linecap="round"/></svg> Sprechi e consigli</a>
+    <a class="cta bin" href="binario.html"><svg viewBox="0 0 24 24" fill="none"><text x="3" y="11" font-family="monospace" font-size="9" font-weight="700" fill="#fff">01</text><text x="3" y="21" font-family="monospace" font-size="9" font-weight="700" fill="#fff">10</text></svg> Codice binario</a>
   </div>
 
   <p class="foot">Scuola Sacra Famiglia · attività didattica sull'acquedotto</p>

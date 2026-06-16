@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Codice binario · dagli interruttori 0/1 · Scuola Sacra Famiglia</title>
+<link rel="icon" href="logo.jpg" />
+<link rel="apple-touch-icon" href="logo.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blu:#123E90; --blu2:#1f5fc0; --bluD:#0c2a63;
+    --gold:#B8860B; --goldL:rgba(184,134,11,.10);
+    --ok:#2f9d5e; --okL:#e8f7ec;
+    --warn:#B8860B; --warnL:#fbf3e2;
+    --ink:#1b2a3a; --muted:#5a6b7c;
+    --card:#ffffff; --warm:#eef4fb; --brd:#cdd9ea;
+    --body:'Atkinson Hyperlegible',Helvetica,Arial,sans-serif;
+    --head:'Lexend',sans-serif;
+    --mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);font-size:18px;line-height:1.65;
+    background:radial-gradient(1200px 600px at 50% -10%,#eaf2fb,#dce7f3 60%,#cdd9ea);
+    min-height:100vh;padding:0 0 48px}
+  h1,h2,h3,.bigbtn,.tag{font-family:var(--head)}
+  .home-link{position:fixed;top:10px;left:12px;z-index:10;background:#fff;border-radius:9px;
+    padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none;color:var(--blu);
+    box-shadow:0 2px 8px rgba(18,62,144,.18);display:inline-flex;align-items:center;gap:6px}
+  .home-link svg{width:15px;height:15px}
+  header{text-align:center;padding:54px 16px 10px}
+  header .badge{width:58px;height:58px;margin:0 auto;display:flex;align-items:center;justify-content:center;
+    background:#fff;border-radius:50%;box-shadow:0 6px 16px rgba(18,62,144,.18)}
+  h1{margin:12px 0 2px;font-size:clamp(26px,5vw,42px);color:var(--bluD);font-weight:700}
+  header p{margin:6px auto 0;max-width:660px;color:var(--muted);font-size:16px;line-height:1.55}
+  .wrap{max-width:880px;margin:0 auto;padding:0 16px}
+  .card{background:#fff;border-radius:18px;padding:22px 24px;margin:18px 0;
+    box-shadow:0 10px 28px rgba(18,62,144,.10)}
+  .card h2{margin:0 0 14px;font-size:22px;display:flex;align-items:center;gap:11px;color:var(--blu);font-weight:600}
+  .card h2 .ic{width:28px;height:28px;flex:0 0 auto}
+  .lead{color:#3a4a5c;font-size:16px;line-height:1.6;margin:0 0 14px}
+  .lead b{color:var(--blu)}
+  .small{font-size:14.5px;color:var(--muted);line-height:1.5}
+
+  /* link tra le pagine */
+  .pagelinks{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:14px 0 2px}
+  .bigbtn{display:inline-flex;align-items:center;gap:9px;border:none;border-radius:30px;padding:13px 26px;
+    font-size:16px;font-weight:600;color:#fff;background:linear-gradient(180deg,var(--blu2),var(--blu));cursor:pointer;
+    text-decoration:none;box-shadow:0 10px 24px rgba(18,62,144,.34);transition:transform .12s}
+  .bigbtn:hover{transform:translateY(-2px)}
+  .bigbtn.ghost{background:#eef4fb;color:var(--blu);box-shadow:none;border:1.5px solid var(--brd)}
+  .bigbtn svg{width:18px;height:18px}
+
+  /* interruttore singolo (un bit) */
+  .onebit{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--warm);
+    border-radius:14px;padding:16px 18px;margin-top:6px}
+  .toggle{appearance:none;border:none;cursor:pointer;width:96px;height:48px;border-radius:26px;
+    background:#c2cdda;position:relative;transition:background .2s;flex:0 0 auto}
+  .toggle::after{content:"";position:absolute;top:4px;left:4px;width:40px;height:40px;border-radius:50%;
+    background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:left .2s}
+  .toggle.on{background:var(--blu2)}
+  .toggle.on::after{left:52px}
+  .onebit .lab{font-size:15px;color:#46586a;line-height:1.4}
+  .bitbig{font-family:var(--mono);font-weight:700;font-size:34px;color:var(--blu);min-width:30px;text-align:center}
+  .bitstate{font-weight:700}
+
+  /* tabella combinazioni */
+  .combo{width:100%;border-collapse:collapse;margin-top:6px;font-size:15.5px}
+  .combo th,.combo td{border:1px solid #e1e9f2;padding:9px 12px;text-align:left}
+  .combo th{background:var(--warm);color:var(--blu);font-family:var(--head);font-weight:600}
+  .combo td b{color:var(--blu)}
+
+  /* esploratore a 8 bit */
+  .bitexp{background:linear-gradient(135deg,#eef4fb,#eafaf0);border:1px solid var(--brd);
+    border-radius:16px;padding:18px 16px;margin-top:6px}
+  .switches{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .sw{display:flex;flex-direction:column;align-items:center;gap:5px}
+  .sw .place{font-size:12px;color:var(--muted);font-family:var(--mono)}
+  .sw .btn{appearance:none;cursor:pointer;width:46px;height:58px;border-radius:12px;
+    border:2px solid #c9d6e6;background:#fff;color:#9aa3b0;font-family:var(--mono);font-weight:700;
+    font-size:26px;transition:.15s;box-shadow:0 2px 6px rgba(18,62,144,.08)}
+  .sw .btn.on{background:var(--blu2);border-color:var(--blu);color:#fff;box-shadow:0 6px 14px rgba(31,95,192,.35)}
+  .readout{margin-top:16px;text-align:center}
+  .readout .bin{font-family:var(--mono);font-size:24px;letter-spacing:2px}
+  .readout .eq{font-size:16px;color:var(--muted);margin:8px 0 2px}
+  .readout .dec{font-family:var(--mono);font-weight:700;font-size:30px;color:var(--blu)}
+  .readout .glyph{display:inline-flex;align-items:center;justify-content:center;min-width:54px;height:54px;
+    padding:0 10px;margin-left:6px;border-radius:12px;background:#fff;border:2px solid var(--brd);
+    font-size:30px;font-weight:700;color:var(--bluD);vertical-align:middle}
+  .b1{color:var(--blu2);font-weight:700}
+  .b0{color:#9aa3b0}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+  .chip{appearance:none;border:1.5px solid var(--brd);background:#fff;color:var(--blu);
+    border-radius:20px;padding:7px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:.15s}
+  .chip:hover{background:var(--warm)}
+
+  /* esempio guidato */
+  .worked{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .wc{flex:1 1 150px;background:var(--warm);border-radius:13px;padding:12px 14px;border-left:5px solid var(--blu2)}
+  .wc .ch{font-size:30px;font-weight:700;color:var(--bluD);font-family:var(--head)}
+  .wc .co{font-size:14px;color:#4d5e6b;margin:4px 0 2px}
+  .wc .bn{font-family:var(--mono);font-size:15px;letter-spacing:1px}
+
+  /* griglia esempi */
+  .exgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:9px;margin-top:6px}
+  .ex{background:#f3f7fc;border:1px solid #e1e9f2;border-radius:11px;padding:9px 11px;text-align:center}
+  .ex .c{font-size:22px;font-weight:700;color:var(--bluD);font-family:var(--head);line-height:1.1}
+  .ex .d{font-size:12.5px;color:var(--muted);font-family:var(--mono)}
+  .ex .b{font-family:var(--mono);font-size:13px;letter-spacing:.5px;margin-top:2px}
+  .exfilter{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 12px}
+
+  /* simulatore traduttore */
+  .tool{background:var(--warm);border-radius:14px;padding:16px 16px;margin-top:6px}
+  .tool h3{margin:0 0 10px;font-size:17px;color:var(--blu);display:flex;align-items:center;gap:8px}
+  .tool h3 svg{width:20px;height:20px}
+  .field{width:100%;font:inherit;font-size:18px;padding:12px 14px;border-radius:12px;
+    border:2px solid var(--brd);background:#fff;color:var(--ink)}
+  .field:focus{outline:none;border-color:var(--blu2)}
+  textarea.field{min-height:60px;resize:vertical;line-height:1.5}
+  textarea.field.mono{font-family:var(--mono);font-size:16px;letter-spacing:1px}
+  .toolrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .btn2{appearance:none;border:none;border-radius:11px;padding:11px 18px;font:inherit;font-weight:700;
+    font-size:15px;cursor:pointer;color:#fff;background:linear-gradient(180deg,var(--blu2),var(--blu));
+    display:inline-flex;align-items:center;gap:8px}
+  .btn2.alt{background:#fff;color:var(--blu);border:1.5px solid var(--brd)}
+  .btn2 svg{width:16px;height:16px}
+  .charlist{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+  .cc{background:#fff;border:1px solid #e1e9f2;border-radius:11px;padding:8px 10px;text-align:center;min-width:62px}
+  .cc .cch{font-size:22px;font-weight:700;color:var(--bluD);font-family:var(--head);line-height:1.1}
+  .cc .ccd{font-size:12px;color:var(--muted);font-family:var(--mono)}
+  .cc .ccb{font-family:var(--mono);font-size:12.5px;letter-spacing:.5px;margin-top:2px}
+  .fullbin{margin-top:12px;background:#fff;border:1px solid #e1e9f2;border-radius:11px;padding:11px 13px;
+    font-family:var(--mono);font-size:15px;letter-spacing:1px;word-break:break-word;line-height:1.7}
+  .outtext{margin-top:12px;background:#fff;border:1px solid #e1e9f2;border-radius:11px;padding:13px 15px;
+    font-size:22px;font-weight:700;color:var(--bluD);min-height:26px;word-break:break-word}
+  .muted-note{font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+
+  .foot{text-align:center;margin-top:22px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<a class="home-link" href="index.html"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#123E90" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Home</a>
+
+<header>
+  <div class="badge" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="34" height="34" fill="none"><rect x="2.5" y="7.5" width="19" height="9" rx="4.5" stroke="#123E90" stroke-width="1.7"/><circle cx="16.5" cy="12" r="3" fill="#1f5fc0"/></svg>
+  </div>
+  <h1>Dagli interruttori 0/1 al codice binario</h1>
+  <p>Nel simulatore ogni <b>manopola</b> è aperta (1) o chiusa (0): è un piccolo interruttore.
+     I computer ragionano proprio così, con tanti interruttori 0 e 1. Qui scopriamo come, con questi due soli simboli,
+     si possono scrivere i numeri e perfino le lettere del tuo nome.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="7.5" width="19" height="9" rx="4.5" stroke="#123E90" stroke-width="1.7"/><circle cx="8" cy="12" r="3" fill="#1f5fc0"/></svg> Una manopola = un bit</h2>
+    <p class="lead">Una manopola dell'acquedotto ha <b>due</b> stati: <b>chiusa</b> oppure <b>aperta</b>.
+       In informatica un interruttore con due stati si chiama <b>bit</b> e lo scriviamo con due soli simboli:
+       <b>0</b> (chiuso/spento) e <b>1</b> (aperto/acceso). Prova a girare questo interruttore:</p>
+    <div class="onebit">
+      <button class="toggle" id="oneToggle" aria-label="interruttore"></button>
+      <div class="bitbig" id="oneBit">0</div>
+      <div class="lab">Stato: <span class="bitstate" id="oneState">chiuso · spento</span><br>
+        <span class="small">Un solo bit può dire soltanto due cose: 0 oppure 1.</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="6" height="8" rx="2" stroke="#123E90" stroke-width="1.6"/><rect x="15" y="8" width="6" height="8" rx="2" stroke="#1f5fc0" stroke-width="1.6"/></svg> Più interruttori, più combinazioni</h2>
+    <p class="lead">Con un solo bit hai 2 possibilità. Ma se metti in fila più interruttori, le combinazioni
+       <b>raddoppiano</b> ogni volta che ne aggiungi uno:</p>
+    <table class="combo">
+      <thead><tr><th>Interruttori (bit)</th><th>Combinazioni possibili</th><th>Esempio</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b> bit</td><td><b>2</b></td><td>0 · 1</td></tr>
+        <tr><td><b>2</b> bit</td><td><b>4</b></td><td>00 · 01 · 10 · 11</td></tr>
+        <tr><td><b>3</b> bit</td><td><b>8</b></td><td>000 … 111</td></tr>
+        <tr><td><b>8</b> bit (1 byte)</td><td><b>256</b></td><td>00000000 … 11111111</td></tr>
+      </tbody>
+    </table>
+    <p class="small" style="margin-top:12px">Con <b>8 bit</b> (un <b>byte</b>) abbiamo 256 combinazioni: abbastanza per
+       tutte le lettere, i numeri e i segni di punteggiatura.</p>
+  </div>
+
+  <div class="card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#123E90" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="7" r="1.6" fill="#1f5fc0"/><circle cx="14" cy="12" r="1.6" fill="#1f5fc0"/><circle cx="10" cy="17" r="1.6" fill="#1f5fc0"/></svg> Come si legge un numero binario</h2>
+    <p class="lead">Ogni interruttore acceso vale un numero, che <b>raddoppia</b> da destra a sinistra:
+       1, 2, 4, 8, 16, 32, 64, 128. Per leggere il valore basta <b>sommare</b> i numeri degli interruttori accesi (gli 1).
+       Accendi e spegni gli interruttori qui sotto:</p>
+    <div class="bitexp">
+      <div class="switches" id="switches"></div>
+      <div class="readout">
+        <div class="bin" id="expBin"></div>
+        <div class="eq">vale in numeri (sistema decimale):</div>
+        <div><span class="dec" id="expDec">0</span> <span class="glyph" id="expGlyph" title="carattere corrispondente">·</span></div>
+        <div class="small" id="expSum" style="margin-top:8px"></div>
+      </div>
+      <div class="chips" id="expChips"></div>
+    </div>
+    <p class="small" style="margin-top:12px">Il quadratino a destra mostra il <b>carattere</b> che corrisponde a quel numero:
+       è il ponte verso le lettere, che vediamo subito sotto.</p>
+  </div>
+
+  <div class="card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="#123E90" stroke-width="1.7"/><path d="M1.5 9h2.5M1.5 15h2.5M20 9h2.5M20 15h2.5M9 1.5V4M15 1.5V4M9 20v2.5M15 20v2.5" stroke="#1f5fc0" stroke-width="1.6" stroke-linecap="round"/><path d="M9 15V9l3 4 3-4v6" stroke="#1f5fc0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Dai numeri alle lettere</h2>
+    <p class="lead">Il computer conosce solo numeri. Per scrivere le lettere, gli uomini si sono messi d'accordo su una
+       <b>tabella</b> (si chiama <b>ASCII</b>): a ogni carattere corrisponde un numero, e quel numero si scrive in 8 bit.
+       Per esempio la lettera <b>A</b> è il numero <b>65</b>, cioè <span class="b0">0</span><span class="b1">1</span><span class="b0">0000</span><span class="b1">1</span> in binario.</p>
+    <p class="lead" style="margin-bottom:6px">Scriviamo la parola <b>CIAO</b>, una lettera alla volta:</p>
+    <div class="worked" id="worked"></div>
+    <p class="small" style="margin-top:12px">Maiuscole e minuscole hanno numeri diversi: <b>A</b> = 65 ma <b>a</b> = 97.
+       Anche lo spazio fra due parole è un carattere: è il numero 32.</p>
+  </div>
+
+  <div class="card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="#123E90" stroke-width="1.7" stroke-linejoin="round"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" stroke="#1f5fc0" stroke-width="1.8" stroke-linecap="round"/></svg> Tanti esempi</h2>
+    <p class="lead">Ecco i caratteri più usati con il loro numero e gli 8 bit. Scegli un gruppo:</p>
+    <div class="exfilter" id="exFilter"></div>
+    <div class="exgrid" id="exGrid"></div>
+  </div>
+
+  <div class="card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="6" width="19" height="12" rx="2.5" stroke="#123E90" stroke-width="1.7"/><path d="M6 10h.01M9 10h.01M12 10h.01M15 10h.01M18 10h.01M7.5 14h9" stroke="#1f5fc0" stroke-width="1.8" stroke-linecap="round"/></svg> Simulatore di codice binario</h2>
+    <p class="lead">Adesso prova tu! Scrivi il tuo <b>nome</b> o una parola e guardala diventare codice binario.
+       Poi puoi fare il contrario: incolla del binario e scopri il messaggio nascosto.</p>
+
+    <div class="tool">
+      <h3><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h13" stroke="#123E90" stroke-width="1.8" stroke-linecap="round"/></svg> Testo → Binario</h3>
+      <input class="field" id="txtIn" type="text" maxlength="40" placeholder="Scrivi qui il tuo nome…" value="Ciao" autocomplete="off" />
+      <div class="toolrow">
+        <button class="btn2" id="txtGo"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Traduci in binario</button>
+        <button class="btn2 alt" id="txtCopy">Copia il binario</button>
+      </div>
+      <div class="charlist" id="txtChars"></div>
+      <div class="fullbin" id="txtFull"></div>
+      <div class="muted-note" id="txtCount"></div>
+    </div>
+
+    <div class="tool" style="margin-top:14px">
+      <h3><svg viewBox="0 0 24 24" fill="none"><path d="M19 7H5M19 12H9M19 17H6" stroke="#123E90" stroke-width="1.8" stroke-linecap="round"/></svg> Binario → Testo</h3>
+      <textarea class="field mono" id="binIn" placeholder="01000011 01101001 01100001 01101111">01000011 01101001 01100001 01101111</textarea>
+      <div class="toolrow">
+        <button class="btn2" id="binGo"><svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 6l-6 6 6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Decodifica il messaggio</button>
+        <button class="btn2 alt" id="binClear">Pulisci</button>
+      </div>
+      <div class="outtext" id="binOut"></div>
+      <div class="muted-note">Scrivi gli 8 bit di ogni lettera separati da uno spazio. Puoi usare gli esempi qui sopra come modello.</div>
+    </div>
+  </div>
+
+  <div class="card" style="text-align:center">
+    <h2 style="justify-content:center"><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4 10-10" stroke="#2f9d5e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Hai collegato Tecnologia e Informatica</h2>
+    <p class="lead" style="margin-bottom:2px">Le manopole 0/1 dell'acquedotto e i bit del computer funzionano nello stesso modo:
+       due soli stati che, messi in fila, raccontano numeri e parole.</p>
+    <div class="pagelinks">
+      <a class="bigbtn" href="simulatore.html"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7L8 5Z"/></svg> Torna al simulatore</a>
+      <a class="bigbtn ghost" href="index.html"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7M6 10v9h12v-9" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Home</a>
+    </div>
+  </div>
+
+  <p class="foot">Scuola Sacra Famiglia · attività didattica sull'acquedotto · Tecnologia · Informatica · Educazione civica</p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- util ---------- */
+  function byteOf(code){ return code.toString(2).padStart(8,"0"); }
+  function fmtBin(str){
+    return str.split("").map(function(d){ return '<span class="b'+d+'">'+d+'</span>'; }).join("");
+  }
+  function glyphFor(code){
+    if(code===32) return {g:"␣", note:"spazio"};
+    if(code>=33 && code<=126) return {g:String.fromCharCode(code), note:null};
+    if(code>=160 && code<=255) return {g:String.fromCharCode(code), note:null};
+    return {g:"·", note:"non stampabile"};
+  }
+  function escapeHtml(s){
+    return s.replace(/[&<>"]/g,function(c){return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c];});
+  }
+
+  /* ---------- 1) interruttore singolo ---------- */
+  var oneToggle=document.getElementById("oneToggle"),
+      oneBit=document.getElementById("oneBit"),
+      oneState=document.getElementById("oneState");
+  var oneOn=false;
+  oneToggle.addEventListener("click",function(){
+    oneOn=!oneOn;
+    oneToggle.classList.toggle("on",oneOn);
+    oneBit.textContent=oneOn?"1":"0";
+    oneState.textContent=oneOn?"aperto · acceso":"chiuso · spento";
+  });
+
+  /* ---------- 3) esploratore a 8 bit ---------- */
+  var PLACES=[128,64,32,16,8,4,2,1];
+  var bits=[0,0,0,0,0,0,0,0];
+  var switchesEl=document.getElementById("switches");
+  var expBin=document.getElementById("expBin"),
+      expDec=document.getElementById("expDec"),
+      expGlyph=document.getElementById("expGlyph"),
+      expSum=document.getElementById("expSum");
+  PLACES.forEach(function(p,i){
+    var sw=document.createElement("div"); sw.className="sw";
+    var place=document.createElement("div"); place.className="place"; place.textContent=p;
+    var btn=document.createElement("button"); btn.className="btn"; btn.type="button"; btn.textContent="0";
+    btn.addEventListener("click",function(){
+      bits[i]=bits[i]?0:1;
+      btn.classList.toggle("on",!!bits[i]);
+      btn.textContent=bits[i]?"1":"0";
+      renderExp();
+    });
+    sw.appendChild(place); sw.appendChild(btn);
+    switchesEl.appendChild(sw);
+  });
+  function setBits(val){
+    for(var i=0;i<8;i++){ bits[i]=(val>>(7-i))&1; }
+    var btns=switchesEl.querySelectorAll(".btn");
+    btns.forEach(function(b,i){ b.classList.toggle("on",!!bits[i]); b.textContent=bits[i]?"1":"0"; });
+    renderExp();
+  }
+  function renderExp(){
+    var str=bits.join("");
+    var dec=parseInt(str,2);
+    expBin.innerHTML=fmtBin(str);
+    expDec.textContent=dec;
+    var gl=glyphFor(dec);
+    expGlyph.textContent=gl.g;
+    expGlyph.title=gl.note?("carattere: "+gl.note):("carattere: "+gl.g);
+    var parts=[];
+    PLACES.forEach(function(p,i){ if(bits[i]) parts.push(p); });
+    expSum.innerHTML = parts.length ? ("Somma degli interruttori accesi: <b>"+parts.join(" + ")+" = "+dec+"</b>") : "Tutti gli interruttori sono spenti: il valore è 0.";
+  }
+  var EXP_CHIPS=[["A",65],["a",97],["Z",90],["spazio",32],["?",63],["max",255]];
+  var expChips=document.getElementById("expChips");
+  EXP_CHIPS.forEach(function(c){
+    var b=document.createElement("button"); b.className="chip"; b.type="button";
+    b.textContent=c[0]==="max"?"tutto acceso (255)":(c[0]+" = "+c[1]);
+    b.addEventListener("click",function(){ setBits(c[1]); });
+    expChips.appendChild(b);
+  });
+  renderExp();
+
+  /* ---------- 4) esempio guidato: CIAO ---------- */
+  var worked=document.getElementById("worked");
+  "CIAO".split("").forEach(function(ch){
+    var code=ch.charCodeAt(0);
+    var el=document.createElement("div"); el.className="wc";
+    el.innerHTML='<div class="ch">'+ch+'</div><div class="co">numero <b>'+code+'</b></div><div class="bn">'+fmtBin(byteOf(code))+'</div>';
+    worked.appendChild(el);
+  });
+
+  /* ---------- 5) griglia esempi ---------- */
+  function range(a,b){ var r=[]; for(var c=a;c<=b;c++) r.push(c); return r; }
+  var EX_GROUPS={
+    "Maiuscole A–Z": range(65,90),
+    "Minuscole a–z": range(97,122),
+    "Cifre 0–9": range(48,57),
+    "Segni": [32,33,44,46,63,64,45,43]
+  };
+  var exGrid=document.getElementById("exGrid"),
+      exFilter=document.getElementById("exFilter");
+  function renderEx(codes){
+    exGrid.innerHTML="";
+    codes.forEach(function(code){
+      var gl=glyphFor(code);
+      var el=document.createElement("div"); el.className="ex";
+      var label = code===32 ? "spazio" : gl.g;
+      el.innerHTML='<div class="c">'+escapeHtml(label)+'</div><div class="d">'+code+'</div><div class="b">'+fmtBin(byteOf(code))+'</div>';
+      exGrid.appendChild(el);
+    });
+  }
+  Object.keys(EX_GROUPS).forEach(function(name,idx){
+    var b=document.createElement("button"); b.className="chip"; b.type="button"; b.textContent=name;
+    b.addEventListener("click",function(){
+      exFilter.querySelectorAll(".chip").forEach(function(c){ c.style.background=""; c.style.color=""; });
+      b.style.background="var(--blu2)"; b.style.color="#fff";
+      renderEx(EX_GROUPS[name]);
+    });
+    exFilter.appendChild(b);
+    if(idx===0){ b.style.background="var(--blu2)"; b.style.color="#fff"; }
+  });
+  renderEx(EX_GROUPS["Maiuscole A–Z"]);
+
+  /* ---------- 6a) Testo -> Binario ---------- */
+  var txtIn=document.getElementById("txtIn"),
+      txtChars=document.getElementById("txtChars"),
+      txtFull=document.getElementById("txtFull"),
+      txtCount=document.getElementById("txtCount");
+  var lastFull="";
+  function textToBin(){
+    var s=txtIn.value;
+    txtChars.innerHTML="";
+    var bytes=[];
+    Array.from(s).forEach(function(ch){
+      var code=ch.codePointAt(0);
+      var bin=code.toString(2);
+      if(bin.length<8) bin=bin.padStart(8,"0");
+      bytes.push(bin);
+      var disp = ch===" " ? "␣" : ch;
+      var cc=document.createElement("div"); cc.className="cc";
+      cc.innerHTML='<div class="cch">'+escapeHtml(disp)+'</div><div class="ccd">'+code+'</div><div class="ccb">'+fmtBin(bin)+'</div>';
+      txtChars.appendChild(cc);
+    });
+    lastFull=bytes.join(" ");
+    txtFull.innerHTML = bytes.length ? fmtBin2(lastFull) : '<span class="small">Scrivi qualcosa qui sopra…</span>';
+    txtCount.innerHTML = bytes.length ? ("<b>"+bytes.length+"</b> caratteri · <b>"+(bytes.length*8)+"</b> bit ("+bytes.length+" byte)") : "";
+  }
+  function fmtBin2(s){
+    return s.split(" ").map(function(byte){ return fmtBin(byte); }).join(" ");
+  }
+  document.getElementById("txtGo").addEventListener("click",textToBin);
+  txtIn.addEventListener("input",textToBin);
+  document.getElementById("txtCopy").addEventListener("click",function(){
+    if(!lastFull) return;
+    var btn=this;
+    function done(){ var old=btn.textContent; btn.textContent="Copiato!"; setTimeout(function(){ btn.textContent=old; },1200); }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(lastFull).then(done,done); }
+    else { done(); }
+  });
+
+  /* ---------- 6b) Binario -> Testo ---------- */
+  var binIn=document.getElementById("binIn"),
+      binOut=document.getElementById("binOut");
+  function binToText(){
+    var raw=binIn.value.replace(/[^01\s]/g,"");
+    var tokens=raw.split(/\s+/).filter(Boolean);
+    if(tokens.length===1 && tokens[0].length>8 && tokens[0].length%8===0){
+      tokens=tokens[0].match(/.{1,8}/g);
+    }
+    if(!tokens.length){ binOut.innerHTML='<span class="small">Inserisci una sequenza di 0 e 1…</span>'; return; }
+    var out="";
+    tokens.forEach(function(t){
+      var n=parseInt(t,2);
+      if(!isNaN(n)){ try{ out+=String.fromCodePoint(n); }catch(e){ out+="?"; } }
+    });
+    binOut.textContent = out || "—";
+  }
+  document.getElementById("binGo").addEventListener("click",binToText);
+  binIn.addEventListener("input",binToText);
+  document.getElementById("binClear").addEventListener("click",function(){ binIn.value=""; binOut.textContent=""; binIn.focus(); });
+
+  /* avvio */
+  textToBin();
+  binToText();
+})();
+</script>
+</body>
+</html>
