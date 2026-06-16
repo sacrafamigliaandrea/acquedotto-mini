@@ -5,386 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Acquedotto Interattivo</title>
 <style>
-  :root{
-    --sand:#d9c6a5; --wood:#7a4f24;
-    --pipe:#b9bcc2; --pipe-d:#7e8288;
-    --raw:#c8902f; --clean:#7fc0ff;
-    --ink:#23303a; --panel:#f4efe6;
-    --ok:#27ae60; --off:#d14b4b;
-  }
   *{box-sizing:border-box}
-  body{margin:0;font-family:"Trebuchet MS",system-ui,Arial,sans-serif;color:var(--ink);
-       background:linear-gradient(160deg,#eef3f6,#dbe6ec)}
-  header{text-align:center;padding:14px 10px 4px}
-  header h1{margin:0;font-size:26px}
-  header p{margin:4px 0 0;color:#5a6b78;font-size:14px}
-  .app{display:flex;gap:16px;align-items:flex-start;max-width:1240px;margin:10px auto 30px;padding:0 14px;flex-wrap:wrap}
-  .stage{flex:1 1 620px;min-width:320px;background:#fff;border-radius:16px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
-  svg{width:100%;height:auto;display:block;border-radius:12px}
-  .panel{flex:0 0 300px;background:var(--panel);border-radius:16px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
-  .panel h2{margin:2px 0 6px;font-size:17px}
-  .count{font-size:12px;color:#6b7884;margin:0 0 8px}
-  .status{background:#fff;border:1px solid #e2dccf;border-radius:10px;padding:10px 12px;font-size:14px;min-height:46px;line-height:1.35}
-  .group{margin-top:14px}
-  .group h3{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#6b7884}
-  button.ctrl{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:5px 0;
-    padding:9px 12px;border:none;border-radius:10px;background:#fff;color:var(--ink);font-size:13.5px;font-weight:600;
-    cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);transition:transform .05s,background .15s}
-  button.ctrl:hover{transform:translateY(-1px)}
-  button.ctrl .dot{width:12px;height:12px;border-radius:50%;background:var(--off);flex:0 0 auto}
-  button.ctrl.on{background:#e8f7ee}
-  button.ctrl.on .dot{background:var(--ok)}
-  button.pump-btn.on{background:#e8f1ff}
-  .reset{background:#fdecec;color:#a23;justify-content:center}
-  .legend{font-size:12px;color:#54636e;margin-top:14px;line-height:1.7}
-  .legend .sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:5px}
-  .pipe{fill:none;stroke:var(--pipe);stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
-  .pipe-edge{fill:none;stroke:var(--pipe-d);stroke-width:18;stroke-linecap:round;stroke-linejoin:round}
-  .flow{fill:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:15 19;opacity:0;transition:opacity .25s}
-  .flow.on{opacity:1;animation:flow .7s linear infinite}
-  .flow.raw{stroke:var(--raw)}
-  .flow.clean{stroke:var(--clean)}
-  @keyframes flow{to{stroke-dashoffset:-34}}
-  .clickable{cursor:pointer}
-  .label{font:600 13px "Trebuchet MS",sans-serif;fill:#3a4750;text-anchor:middle;pointer-events:none}
-  .label.sm{font-size:11px;fill:#5d6b75}
-  .house .roof{transition:fill .3s}
-  .house.on .roof{fill:#2f8fff}
-  .house.on .drop{opacity:1}
-  .drop{opacity:0;transition:opacity .3s}
-  .valve .handle{fill:var(--off);transition:fill .2s}
-  .valve.open .handle{fill:var(--ok)}
-  /* zampillo dai rubinetti delle case */
-  .spout{opacity:0;transition:opacity .25s}
-  .house.on .spout{opacity:1}
-  .spurtPuddle{fill:#3f9bff;opacity:.45}
-  .spurtDrop{fill:#3f9bff;animation:arc .7s linear infinite}
-  @keyframes arc{
-    0%{transform:translate(2px,-2px);opacity:0}
-    12%{opacity:1}
-    70%{opacity:.95}
-    100%{transform:translate(30px,28px);opacity:0}
-  }
+  html,body{height:100%}
+  body{margin:0;font-family:"Trebuchet MS",system-ui,Arial,sans-serif;color:#23303a;
+    background:radial-gradient(1200px 600px at 50% -10%,#eaf4fb,#dbe6ec 60%,#cdd9e0);
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+    min-height:100vh;padding:34px 16px 26px;text-align:center}
+  .logo{width:96px;height:96px;object-fit:contain;border-radius:18px;background:#fff;
+    padding:8px;box-shadow:0 8px 22px rgba(0,0,0,.18);margin-bottom:4px}
+  .school{margin:8px 0 0;font-size:13px;font-weight:700;letter-spacing:1px;color:#5a6b78;text-transform:uppercase}
+  .badge{font-size:40px;line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15))}
+  h1{margin:8px 0 2px;font-size:clamp(30px,6vw,52px);letter-spacing:.5px}
+  .sub{margin:0 0 4px;font-size:clamp(16px,3vw,22px);font-weight:700;letter-spacing:2px}
+  .sub .reale{color:#7a4f24}
+  .sub .virt{color:#1f86c8}
+  .sub .slash{color:#9aa6ad;margin:0 8px}
+  .tagline{margin:6px 0 22px;color:#5a6b78;font-size:15px;max-width:560px}
+  .hero{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;align-items:stretch;margin-bottom:26px}
+  figure{margin:0;background:#fff;border-radius:18px;padding:10px;box-shadow:0 14px 36px rgba(0,0,0,.16);
+    width:min(300px,80vw);display:flex;flex-direction:column;transition:transform .2s}
+  figure:hover{transform:translateY(-4px)}
+  figure img{width:100%;height:300px;object-fit:cover;border-radius:12px;display:block;background:#eef}
+  figcaption{margin-top:8px;font-size:13px;font-weight:700;color:#6b7884}
+  figure.real{outline:3px solid #d8b98a}
+  .cta{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+    background:linear-gradient(180deg,#34a8e8,#1f86c8);color:#fff;font-size:20px;font-weight:800;
+    padding:16px 34px;border-radius:40px;box-shadow:0 10px 26px rgba(31,134,200,.45);
+    transition:transform .12s,box-shadow .2s}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(31,134,200,.55)}
+  .cta:active{transform:translateY(0)}
+  .cta.alt{background:linear-gradient(180deg,#4bbf7a,#2f9d5e);box-shadow:0 10px 26px rgba(47,157,94,.42)}
+  .cta.alt:hover{box-shadow:0 14px 32px rgba(47,157,94,.55)}
+  .ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+  .arrow{font-size:22px}
+  .project{margin:2px 0 18px;max-width:620px;font-size:14px;line-height:1.5;color:#46586a;
+    background:#ffffffcc;border-radius:14px;padding:12px 18px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+  .project b{color:#1f86c8}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+  .tag{font-size:12px;font-weight:700;padding:4px 11px;border-radius:20px;background:#eaf4fb;color:#1f6fa3}
+  .tag.t2{background:#eef7ee;color:#2f9d5e}
+  .tag.t3{background:#fdf0ea;color:#c0563a}
+  .foot{margin-top:22px;font-size:12.5px;color:#7c8a94}
 </style>
 </head>
 <body>
-<header>
-  <h1>💧 Acquedotto Interattivo</h1>
-  <p>Riempi la cisterna e apri i rubinetti per portare l'acqua a tutte le case</p>
-</header>
-<div class="app">
-  <div class="stage">
-    <svg id="map" viewBox="0 0 1000 720" role="img" aria-label="Mappa dell'acquedotto">
-      <!-- BOARD -->
-      <rect x="22" y="22" width="956" height="676" rx="22" fill="var(--wood)"/>
-      <rect x="30" y="30" width="940" height="660" rx="18" fill="var(--sand)"/>
-      <!-- gravel + green field inside ring -->
-      <rect x="270" y="350" width="460" height="240" rx="20" fill="none" stroke="#b7a385" stroke-width="34"/>
-      <rect x="300" y="380" width="400" height="180" rx="14" fill="#cfe6b4"/>
-      <!-- source tub -->
-      <rect x="30" y="120" width="26" height="60" rx="4" fill="#cfd8de"/>
-      <text class="label sm" x="60" y="112">Fonte</text>
+  <img class="logo" src="logo.jpg" alt="Logo Scuola Sacra Famiglia" />
+  <p class="school">Scuola Sacra Famiglia</p>
+  <div class="badge">💧</div>
+  <h1>Acquedotto Interattivo</h1>
+  <p class="sub"><span class="reale">reale</span><span class="slash">/</span><span class="virt">virtuale</span></p>
+  <p class="tagline">Dal plastico reale costruito in classe al simulatore virtuale: scopri come l'acqua arriva nelle case passando da cisterna, pompa, filtri e rubinetti.</p>
 
-      <!-- ============ PIPES + FLOW (built by JS) ============ -->
-      <g id="pipeBase"></g>
-      <g id="flowLayer"></g>
-
-      <!-- ============ CISTERNA ============ -->
-      <g class="clickable" data-action="vMain">
-        <path d="M468,188 L432,348" stroke="#9aa1a8" stroke-width="7" stroke-linecap="round"/>
-        <path d="M484,190 L478,348" stroke="#9aa1a8" stroke-width="7" stroke-linecap="round"/>
-        <path d="M516,190 L522,348" stroke="#9aa1a8" stroke-width="7" stroke-linecap="round"/>
-        <path d="M532,188 L568,348" stroke="#9aa1a8" stroke-width="7" stroke-linecap="round"/>
-        <defs>
-          <clipPath id="tankClip"><rect x="452" y="104" width="96" height="84" rx="14"/></clipPath>
-          <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#8d949b"/><stop offset=".5" stop-color="#c7ccd1"/><stop offset="1" stop-color="#7f868d"/>
-          </linearGradient>
-        </defs>
-        <rect x="452" y="104" width="96" height="84" rx="14" fill="url(#steel)" stroke="#6c7278" stroke-width="2"/>
-        <rect id="tankWater" x="452" y="188" width="96" height="0" fill="#3f9bff" clip-path="url(#tankClip)" opacity=".85"/>
-        <ellipse cx="500" cy="104" rx="52" ry="16" fill="#b6bcc1" stroke="#6c7278" stroke-width="2"/>
-        <rect x="492" y="76" width="16" height="30" rx="4" fill="#aeb4ba"/>
-        <circle cx="500" cy="76" r="9" fill="#c7ccd1"/>
-        <text class="label" x="500" y="150" style="fill:#1f2a32">Cisterna</text>
-      </g>
-
-      <!-- ============ STAZIONE: pompa + filtri ============ -->
-      <g id="pump" class="clickable" data-action="pump">
-        <rect x="452" y="246" width="42" height="60" rx="8" fill="#34495e"/>
-        <circle cx="473" cy="276" r="15" fill="#5d6f80"/>
-        <circle id="pumpRotor" cx="473" cy="276" r="8" fill="#cdd6df"/>
-        <text class="label sm" x="455" y="326">Pompa</text>
-      </g>
-      <g>
-        <rect x="446" y="308" width="116" height="14" rx="4" fill="#1f5f3a"/>
-        <rect x="500" y="236" width="22" height="10" rx="3" fill="#1f5f3a"/>
-        <rect x="528" y="236" width="22" height="10" rx="3" fill="#1f5f3a"/>
-        <rect x="500" y="242" width="22" height="66" rx="6" fill="#2e7d4f"/>
-        <rect x="528" y="242" width="22" height="66" rx="6" fill="#2e7d4f"/>
-        <text class="label sm" x="556" y="326" style="text-anchor:start">Filtri</text>
-      </g>
-
-      <!-- ============ HOUSES ============ -->
-      <g id="HTL" class="house">
-        <rect x="88" y="300" width="80" height="62" rx="3" fill="#efe6d2" stroke="#b9a77f" stroke-width="2"/>
-        <path class="roof" d="M80,300 L128,270 L176,300 Z" fill="#9c6b3b"/>
-        <rect x="102" y="320" width="16" height="16" fill="#cdbf9c"/><rect x="138" y="320" width="16" height="16" fill="#cdbf9c"/>
-        <circle class="drop" cx="128" cy="256" r="9" fill="#2f8fff"/>
-      </g>
-      <g id="HTR" class="house">
-        <rect x="832" y="300" width="80" height="62" rx="3" fill="#efe6d2" stroke="#b9a77f" stroke-width="2"/>
-        <path class="roof" d="M824,300 L872,270 L920,300 Z" fill="#9c6b3b"/>
-        <rect x="846" y="320" width="16" height="16" fill="#cdbf9c"/><rect x="882" y="320" width="16" height="16" fill="#cdbf9c"/>
-        <circle class="drop" cx="872" cy="256" r="9" fill="#2f8fff"/>
-      </g>
-      <g id="HBR" class="house">
-        <rect x="832" y="556" width="80" height="62" rx="3" fill="#efe6d2" stroke="#b9a77f" stroke-width="2"/>
-        <path class="roof" d="M824,556 L872,526 L920,556 Z" fill="#9c6b3b"/>
-        <rect x="846" y="576" width="16" height="16" fill="#cdbf9c"/><rect x="882" y="576" width="16" height="16" fill="#cdbf9c"/>
-        <circle class="drop" cx="872" cy="512" r="9" fill="#2f8fff"/>
-      </g>
-      <g id="HBL" class="house">
-        <rect x="88" y="556" width="80" height="62" rx="3" fill="#efe6d2" stroke="#b9a77f" stroke-width="2"/>
-        <path class="roof" d="M80,556 L128,526 L176,556 Z" fill="#9c6b3b"/>
-        <rect x="102" y="576" width="16" height="16" fill="#cdbf9c"/><rect x="138" y="576" width="16" height="16" fill="#cdbf9c"/>
-        <circle class="drop" cx="128" cy="512" r="9" fill="#2f8fff"/>
-      </g>
-
-      <!-- ============ VALVES (built by JS) ============ -->
-      <g id="valveLayer"></g>
-    </svg>
-  </div>
-
-  <div class="panel">
-    <h2>Comandi</h2>
-    <p class="count">Manopole sul plastico: <b>14</b></p>
-    <div id="status" class="status"></div>
-
-    <div class="group">
-      <h3>Energia</h3>
-      <button class="ctrl pump-btn" data-action="pump"><span>⚙️ Pompa</span><span class="dot"></span></button>
-    </div>
-    <div class="group">
-      <h3>Ingresso e cisterna</h3>
-      <button class="ctrl" data-action="vIn"><span>1 · Valvola d'ingresso</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vPump"><span>2 · Mandata pompa</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vMain"><span>3 · Uscita cisterna</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vFeed"><span>4 · Distribuzione</span><span class="dot"></span></button>
-    </div>
-    <div class="group">
-      <h3>Anello (sezionamento)</h3>
-      <button class="ctrl" data-action="vNW"><span>Anello alto-sx</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vNE"><span>Anello alto-dx</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vW"><span>Anello sinistra</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vE"><span>Anello destra</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vSW"><span>Anello basso-sx</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vSE"><span>Anello basso-dx</span><span class="dot"></span></button>
-    </div>
-    <div class="group">
-      <h3>Rubinetti delle case</h3>
-      <button class="ctrl" data-action="vH_TL"><span>🏠 Casa alto-sx</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vH_TR"><span>🏠 Casa alto-dx</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vH_BR"><span>🏠 Casa basso-dx</span><span class="dot"></span></button>
-      <button class="ctrl" data-action="vH_BL"><span>🏠 Casa basso-sx</span><span class="dot"></span></button>
-    </div>
-    <button class="ctrl reset" data-action="reset">↺ Ricomincia</button>
-    <div class="legend">
-      <div><span class="sw" style="background:var(--raw)"></span>Acqua grezza (prima del filtro)</div>
-      <div><span class="sw" style="background:var(--clean)"></span>Acqua pulita (dopo il filtro)</div>
-      <div><span class="sw" style="background:var(--ok)"></span>Rubinetto aperto&nbsp;&nbsp;<span class="sw" style="background:var(--off)"></span>chiuso</div>
-      <div style="margin-top:6px">💡 Prova a chiudere una valvola dell'anello: l'acqua si reinstrada dall'altro lato!</div>
+  <div class="project">
+    Un <b>progetto di Tecnologia</b> che collega anche <b>Informatica</b> ed <b>Educazione alla cittadinanza</b>:
+    dalla costruzione del modello reale alla simulazione digitale, per capire come funziona un acquedotto
+    e imparare a usare l'acqua in modo responsabile.
+    <div class="tags">
+      <span class="tag">🔧 Tecnologia</span>
+      <span class="tag t2">💻 Informatica</span>
+      <span class="tag t3">🏛️ Educazione civica</span>
     </div>
   </div>
-</div>
 
-<script>
-(function(){
-  "use strict";
-  // ---- pipe segments: [id, stage, path] ----
-  const SEGMENTS = [
-    ["p_in1","raw","M30,150 L120,150"],
-    ["p_in2","raw","M120,150 L120,300 L452,300"],
-    ["p_riser","raw","M473,246 L473,128 L488,128"],
-    ["p_down","raw","M520,188 L520,242"],
-    ["p_feed","clean","M500,322 L500,350"],
-    ["e_MA","clean","M500,350 L270,350"],
-    ["e_MB","clean","M500,350 L730,350"],
-    ["e_AD","clean","M270,350 L270,590"],
-    ["e_BC","clean","M730,350 L730,590"],
-    ["e_DS","clean","M270,590 L500,590"],
-    ["e_SC","clean","M500,590 L730,590"],
-    ["e_HTL","clean","M270,350 L150,350 L150,330"],
-    ["e_HTR","clean","M730,350 L850,350 L850,330"],
-    ["e_HBR","clean","M730,590 L850,590 L850,556"],
-    ["e_HBL","clean","M270,590 L150,590 L150,556"],
-  ];
-  // distribution graph (source node = "M"); each edge gated by a valve
-  const EDGES = [
-    {id:"e_MA", a:"M", b:"A", valve:"vNW"},
-    {id:"e_MB", a:"M", b:"B", valve:"vNE"},
-    {id:"e_AD", a:"A", b:"D", valve:"vW"},
-    {id:"e_BC", a:"B", b:"C", valve:"vE"},
-    {id:"e_DS", a:"D", b:"S", valve:"vSW"},
-    {id:"e_SC", a:"S", b:"C", valve:"vSE"},
-    {id:"e_HTL", a:"A", b:"HTL", valve:"vH_TL"},
-    {id:"e_HTR", a:"B", b:"HTR", valve:"vH_TR"},
-    {id:"e_HBR", a:"C", b:"HBR", valve:"vH_BR"},
-    {id:"e_HBL", a:"D", b:"HBL", valve:"vH_BL"},
-  ];
-  // 14 valves: id -> {x,y,orient}
-  const VALVES = {
-    vIn:   {x:120,y:225,o:"h"},
-    vPump: {x:473,y:212,o:"h"},
-    vMain: {x:520,y:216,o:"h"},
-    vFeed: {x:500,y:338,o:"h"},
-    vNW:   {x:385,y:350,o:"v"},
-    vNE:   {x:615,y:350,o:"v"},
-    vW:    {x:270,y:470,o:"h"},
-    vE:    {x:730,y:470,o:"h"},
-    vSW:   {x:385,y:590,o:"v"},
-    vSE:   {x:615,y:590,o:"v"},
-    vH_TL: {x:210,y:350,o:"v"},
-    vH_TR: {x:790,y:350,o:"v"},
-    vH_BR: {x:790,y:590,o:"v"},
-    vH_BL: {x:210,y:590,o:"v"},
-  };
-  const HOUSES = ["HTL","HTR","HBR","HBL"];
+  <div class="hero">
+    <figure class="real">
+      <img src="1.jpg" alt="Il plastico reale dell'acquedotto" />
+      <figcaption>Il modello reale · la cisterna e l'anello</figcaption>
+    </figure>
+    <figure class="real">
+      <img src="2.jpg" alt="Particolare del plastico con pompa, filtri e case" />
+      <figcaption>Il modello reale · pompa, filtri e case</figcaption>
+    </figure>
+  </div>
 
-  const SVGNS="http://www.w3.org/2000/svg";
-  function mk(tag,attrs){const e=document.createElementNS(SVGNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
-  const pipeBase=document.getElementById("pipeBase");
-  const flowLayer=document.getElementById("flowLayer");
-  const valveLayer=document.getElementById("valveLayer");
-  const flowEls={};
-  SEGMENTS.forEach(([id,stage,d])=>{
-    pipeBase.appendChild(mk("path",{d:d,class:"pipe-edge"}));
-    pipeBase.appendChild(mk("path",{d:d,class:"pipe"}));
-    const flow=mk("path",{d:d,class:"flow "+stage});
-    flowLayer.appendChild(flow); flowEls[id]=flow;
-  });
-  Object.entries(VALVES).forEach(([id,v])=>{
-    const g=mk("g",{class:"valve clickable",id:id,"data-action":id,transform:`translate(${v.x},${v.y})`});
-    g.appendChild(mk("rect",{x:-9,y:-9,width:18,height:18,rx:3,fill:"#3a4750"}));
-    if(v.o==="h") g.appendChild(mk("rect",{class:"handle",x:-22,y:-6,width:44,height:12,rx:5}));
-    else g.appendChild(mk("rect",{class:"handle",x:-6,y:-22,width:12,height:44,rx:5}));
-    valveLayer.appendChild(g);
-  });
-  // spouts (zampillo) on houses
-  const SPOUTS=[
-    {h:"HTL",x:84,y:331,flip:true},
-    {h:"HBL",x:84,y:587,flip:true},
-    {h:"HTR",x:916,y:331,flip:false},
-    {h:"HBR",x:916,y:587,flip:false},
-  ];
-  SPOUTS.forEach(s=>{
-    const g=mk("g",{class:"spout",transform:`translate(${s.x},${s.y})`+(s.flip?" scale(-1,1)":"")});
-    g.appendChild(mk("rect",{x:-14,y:-4,width:16,height:8,rx:2,fill:"#7e8288"}));
-    g.appendChild(mk("rect",{x:-3,y:-6,width:7,height:12,rx:2,fill:"#5d6f80"}));
-    g.appendChild(mk("ellipse",{class:"spurtPuddle",cx:26,cy:26,rx:14,ry:4}));
-    [0,0.23,0.46].forEach((d,i)=>{
-      const c=mk("circle",{class:"spurtDrop",cx:0,cy:0,r:3.6-i*0.3});
-      c.style.animationDelay=d+"s"; g.appendChild(c);
-    });
-    document.getElementById(s.h).appendChild(g);
-  });
+  <div class="ctas">
+    <a class="cta" href="simulatore.html"><span class="arrow">▶</span> Entra nel simulatore</a>
+    <a class="cta alt" href="sprechi.html"><span class="arrow">💧</span> Sprechi e consigli</a>
+  </div>
 
-  // ---- state ----
-  // vPump & vFeed (impianto) aperti di default; il resto chiuso
-  const init={pump:false,vIn:false,vPump:true,vMain:false,vFeed:true,
-    vNW:false,vNE:false,vW:false,vE:false,vSW:false,vSE:false,
-    vH_TL:false,vH_TR:false,vH_BR:false,vH_BL:false,level:0};
-  const state=Object.assign({},init);
-  const tankWater=document.getElementById("tankWater");
-  const statusEl=document.getElementById("status");
-  const TANK_TOP=104, TANK_H=84;
-
-  function reachable(){
-    const set=new Set();
-    if(!(state.level>1 && state.vMain && state.vFeed)) return set;
-    set.add("M");
-    let changed=true;
-    while(changed){
-      changed=false;
-      for(const e of EDGES){
-        if(!state[e.valve]) continue;
-        if(set.has(e.a)&&!set.has(e.b)){set.add(e.b);changed=true;}
-        else if(set.has(e.b)&&!set.has(e.a)){set.add(e.a);changed=true;}
-      }
-    }
-    return set;
-  }
-
-  function compute(){
-    const reach=reachable();
-    const supply = state.pump && state.vIn;
-    const energized = state.level>1 && state.vMain && state.vFeed;
-    flowEls.p_in1.classList.toggle("on",supply);
-    flowEls.p_in2.classList.toggle("on",supply);
-    flowEls.p_riser.classList.toggle("on",supply && state.vPump);
-    flowEls.p_down.classList.toggle("on",state.level>1 && state.vMain);
-    flowEls.p_feed.classList.toggle("on",energized);
-    for(const e of EDGES){
-      flowEls[e.id].classList.toggle("on", state[e.valve] && reach.has(e.a) && reach.has(e.b));
-    }
-    let served=0;
-    HOUSES.forEach(h=>{const on=reach.has(h);document.getElementById(h).classList.toggle("on",on);if(on)served++;});
-    Object.keys(VALVES).forEach(id=>document.getElementById(id).classList.toggle("open",state[id]));
-    document.querySelectorAll("button.ctrl").forEach(b=>{
-      const a=b.dataset.action;
-      if(a==="pump")b.classList.toggle("on",state.pump);
-      else if(a in state)b.classList.toggle("on",state[a]);
-    });
-    const ringHasWater=["A","B","C","D"].some(n=>reach.has(n));
-    updateStatus(served,ringHasWater);
-  }
-
-  function updateStatus(served,ringHasWater){
-    let m;
-    if(state.level<99){
-      if(!state.vIn) m="<b>Passo 1:</b> apri la <b>valvola d'ingresso</b> (a sinistra). 🚰";
-      else if(!state.vPump) m="Apri la <b>valvola di mandata della pompa</b>. 🔧";
-      else if(!state.pump) m="<b>Passo 2:</b> accendi la <b>pompa</b> per riempire la cisterna. ⚙️";
-      else m="La pompa riempie la cisterna… <b>"+Math.round(state.level)+"%</b> 💧";
-    } else {
-      if(!state.vMain) m="<b>Passo 3:</b> apri la <b>valvola di uscita</b> della cisterna. 🔧";
-      else if(!state.vFeed) m="Apri la <b>valvola di distribuzione</b>. 🔧";
-      else if(served>0) m="Ottimo! Stai servendo <b>"+served+"</b> "+(served===1?"casa":"case")+". L'acqua è filtrata e pulita. ✅";
-      else if(ringHasWater) m="L'acqua è nell'anello: apri il <b>rubinetto di una casa</b>. 🏠";
-      else m="<b>Passo 4:</b> apri le <b>valvole dell'anello</b> per distribuire l'acqua. ↔️";
-    }
-    statusEl.innerHTML=m;
-  }
-
-  // tank dynamics
-  setInterval(()=>{
-    const reach=reachable();
-    const served=HOUSES.some(h=>reach.has(h));
-    if(state.pump && state.vIn && state.vPump) state.level=Math.min(100,state.level+2.2);
-    else if(state.vMain && state.vFeed && state.level>1 && served) state.level=Math.max(0,state.level-1.0);
-    const h=TANK_H*state.level/100;
-    tankWater.setAttribute("y",TANK_TOP+(TANK_H-h));
-    tankWater.setAttribute("height",h);
-    compute();
-  },90);
-
-  // pump rotor
-  let ang=0;
-  setInterval(()=>{if(!state.pump)return;ang=(ang+20)%360;
-    document.getElementById("pumpRotor").setAttribute("transform","rotate("+ang+" 473 276)");},40);
-
-  function doAction(a){
-    if(a==="reset")Object.assign(state,init);
-    else if(a==="pump")state.pump=!state.pump;
-    else if(a in state)state[a]=!state[a];
-    compute();
-  }
-  document.addEventListener("click",e=>{
-    const el=e.target.closest("[data-action]");
-    if(el)doAction(el.dataset.action);
-  });
-  compute();
-})();
-</script>
+  <p class="foot">Scuola Sacra Famiglia · attività didattica sull'acquedotto</p>
 </body>
 </html>
