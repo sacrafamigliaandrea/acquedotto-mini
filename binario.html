@@ -44,6 +44,32 @@
   .lead b{color:var(--blu)}
   .small{font-size:14.5px;color:var(--muted);line-height:1.5}
 
+  /* video stimolo iniziale */
+  .card.stim{background:linear-gradient(180deg,#eef3fb,#ffffff)}
+  .stimplayer{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:16px;margin:8px 0 0}
+  .stimvideo{display:block;flex:0 0 auto;width:auto;max-width:100%;height:auto;max-height:62vh;
+    border-radius:14px;background:#0c2a63;box-shadow:0 8px 22px rgba(18,62,144,.22)}
+  .transcript{flex:1 1 300px;min-width:260px;max-width:460px;display:flex;flex-direction:column;
+    background:#fff;border:1px solid #d6e1f2;border-radius:14px;padding:12px 8px 12px 14px;
+    box-shadow:0 6px 18px rgba(18,62,144,.10);max-height:62vh}
+  .t-title{margin:0 0 8px;display:flex;align-items:center;gap:8px;font-family:var(--head);
+    font-size:14px;font-weight:600;color:var(--blu);text-transform:uppercase;letter-spacing:.5px}
+  .t-title .ic{width:18px;height:18px}
+  .t-lines{flex:1 1 auto;overflow-y:auto;padding-right:6px;display:flex;flex-direction:column;gap:4px;
+    scroll-behavior:smooth}
+  .tline{display:block;width:100%;text-align:left;font-family:var(--body);font-size:15.5px;line-height:1.4;
+    color:#5a6b7c;background:transparent;border:0;border-left:3px solid transparent;border-radius:8px;
+    padding:7px 10px;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+  .tline:hover{background:#f0f5fc}
+  .tline.done{color:#9aa6b4}
+  .tline.active{background:#eaf2fd;border-left-color:var(--blu);color:var(--ink);font-weight:700;
+    box-shadow:0 2px 8px rgba(18,62,144,.10)}
+  .t-hint{margin:8px 4px 0;font-size:12.5px;color:var(--muted);font-style:italic}
+  .reveal{display:flex;align-items:center;gap:14px;margin:16px auto 0;max-width:600px;
+    background:#fff;border:1px solid #d6e1f2;border-radius:14px;padding:12px 16px}
+  .reveal .psym{width:46px;height:46px;flex:0 0 auto}
+  .reveal p{margin:0}
+
   /* link tra le pagine */
   .pagelinks{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:14px 0 2px}
   .bigbtn{display:inline-flex;align-items:center;gap:9px;border:none;border-radius:30px;padding:13px 26px;
@@ -154,6 +180,37 @@
 </header>
 
 <div class="wrap">
+
+  <div class="card stim">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 6.5h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z" stroke="#123E90" stroke-width="1.7"/><path d="M17 10l4-2.2v8.4L17 14" stroke="#1f5fc0" stroke-width="1.7" stroke-linejoin="round"/></svg> Per cominciare · guarda il video</h2>
+    <p class="lead">Prima di scoprire come funziona il codice binario, guarda questo breve video.
+       Parla di un simbolo che vedi ogni giorno: il <b>pulsante di accensione</b>.
+       Mentre lo guardi, prova a pensare: che cosa avranno in comune quel pulsante e le manopole dell'acquedotto?</p>
+    <div class="stimplayer">
+      <video class="stimvideo" id="stimVideo" controls preload="metadata" playsinline
+             disablepictureinpicture disableremoteplayback
+             controlslist="nofullscreen nodownload noplaybackrate noremoteplayback">
+        <source src="stimolo-binario.mp4" type="video/mp4" />
+        Il tuo browser non riesce a mostrare il video. Puoi aprirlo qui:
+        <a href="stimolo-binario.mp4">stimolo-binario.mp4</a>.
+      </video>
+      <div class="transcript" id="transcript" aria-label="Trascrizione sincronizzata in italiano">
+        <p class="t-title"><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M5 5h14M5 9h14M5 13h9M5 17h12" stroke="#123E90" stroke-width="1.7" stroke-linecap="round"/></svg> Trascrizione in italiano</p>
+        <div class="t-lines" id="tLines"></div>
+        <p class="t-hint">Tocca una frase per riascoltare quel punto del video.</p>
+      </div>
+    </div>
+    <div class="reveal">
+      <svg class="psym" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle cx="24" cy="26" r="14" stroke="#1f5fc0" stroke-width="3"/>
+        <line x1="24" y1="9" x2="24" y2="25" stroke="#123E90" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <p class="small"><b>Lo sapevi?</b> Il simbolo del pulsante di accensione è proprio l'unione di
+        <b>0</b> e <b>1</b>: il <b>cerchio</b> è lo <b>0</b> (spento) e la <b>linea</b> è l'<b>1</b> (acceso),
+        messi insieme in un unico segno. È esattamente la stessa logica delle <b>manopole</b> 0/1 del
+        simulatore: ogni interruttore può dire soltanto <b>spento (0)</b> o <b>acceso (1)</b>.</p>
+    </div>
+  </div>
 
   <div class="card">
     <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="7.5" width="19" height="9" rx="4.5" stroke="#123E90" stroke-width="1.7"/><circle cx="8" cy="12" r="3" fill="#1f5fc0"/></svg> Una manopola = un bit</h2>
@@ -442,6 +499,64 @@
   document.getElementById("binGo").addEventListener("click",binToText);
   binIn.addEventListener("input",binToText);
   document.getElementById("binClear").addEventListener("click",function(){ binIn.value=""; binOut.textContent=""; binIn.focus(); });
+
+  /* trascrizione sincronizzata col video */
+  (function(){
+    var v = document.getElementById("stimVideo");
+    var box = document.getElementById("tLines");
+    if(!v || !box) return;
+    var cues = [
+      [0.000, 2.860, "Mamma... cosa significa questo simbolo?"],
+      [2.860, 6.870, "È come una linea in un cerchio! Lo vedo su qualsiasi cosa!"],
+      [6.870, 14.240, "Daniel, quello è il simbolo di alimentazione universale! E quelle forme in realtà significano qualcosa di speciale."],
+      [14.240, 16.630, "Davvero?! Sì,"],
+      [16.630, 22.480, "deriva da come funzionano i computer, usando solo due numeri: 1 e 0."],
+      [22.480, 26.620, "Aspetta... la linea è 1 e il cerchio è 0?"],
+      [26.620, 31.000, "Esatto! La linea è 1, che significa acceso (ON)!"],
+      [31.000, 35.460, "Il cerchio è 0, che significa spento (OFF)! Ohhh!"],
+      [35.460, 40.290, "Quindi insieme significa che puoi accendere o spegnere qualcosa?"],
+      [40.290, 45.990, "Esatto! E ora è su quasi tutti i dispositivi che usi!"],
+      [45.990, 49.750, "Quindi ogni pulsante di accensione è codice binario?!"],
+      [49.750, 52.430, "Esatto! Codice binario ovunque!"]
+    ];
+    var lines = cues.map(function(c){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "tline";
+      b.textContent = c[2];
+      b.addEventListener("click", function(){
+        v.currentTime = c[0] + 0.01;
+        v.play().catch(function(){});
+      });
+      box.appendChild(b);
+      return b;
+    });
+    var current = -1;
+    function findIdx(t){
+      for(var i=0;i<cues.length;i++){
+        if(t >= cues[i][0] && t < cues[i][1]) return i;
+      }
+      if(cues.length && t >= cues[cues.length-1][1]) return cues.length-1;
+      return -1;
+    }
+    function sync(){
+      var t = v.currentTime;
+      var idx = findIdx(t);
+      if(idx === current) return;
+      current = idx;
+      for(var i=0;i<lines.length;i++){
+        lines[i].classList.toggle("active", i === idx);
+        lines[i].classList.toggle("done", idx >= 0 && i < idx);
+      }
+      if(idx >= 0){
+        var el = lines[idx];
+        box.scrollTop = el.offsetTop - box.clientHeight/2 + el.clientHeight/2;
+      }
+    }
+    v.addEventListener("timeupdate", sync);
+    v.addEventListener("seeked", sync);
+    v.addEventListener("play", sync);
+  })();
 
   /* avvio */
   textToBin();
