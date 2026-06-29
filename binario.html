@@ -55,16 +55,36 @@
   .t-title{margin:0 0 8px;display:flex;align-items:center;gap:8px;font-family:var(--head);
     font-size:14px;font-weight:600;color:var(--blu);text-transform:uppercase;letter-spacing:.5px}
   .t-title .ic{width:18px;height:18px}
-  .t-lines{flex:1 1 auto;overflow-y:auto;padding-right:6px;display:flex;flex-direction:column;gap:4px;
-    scroll-behavior:smooth}
-  .tline{display:block;width:100%;text-align:left;font-family:var(--body);font-size:15.5px;line-height:1.4;
-    color:#5a6b7c;background:transparent;border:0;border-left:3px solid transparent;border-radius:8px;
-    padding:7px 10px;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
-  .tline:hover{background:#f0f5fc}
-  .tline.done{color:#9aa6b4}
-  .tline.active{background:#eaf2fd;border-left-color:var(--blu);color:var(--ink);font-weight:700;
-    box-shadow:0 2px 8px rgba(18,62,144,.10)}
-  .t-hint{margin:8px 4px 0;font-size:12.5px;color:var(--muted);font-style:italic}
+  .t-caption{flex:1 1 auto;display:flex;align-items:center;justify-content:center;text-align:center;padding:6px 10px}
+  .t-caption .cue{font-family:var(--body);font-size:21px;line-height:1.45;color:var(--ink);font-weight:700;
+    animation:cueIn .3s ease}
+  .t-caption .t-placeholder{font-size:15px;line-height:1.5;color:var(--muted);font-style:italic;font-weight:400}
+  @keyframes cueIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* glossario inglese */
+  .card.gloss-card{background:linear-gradient(180deg,#fbf7ee,#ffffff)}
+  .gloss-intro{display:inline-flex;align-items:center;gap:7px;font-family:var(--head);font-size:12.5px;
+    font-weight:600;color:#9a6a13;background:#fbf2e6;border-radius:20px;padding:5px 12px;margin:0 0 4px}
+  .gloss-intro svg{width:15px;height:15px}
+  .glossary{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:12px}
+  .gloss{background:#fff;border:1px solid #e6dcc6;border-radius:14px;padding:12px 14px;
+    box-shadow:0 4px 12px rgba(154,106,19,.08)}
+  .gloss .en{font-family:var(--head);font-size:18px;font-weight:700;color:var(--bluD);display:flex;
+    align-items:baseline;gap:8px;flex-wrap:wrap}
+  .gloss .en .phon{font-family:var(--body);font-size:13px;font-weight:400;color:var(--muted);font-style:italic}
+  .gloss .say{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;
+    padding:0;border:0;border-radius:50%;cursor:pointer;background:#eef2fb;color:var(--blu);
+    box-shadow:0 2px 6px rgba(18,62,144,.14);transition:background .15s,transform .12s}
+  .gloss .say:hover{background:#dde7fa}
+  .gloss .say:active{transform:scale(.92)}
+  .gloss .say svg{width:17px;height:17px}
+  .gloss .say.speaking{background:var(--blu);color:#fff;animation:sayPulse .9s ease-in-out infinite}
+  @keyframes sayPulse{0%,100%{box-shadow:0 0 0 0 rgba(31,95,192,.45)}50%{box-shadow:0 0 0 6px rgba(31,95,192,0)}}
+  .gloss .it{margin:3px 0 0;font-size:15.5px;color:var(--ink)}
+  .gloss .it b{color:var(--blu)}
+  .gloss .ex{margin:6px 0 0;font-size:13px;line-height:1.45;color:var(--muted)}
+  .gloss .bit01{display:inline-block;font-family:var(--head);font-weight:700;font-size:12px;color:#fff;
+    background:var(--blu);border-radius:6px;padding:1px 7px;margin-left:2px;vertical-align:middle}
   .reveal{display:flex;align-items:center;gap:14px;margin:16px auto 0;max-width:600px;
     background:#fff;border:1px solid #d6e1f2;border-radius:14px;padding:12px 16px}
   .reveal .psym{width:46px;height:46px;flex:0 0 auto}
@@ -194,10 +214,11 @@
         Il tuo browser non riesce a mostrare il video. Puoi aprirlo qui:
         <a href="stimolo-binario.mp4">stimolo-binario.mp4</a>.
       </video>
-      <div class="transcript" id="transcript" aria-label="Trascrizione sincronizzata in italiano">
-        <p class="t-title"><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M5 5h14M5 9h14M5 13h9M5 17h12" stroke="#123E90" stroke-width="1.7" stroke-linecap="round"/></svg> Trascrizione in italiano</p>
-        <div class="t-lines" id="tLines"></div>
-        <p class="t-hint">Tocca una frase per riascoltare quel punto del video.</p>
+      <div class="transcript" id="transcript" aria-label="Sottotitolo in italiano">
+        <p class="t-title"><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M5 5h14M5 9h14M5 13h9M5 17h12" stroke="#123E90" stroke-width="1.7" stroke-linecap="round"/></svg> Sottotitoli in italiano</p>
+        <div class="t-caption" id="tCaption" aria-live="polite">
+          <span class="t-placeholder">Avvia il video: qui comparirà, frase per frase, ciò che viene detto.</span>
+        </div>
       </div>
     </div>
     <div class="reveal">
@@ -209,6 +230,55 @@
         <b>0</b> e <b>1</b>: il <b>cerchio</b> è lo <b>0</b> (spento) e la <b>linea</b> è l'<b>1</b> (acceso),
         messi insieme in un unico segno. È esattamente la stessa logica delle <b>manopole</b> 0/1 del
         simulatore: ogni interruttore può dire soltanto <b>spento (0)</b> o <b>acceso (1)</b>.</p>
+    </div>
+  </div>
+
+  <div class="card gloss-card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 5.5h10a2 2 0 0 1 2 2V19l-3-2H4a2 2 0 0 1-2-2v-7.5a2 2 0 0 1 2-2Z" stroke="#9a6a13" stroke-width="1.7"/><path d="M19 8.5h1a2 2 0 0 1 2 2V18l-2-1.3" stroke="#c79a3a" stroke-width="1.5"/></svg> English glossary · le parole del video</h2>
+    <p class="gloss-intro"><svg viewBox="0 0 24 24" fill="none"><path d="M3 5h18M12 3v2M5 5c0 6 3.5 11 7 13M19 5c0 6-3.5 11-7 13M14 14l3 5 3-5" stroke="#9a6a13" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Inglese · il video è in inglese: ecco i termini che hai sentito</p>
+    <p class="lead">Il filmato è in <b>inglese</b>: approfittiamone per imparare le parole-chiave dell'informatica.
+       Per ognuna trovi la <b>traduzione</b> e un piccolo aiuto per la pronuncia.</p>
+    <div class="glossary">
+      <div class="gloss">
+        <div class="en">binary code <span class="phon">/ˈbaɪnəri koʊd/</span></div>
+        <p class="it"><b>codice binario</b></p>
+        <p class="ex">Il linguaggio dei computer, scritto con due soli simboli: <span class="bit01">0</span> <span class="bit01">1</span>.</p>
+      </div>
+      <div class="gloss">
+        <div class="en">power symbol <span class="phon">/ˈpaʊər ˈsɪmbəl/</span></div>
+        <p class="it"><b>simbolo di accensione</b></p>
+        <p class="ex">Il segno presente su quasi tutti i dispositivi: un cerchio con una linea.</p>
+      </div>
+      <div class="gloss">
+        <div class="en">bit <span class="phon">/bɪt/</span></div>
+        <p class="it"><b>bit</b> · cifra binaria</p>
+        <p class="ex">Una sola informazione che può valere solo 0 oppure 1.</p>
+      </div>
+      <div class="gloss">
+        <div class="en">on <span class="phon">/ɒn/</span></div>
+        <p class="it"><b>acceso</b> <span class="bit01">1</span></p>
+        <p class="ex">"The line is 1, which means ON." — la linea è l'1.</p>
+      </div>
+      <div class="gloss">
+        <div class="en">off <span class="phon">/ɒf/</span></div>
+        <p class="it"><b>spento</b> <span class="bit01">0</span></p>
+        <p class="ex">"The circle is 0, which means OFF." — il cerchio è lo 0.</p>
+      </div>
+      <div class="gloss">
+        <div class="en">switch <span class="phon">/swɪtʃ/</span></div>
+        <p class="it"><b>interruttore</b> · manopola</p>
+        <p class="ex">Un comando con due stati: si può accendere o spegnere.</p>
+      </div>
+      <div class="gloss">
+        <div class="en">computer <span class="phon">/kəmˈpjuːtər/</span></div>
+        <p class="it"><b>computer</b> · calcolatore</p>
+        <p class="ex">Funziona usando solo due numeri: 1 e 0.</p>
+      </div>
+      <div class="gloss">
+        <div class="en">device <span class="phon">/dɪˈvaɪs/</span></div>
+        <p class="it"><b>dispositivo</b></p>
+        <p class="ex">"On almost every device you use." — un apparecchio elettronico.</p>
+      </div>
     </div>
   </div>
 
@@ -503,7 +573,7 @@
   /* trascrizione sincronizzata col video */
   (function(){
     var v = document.getElementById("stimVideo");
-    var box = document.getElementById("tLines");
+    var box = document.getElementById("tCaption");
     if(!v || !box) return;
     var cues = [
       [0.000, 2.860, "Mamma... cosa significa questo simbolo?"],
@@ -519,43 +589,72 @@
       [45.990, 49.750, "Quindi ogni pulsante di accensione è codice binario?!"],
       [49.750, 52.430, "Esatto! Codice binario ovunque!"]
     ];
-    var lines = cues.map(function(c){
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "tline";
-      b.textContent = c[2];
-      b.addEventListener("click", function(){
-        v.currentTime = c[0] + 0.01;
-        v.play().catch(function(){});
-      });
-      box.appendChild(b);
-      return b;
-    });
-    var current = -1;
+    var placeholder = box.innerHTML;
+    var current = -2;
     function findIdx(t){
       for(var i=0;i<cues.length;i++){
         if(t >= cues[i][0] && t < cues[i][1]) return i;
       }
-      if(cues.length && t >= cues[cues.length-1][1]) return cues.length-1;
       return -1;
     }
     function sync(){
-      var t = v.currentTime;
-      var idx = findIdx(t);
+      var idx = findIdx(v.currentTime);
       if(idx === current) return;
       current = idx;
-      for(var i=0;i<lines.length;i++){
-        lines[i].classList.toggle("active", i === idx);
-        lines[i].classList.toggle("done", idx >= 0 && i < idx);
-      }
-      if(idx >= 0){
-        var el = lines[idx];
-        box.scrollTop = el.offsetTop - box.clientHeight/2 + el.clientHeight/2;
+      if(idx < 0){
+        box.innerHTML = placeholder;
+      }else{
+        var s = document.createElement("span");
+        s.className = "cue";
+        s.textContent = cues[idx][2];
+        box.innerHTML = "";
+        box.appendChild(s);
       }
     }
     v.addEventListener("timeupdate", sync);
     v.addEventListener("seeked", sync);
-    v.addEventListener("play", sync);
+  })();
+
+  /* pronuncia inglese dei termini del glossario */
+  (function(){
+    var synth = window.speechSynthesis;
+    var entries = document.querySelectorAll(".glossary .gloss .en");
+    if(!entries.length) return;
+    var supported = !!synth && typeof window.SpeechSynthesisUtterance === "function";
+    var ICON = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h3.5L13 19V5L7.5 9H4Z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7M18.5 6a7 7 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+    var voice = null;
+    function pickVoice(){
+      var vs = synth.getVoices() || [];
+      voice = vs.filter(function(x){return /^en(-|_|$)/i.test(x.lang);})
+                .sort(function(a,b){return (/en-GB/i.test(b.lang)?1:0)-(/en-GB/i.test(a.lang)?1:0);})[0] || null;
+    }
+    if(supported){
+      pickVoice();
+      if(synth.onvoiceschanged !== undefined) synth.addEventListener("voiceschanged", pickVoice);
+    }
+    [].forEach.call(entries, function(en){
+      var term = (en.childNodes[0] && en.childNodes[0].textContent || en.textContent).trim();
+      if(!term) return;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "say";
+      btn.innerHTML = ICON;
+      btn.setAttribute("aria-label", "Ascolta la pronuncia di " + term);
+      btn.title = "Ascolta in inglese: " + term;
+      if(!supported){ btn.disabled = true; btn.title = "Pronuncia non disponibile su questo browser"; }
+      btn.addEventListener("click", function(){
+        if(!supported) return;
+        synth.cancel();
+        var u = new SpeechSynthesisUtterance(term);
+        u.lang = (voice && voice.lang) || "en-US";
+        if(voice) u.voice = voice;
+        u.rate = 0.9;
+        u.onstart = function(){ btn.classList.add("speaking"); };
+        u.onend = u.onerror = function(){ btn.classList.remove("speaking"); };
+        synth.speak(u);
+      });
+      en.appendChild(btn);
+    });
   })();
 
   /* avvio */
