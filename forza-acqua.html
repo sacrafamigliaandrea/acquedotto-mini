@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La forza dell'acqua · la centrale di Edolo · Scuola Sacra Famiglia</title>
+<link rel="icon" href="logo.jpg" />
+<link rel="apple-touch-icon" href="logo.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blu:#123E90; --blu2:#1f5fc0; --bluD:#0c2a63;
+    --gold:#B8860B;
+    --ok:#2f9d5e; --okL:#e8f7ec;
+    --ink:#1b2a3a; --muted:#5a6b7c;
+    --card:#ffffff; --warm:#eef4fb; --brd:#cdd9ea;
+    --body:'Atkinson Hyperlegible',Helvetica,Arial,sans-serif;
+    --head:'Lexend',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);font-size:18px;line-height:1.65;
+    background:radial-gradient(1200px 600px at 50% -10%,#eaf2fb,#dce7f3 60%,#cdd9ea);
+    min-height:100vh;padding:0 0 48px}
+  h1,h2,h3,.bigbtn,.section{font-family:var(--head)}
+  .home-link{position:fixed;top:10px;left:12px;z-index:10;background:#fff;border-radius:9px;
+    padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none;color:var(--blu);
+    box-shadow:0 2px 8px rgba(18,62,144,.18);display:inline-flex;align-items:center;gap:6px}
+  .home-link svg{width:15px;height:15px}
+  header{text-align:center;padding:54px 16px 10px}
+  header .badge{width:58px;height:58px;margin:0 auto;display:flex;align-items:center;justify-content:center;
+    background:#fff;border-radius:50%;box-shadow:0 6px 16px rgba(18,62,144,.18)}
+  h1{margin:12px 0 2px;font-size:clamp(26px,5vw,42px);color:var(--bluD);font-weight:700}
+  header p{margin:6px auto 0;max-width:680px;color:var(--muted);font-size:16px;line-height:1.55}
+  .wrap{max-width:880px;margin:0 auto;padding:0 16px}
+  .card{background:#fff;border-radius:18px;padding:22px 24px;margin:18px 0;
+    box-shadow:0 10px 28px rgba(18,62,144,.10)}
+  .card h2{margin:0 0 14px;font-size:22px;display:flex;align-items:center;gap:11px;color:var(--blu);font-weight:600}
+  .card h2 .ic{width:28px;height:28px;flex:0 0 auto}
+  .lead{color:#3a4a5c;font-size:16px;line-height:1.6;margin:0 0 14px}
+  .lead b{color:var(--blu)}
+  .lead:last-child{margin-bottom:0}
+  .small{font-size:14.5px;color:var(--muted);line-height:1.5}
+
+  /* separatore di sezione */
+  .section{max-width:880px;margin:34px auto 0;padding:0 16px;display:flex;align-items:center;gap:14px}
+  .section span{font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--blu);white-space:nowrap}
+  .section::before,.section::after{content:"";flex:1 1 auto;height:2px;border-radius:2px;
+    background:linear-gradient(90deg,transparent,rgba(18,62,144,.28))}
+  .section::after{background:linear-gradient(90deg,rgba(18,62,144,.28),transparent)}
+
+  /* video stimolo (player senza distrazioni) */
+  .card.stim{background:linear-gradient(180deg,#eef3fb,#ffffff)}
+  .stimplayer{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:16px;margin:8px 0 0}
+  .stimvideo{display:block;flex:0 0 auto;width:auto;max-width:100%;height:auto;max-height:62vh;
+    border-radius:14px;background:#0c2a63;box-shadow:0 8px 22px rgba(18,62,144,.22)}
+
+  /* sottotitolo sincronizzato (una frase per volta) */
+  .transcript{flex:1 1 300px;min-width:260px;max-width:460px;display:flex;flex-direction:column;
+    background:#fff;border:1px solid #d6e1f2;border-radius:14px;padding:12px 14px;
+    box-shadow:0 6px 18px rgba(18,62,144,.10);max-height:62vh}
+  .t-title{margin:0 0 8px;display:flex;align-items:center;gap:8px;font-family:var(--head);
+    font-size:14px;font-weight:600;color:var(--blu);text-transform:uppercase;letter-spacing:.5px}
+  .t-title .ic{width:18px;height:18px}
+  .t-caption{flex:1 1 auto;display:flex;align-items:center;justify-content:center;text-align:center;padding:6px 10px}
+  .t-caption .cue{font-family:var(--body);font-size:20px;line-height:1.45;color:var(--ink);font-weight:700;
+    animation:cueIn .3s ease}
+  .t-caption .t-placeholder{font-size:15px;line-height:1.5;color:var(--muted);font-style:italic;font-weight:400}
+  @keyframes cueIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* mappa */
+  .mapwrap{position:relative;width:100%;padding-bottom:56%;border-radius:14px;overflow:hidden;
+    box-shadow:0 6px 18px rgba(18,62,144,.14);margin-top:6px}
+  .mapwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .maplink{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-family:var(--head);
+    font-size:14px;font-weight:600;color:var(--blu);text-decoration:none}
+  .maplink svg{width:16px;height:16px}
+  .maplink:hover{text-decoration:underline}
+  .places{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .place{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--blu);
+    background:var(--warm);border-radius:20px;padding:6px 13px}
+  .place svg{width:15px;height:15px}
+
+  /* consegna */
+  .task{display:flex;gap:11px;margin-top:12px;background:var(--okL);border-radius:12px;padding:12px 15px}
+  .task svg{width:22px;height:22px;flex:0 0 auto;margin-top:1px}
+  .task p{margin:0;font-size:15px;line-height:1.5;color:#2c5a3f}
+  .task b{color:#1f7d49}
+
+  /* glossario */
+  .card.gloss-card{background:linear-gradient(180deg,#fbf7ee,#ffffff)}
+  .glossary{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:12px}
+  .gloss{background:#fff;border:1px solid #e6dcc6;border-radius:14px;padding:13px 15px;
+    box-shadow:0 4px 12px rgba(154,106,19,.08)}
+  .gloss .term{font-family:var(--head);font-size:16.5px;font-weight:700;color:var(--bluD);display:flex;
+    align-items:center;gap:8px;flex-wrap:wrap}
+  .gloss .say{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;
+    padding:0;border:0;border-radius:50%;cursor:pointer;background:#eef2fb;color:var(--blu);
+    box-shadow:0 2px 6px rgba(18,62,144,.14);transition:background .15s,transform .12s}
+  .gloss .say:hover{background:#dde7fa}
+  .gloss .say:active{transform:scale(.92)}
+  .gloss .say svg{width:16px;height:16px}
+  .gloss .say.speaking{background:var(--blu);color:#fff;animation:sayPulse .9s ease-in-out infinite}
+  @keyframes sayPulse{0%,100%{box-shadow:0 0 0 0 rgba(31,95,192,.45)}50%{box-shadow:0 0 0 6px rgba(31,95,192,0)}}
+  .gloss .def{margin:6px 0 0;font-size:14px;line-height:1.5;color:#41535f}
+
+  /* curiosità */
+  .facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px}
+  .fact{background:var(--warm);border-radius:14px;padding:14px 16px;border-left:5px solid var(--blu2)}
+  .fact .num{font-family:var(--head);font-weight:700;color:var(--blu);font-size:24px;line-height:1.1}
+  .fact .num small{font-size:14px;font-weight:600;color:var(--blu2)}
+  .fact p{margin:5px 0 0;font-size:14.5px;line-height:1.5;color:#41535f}
+
+  /* attività interattive */
+  .card.act{background:linear-gradient(180deg,#eef7f1,#ffffff)}
+  .card.act h2{color:#1f7d49}
+  .actintro{display:inline-flex;align-items:center;gap:7px;font-family:var(--head);font-size:12.5px;
+    font-weight:600;color:#1f7d49;background:#e2f3e9;border-radius:20px;padding:5px 12px;margin:0 0 4px}
+  .actintro svg{width:15px;height:15px}
+
+  /* esperimento altezza -> forza */
+  .exp{background:var(--warm);border-radius:14px;padding:16px 18px;margin-top:8px}
+  .exp .row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .exp label{font-weight:700;color:var(--blu);font-size:15px;min-width:150px}
+  .exp input[type=range]{flex:1 1 200px;accent-color:var(--blu2);height:6px}
+  .exp .gauge{margin-top:14px;background:#fff;border-radius:12px;padding:14px 16px;border:1px solid var(--brd)}
+  .exp .bar{height:22px;border-radius:11px;background:linear-gradient(90deg,#9fd0ff,#1f5fc0);
+    transition:width .25s ease;box-shadow:0 2px 8px rgba(31,95,192,.25)}
+  .exp .barwrap{background:#e7eef7;border-radius:11px;overflow:hidden}
+  .exp .rd{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;flex-wrap:wrap;gap:6px}
+  .exp .rd b{color:var(--blu);font-family:var(--head)}
+  .exp .msg{font-size:14.5px;color:#41535f;margin-top:8px;min-height:22px}
+
+  /* metti in ordine */
+  .order .pool,.order .answer{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .order .qlab{font-weight:700;color:var(--blu);font-size:14px;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 2px}
+  .ochip{display:flex;align-items:center;gap:10px;text-align:left;width:100%;font:inherit;font-size:15.5px;
+    background:#fff;border:1.5px solid var(--brd);border-radius:12px;padding:11px 14px;cursor:pointer;
+    transition:.15s;color:var(--ink)}
+  .ochip:hover{background:#f0f5fc;border-color:var(--blu2)}
+  .ochip .n{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--warm);color:var(--blu);
+    font-family:var(--head);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+  .answer .ochip{border-style:solid;background:#f7fbff}
+  .answer .ochip .n{background:var(--blu2);color:#fff}
+  .ochip.ok{border-color:var(--ok);background:var(--okL)}
+  .ochip.ko{border-color:var(--gold);background:#fbf3e2}
+  .empty{color:var(--muted);font-style:italic;font-size:14.5px;padding:6px 2px}
+
+  /* quiz */
+  .quiz .q{margin-top:16px}
+  .quiz .q:first-child{margin-top:6px}
+  .quiz .qt{font-weight:700;color:var(--ink);font-size:16px;margin:0 0 8px;display:flex;gap:8px}
+  .quiz .qt .qn{color:var(--blu2);font-family:var(--head)}
+  .quiz .opts{display:flex;flex-direction:column;gap:8px}
+  .quiz .opt{text-align:left;width:100%;font:inherit;font-size:15.5px;background:#fff;border:1.5px solid var(--brd);
+    border-radius:12px;padding:11px 14px;cursor:pointer;transition:.15s;color:var(--ink);display:flex;align-items:center;gap:10px}
+  .quiz .opt:hover:not(:disabled){background:#f0f5fc;border-color:var(--blu2)}
+  .quiz .opt .mk{flex:0 0 auto;width:20px;height:20px}
+  .quiz .opt.correct{border-color:var(--ok);background:var(--okL);color:#1f6b43;font-weight:700}
+  .quiz .opt.wrong{border-color:var(--gold);background:#fbf3e2;color:#8a6a13}
+  .quiz .opt:disabled{cursor:default}
+  .quiz .fb{margin-top:8px;font-size:14.5px;line-height:1.5;padding:8px 12px;border-radius:10px;display:none}
+  .quiz .fb.show{display:block}
+  .quiz .fb.good{background:var(--okL);color:#1f6b43}
+  .quiz .fb.retry{background:#fbf3e2;color:#8a6a13}
+  .scorebox{margin-top:18px;text-align:center;background:var(--warm);border-radius:14px;padding:16px;display:none}
+  .scorebox.show{display:block}
+  .scorebox .sc{font-family:var(--head);font-size:30px;font-weight:700;color:var(--blu)}
+  .scorebox p{margin:6px 0 0;color:#41535f;font-size:15px}
+
+  .actbtn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:24px;padding:11px 22px;
+    font-family:var(--head);font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-top:16px;
+    background:linear-gradient(180deg,#2f9d5e,#1f7d49);box-shadow:0 8px 20px rgba(31,125,73,.30);transition:transform .12s}
+  .actbtn:hover{transform:translateY(-2px)}
+  .actbtn.ghost{background:#eef4fb;color:var(--blu);box-shadow:none;border:1.5px solid var(--brd)}
+  .actbtn svg{width:17px;height:17px}
+  .actbtns{display:flex;gap:10px;flex-wrap:wrap}
+
+  /* "Lo sapevi?" */
+  .reveal{display:flex;align-items:center;gap:14px;margin:8px 0 0;
+    background:#fff;border:1px solid #d6e1f2;border-radius:14px;padding:14px 16px}
+  .reveal .isym{width:44px;height:44px;flex:0 0 auto}
+  .reveal p{margin:0}
+
+  /* link tra le pagine */
+  .pagelinks{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:24px 0 2px}
+  .bigbtn{display:inline-flex;align-items:center;gap:9px;border:none;border-radius:30px;padding:13px 26px;
+    font-size:16px;font-weight:600;color:#fff;background:linear-gradient(180deg,var(--blu2),var(--blu));cursor:pointer;
+    text-decoration:none;box-shadow:0 10px 24px rgba(18,62,144,.34);transition:transform .12s}
+  .bigbtn:hover{transform:translateY(-2px)}
+  .bigbtn.ghost{background:#eef4fb;color:var(--blu);box-shadow:none;border:1.5px solid var(--brd)}
+  .bigbtn svg{width:18px;height:18px}
+  footer{text-align:center;margin-top:26px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<a class="home-link" href="index.html"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#123E90" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Home</a>
+
+<header>
+  <div class="badge" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="34" height="34" fill="none"><path d="M4 4v9c0 3 2 5 4 5s4-2 4-5V4M12 13c0 3 2 5 4 5s4-2 4-5V7" stroke="#123E90" stroke-width="1.7" stroke-linecap="round"/><path d="M3 20h18" stroke="#1f5fc0" stroke-width="1.7" stroke-linecap="round"/></svg>
+  </div>
+  <h1>La forza dell'acqua</h1>
+  <p>Dall'alto delle montagne l'acqua scende con grande <b>forza</b>. La centrale idroelettrica di
+     <b>Edolo</b>, in Val Camonica, la usa per produrre energia pulita. Guarda il video, segui i
+     sottotitoli e poi svolgi l'attività: la mappa, il glossario e le curiosità.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="card stim">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 6.5h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z" stroke="#123E90" stroke-width="1.7"/><path d="M17 10l4-2.2v8.4L17 14" stroke="#1f5fc0" stroke-width="1.7" stroke-linejoin="round"/></svg> Guarda il video · la centrale di Edolo</h2>
+    <p class="lead">Un viaggio dall'alta montagna fino al cuore della roccia: scopri come l'acqua che scende
+       diventa energia elettrica. Segui i <b>sottotitoli</b> a destra, frase per frase.</p>
+    <div class="stimplayer">
+      <video class="stimvideo" id="digaVideo" controls preload="metadata" playsinline
+             disablepictureinpicture disableremoteplayback
+             controlslist="nofullscreen nodownload noplaybackrate noremoteplayback">
+        <source src="centrale-edolo.mp4" type="video/mp4" />
+        Il tuo browser non riesce a mostrare il video. Puoi aprirlo qui:
+        <a href="centrale-edolo.mp4">centrale-edolo.mp4</a>.
+      </video>
+      <div class="transcript" aria-label="Sottotitolo sincronizzato">
+        <p class="t-title"><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M5 5h14M5 9h14M5 13h9M5 17h12" stroke="#123E90" stroke-width="1.7" stroke-linecap="round"/></svg> Sottotitoli</p>
+        <div class="t-caption" id="tCaption" aria-live="polite">
+          <span class="t-placeholder">Avvia il video: qui comparirà, frase per frase, ciò che viene detto.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section"><span>Attività per lo studente</span></div>
+
+  <div class="card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11Z" stroke="#123E90" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.6" stroke="#1f5fc0" stroke-width="1.7"/></svg> 1 · Dove si trova?</h2>
+    <p class="lead">La centrale è a <b>Edolo</b>, in <b>Val Camonica</b> (provincia di Brescia, Lombardia).
+       L'acqua arriva da laghi di alta montagna vicino al <b>Monte Adamello</b>, come il <b>lago d'Avio</b>
+       e il <b>lago Venerocolo</b>, che si trova a circa <b>2500 metri</b> d'altezza.</p>
+    <div class="mapwrap">
+      <iframe title="Mappa: Edolo, Val Camonica" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=9.95%2C46.02%2C10.75%2C46.36&layer=mapnik&marker=46.1783%2C10.3344"></iframe>
+    </div>
+    <div class="places">
+      <span class="place"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="3" stroke="#123E90" stroke-width="1.7"/><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11Z" stroke="#123E90" stroke-width="1.5"/></svg> Edolo (BS)</span>
+      <span class="place"><svg viewBox="0 0 24 24" fill="none"><path d="M3 17l5-8 4 5 3-4 6 7Z" stroke="#1f5fc0" stroke-width="1.6" stroke-linejoin="round"/></svg> Monte Adamello</span>
+      <span class="place"><svg viewBox="0 0 24 24" fill="none"><path d="M4 15c3 0 3-2 6-2s3 2 6 2 3-2 4-2" stroke="#1f5fc0" stroke-width="1.6" stroke-linecap="round"/></svg> Lago d'Avio</span>
+    </div>
+    <a class="maplink" href="https://www.google.com/maps/search/Centrale+idroelettrica+Edolo" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M14 5h5v5M19 5l-7 7M11 5H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5" stroke="#123E90" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Apri la mappa in Google Maps</a>
+    <div class="task">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-5" stroke="#1f7d49" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#2f9d5e" stroke-width="1.6"/></svg>
+      <p><b>Consegna:</b> trova Edolo sulla mappa e cercala rispetto alla tua città. In che regione si
+        trova? Vicino a quali montagne? Prova a immaginare il viaggio dell'acqua dai 2500 metri fino a valle.</p>
+    </div>
+  </div>
+
+  <div class="card gloss-card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 5.5h10a2 2 0 0 1 2 2V19l-3-2H4a2 2 0 0 1-2-2v-7.5a2 2 0 0 1 2-2Z" stroke="#9a6a13" stroke-width="1.7"/><path d="M19 8.5h1a2 2 0 0 1 2 2V18l-2-1.3" stroke="#c79a3a" stroke-width="1.5"/></svg> 2 · Glossario</h2>
+    <p class="lead">Le parole nuove del video. Tocca l'<b>altoparlante</b> per sentirle pronunciare.</p>
+    <div class="glossary" id="glossary">
+      <div class="gloss"><div class="term">centrale idroelettrica</div><p class="def">Impianto che produce elettricità sfruttando la forza dell'acqua che scende dall'alto.</p></div>
+      <div class="gloss"><div class="term">bacino di presa</div><p class="def">Il punto in alto dove l'acqua viene raccolta prima di scendere nella condotta.</p></div>
+      <div class="gloss"><div class="term">condotta forzata</div><p class="def">Il grande tubo in forte pendenza in cui l'acqua scende acquistando velocità.</p></div>
+      <div class="gloss"><div class="term">energia cinetica</div><p class="def">L'energia che l'acqua possiede quando si muove: più è veloce, più energia ha.</p></div>
+      <div class="gloss"><div class="term">turbina</div><p class="def">Una grande ruota che gira spinta dall'acqua e trasforma il suo movimento in energia meccanica.</p></div>
+      <div class="gloss"><div class="term">alternatore</div><p class="def">La macchina che trasforma il movimento della turbina in corrente elettrica.</p></div>
+      <div class="gloss"><div class="term">megawatt</div><p class="def">Unità che misura la potenza. La centrale può immettere fino a 1000 MW: tantissima energia.</p></div>
+      <div class="gloss"><div class="term">pompaggio</div><p class="def">Di notte le turbine girano al contrario e ripompano l'acqua in alto: come una batteria d'acqua.</p></div>
+      <div class="gloss"><div class="term">energia rinnovabile</div><p class="def">Energia pulita che si rigenera, come quella dell'acqua, senza bruciare combustibili.</p></div>
+    </div>
+    <div class="task">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-5" stroke="#1f7d49" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#2f9d5e" stroke-width="1.6"/></svg>
+      <p><b>Consegna:</b> scegli tre parole del glossario e prova a raccontare, con parole tue, il viaggio
+        dell'acqua dal <i>bacino di presa</i> fino alla corrente elettrica.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3a5 5 0 0 0-3 9c.6.5 1 1.2 1 2h4c0-.8.4-1.5 1-2a5 5 0 0 0-3-9Z" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 19h4M10.5 21h3" stroke="#1f5fc0" stroke-width="1.6" stroke-linecap="round"/></svg> 3 · Curiosità</h2>
+    <p class="lead">Alcuni numeri sorprendenti raccontati nel video:</p>
+    <div class="facts">
+      <div class="fact"><div class="num">2500 <small>m</small></div><p>L'altezza dei laghi da cui parte l'acqua, vicino al Monte Adamello.</p></div>
+      <div class="fact"><div class="num">1300 <small>m</small></div><p>Lo spessore di roccia sopra la centrale: è nascosta dentro la montagna per rispettare la natura.</p></div>
+      <div class="fact"><div class="num">700 <small>m</small></div><p>La lunghezza della galleria che porta fino al cuore dell'impianto.</p></div>
+      <div class="fact"><div class="num">70 <small>gradi</small></div><p>La pendenza ripidissima della condotta in cui l'acqua precipita verso il basso.</p></div>
+      <div class="fact"><div class="num">1000 <small>MW</small></div><p>La potenza massima che la centrale può immettere nella rete elettrica.</p></div>
+      <div class="fact"><div class="num">120.000</div><p>Le famiglie che potrebbero avere elettricità per un anno intero grazie a questa energia.</p></div>
+      <div class="fact"><div class="num">5000</div><p>Le persone che ogni anno visitano l'impianto: è anche un'attrazione turistica.</p></div>
+      <div class="fact"><div class="num">di notte</div><p>Quando serve meno energia, le turbine diventano pompe e riportano su l'acqua, pronte a ripartire.</p></div>
+    </div>
+    <div class="reveal">
+      <svg class="isym" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M26 5L14 27h9l-2 16 15-24h-10l2-14Z" stroke="#1f5fc0" stroke-width="2.4" stroke-linejoin="round"/></svg>
+      <p class="small"><b>Lo sapevi?</b> La stessa acqua viene usata più volte: scende, produce energia, e di
+        notte viene ripompata in alto per essere di nuovo pronta. È come una gigantesca batteria fatta d'acqua.</p>
+    </div>
+  </div>
+
+  <div class="card act">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3v7M12 10l-3-3M12 10l3-3" stroke="#1f7d49" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14c3 0 3 2 6 2s3-2 6-2 3 2 4 2" stroke="#2f9d5e" stroke-width="1.6" stroke-linecap="round"/><path d="M4 19c3 0 3 2 6 2s3-2 6-2 3 2 4 2" stroke="#2f9d5e" stroke-width="1.6" stroke-linecap="round"/></svg> 4 · Esperimento: più in alto, più forza</h2>
+    <p class="lead">Più l'acqua parte dall'<b>alto</b>, più energia ha quando scende. Muovi il cursore e osserva
+       come cresce la forza dell'acqua.</p>
+    <div class="exp">
+      <div class="row">
+        <label for="hgt">Altezza di partenza</label>
+        <input type="range" id="hgt" min="0" max="2500" step="50" value="500" />
+      </div>
+      <div class="gauge">
+        <div class="rd" style="margin-top:0;margin-bottom:10px"><span>Altezza: <b id="hval">500 m</b></span><span>Forza dell'acqua: <b id="fval">basssa</b></span></div>
+        <div class="barwrap"><div class="bar" id="ebar" style="width:20%"></div></div>
+        <p class="msg" id="emsg">Con poca altezza l'acqua scende piano: poca energia.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card act">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 6h10M4 12h13M4 18h8" stroke="#1f7d49" stroke-width="1.7" stroke-linecap="round"/><path d="M18 16l2 2 3-4" stroke="#2f9d5e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg> 5 · Metti in ordine il viaggio dell'acqua</h2>
+    <p class="lead">Dall'acqua in alto fino alla corrente elettrica: <b>tocca le tessere nell'ordine giusto</b>.
+       Le vedrai comparire qui sotto, numerate. Poi premi <b>Verifica</b>.</p>
+    <div class="order" id="order">
+      <div class="qlab">Tessere disponibili</div>
+      <div class="pool" id="pool"></div>
+      <div class="qlab">Il tuo ordine</div>
+      <div class="answer" id="answer"><p class="empty" id="ansEmpty">Nessuna tessera scelta: tocca le tessere qui sopra.</p></div>
+      <div class="actbtns">
+        <button class="actbtn" id="orderCheck" type="button"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Verifica</button>
+        <button class="actbtn ghost" id="orderReset" type="button"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 1 2.3 5.6M4 12V7m0 5h5" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Ricomincia</button>
+      </div>
+      <p class="msg" id="orderMsg" style="min-height:22px;margin-top:12px;font-size:15px"></p>
+    </div>
+  </div>
+
+  <div class="card act">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#1f7d49" stroke-width="1.6"/><path d="M9.2 9.2a2.8 2.8 0 1 1 3.6 3.3c-.6.3-.8.7-.8 1.3" stroke="#1f7d49" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="17" r="1.1" fill="#2f9d5e"/></svg> 6 · Quiz: quanto ricordi?</h2>
+    <p class="lead">Cinque domande sul video. Tocca la risposta: se sbagli, puoi <b>riprovare</b>.</p>
+    <div class="quiz" id="quiz"></div>
+    <div class="scorebox" id="scorebox">
+      <div class="sc" id="scoreVal">0 / 5</div>
+      <p id="scoreMsg"></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 20h16M6 20v-8l6-5 6 5v8" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 20v-5h4v5" stroke="#1f5fc0" stroke-width="1.6" stroke-linejoin="round"/></svg> La stessa forza nel nostro acquedotto</h2>
+    <p class="lead">Anche nel nostro acquedotto l'acqua parte dai serbatoi <b>in alto</b> e scende da sola fino
+       ai rubinetti, grazie alla gravità: la stessa forza, in piccolo, che a Edolo muove le turbine.</p>
+    <div class="pagelinks">
+      <a class="bigbtn" href="simulatore.html"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7L8 5Z"/></svg> Vai al simulatore</a>
+      <a class="bigbtn ghost" href="index.html"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7M6 10v9h12v-9" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Home</a>
+    </div>
+  </div>
+
+  <footer>Scuola Sacra Famiglia · attività didattica sull'acquedotto · la forza dell'acqua</footer>
+
+</div>
+
+<script>
+(function(){
+  /* sottotitolo sincronizzato: una frase per volta */
+  var v = document.getElementById("digaVideo");
+  var box = document.getElementById("tCaption");
+  if(v && box){
+    var cues = [
+      [0.0, 2.0, "Dovevamo fare delle riprese aeree, non"],
+      [2.0, 4.0, "avevamo il drone a disposizione, abbiamo"],
+      [4.0, 6.0, "risolto così."],
+      [6.0, 8.0, "Oggi mi trovo a Edolo, in Val Camonica"],
+      [8.0, 10.0, "e quello che state vedendo non è solo il lago d'Avio"],
+      [10.0, 12.0, "immerso in un panorama meraviglioso"],
+      [12.0, 14.0, "ma è anche il primo motore"],
+      [14.0, 16.0, "di uno dei capolavori ingegneristici d'Europa"],
+      [16.0, 18.0, "Quello è il monte Adamello"],
+      [18.0, 20.0, "questo è il lago Venerocolo, siamo a 2500 metri d'altezza"],
+      [20.0, 23.0, "ed è da qui che l'acqua inizia la sua corsa"],
+      [23.0, 25.0, "Ma la corsa per dove?"],
+      [25.0, 27.0, "Per alimentare una delle più grandi centrali idroelettriche d'Italia"],
+      [27.0, 29.0, "che non si vede"],
+      [29.0, 32.0, "La centrale idroelettrica Enel di Edolo è scavata nella roccia"],
+      [32.0, 34.0, "per azzerare l'impatto ambientale"],
+      [34.0, 38.0, "In questo punto sopra di me ci sono 1300 metri di roccia"],
+      [38.0, 41.0, "E l'accesso è permesso da una galleria lunga 700 metri"],
+      [41.0, 43.0, "che porta al cuore della montagna"],
+      [43.0, 45.0, "L'unica cosa visibile da fuori"],
+      [45.0, 47.0, "sono queste condotte che convogliano l'acqua verso valle"],
+      [47.0, 50.0, "E questo è quello che si vede da dentro"],
+      [50.0, 52.0, "È una discesa ripidissima, 70 gradi"],
+      [52.0, 54.0, "In cima c'è il bacino di presa"],
+      [54.0, 57.0, "l'acqua viene incanalata in questa enorme condotta"],
+      [57.0, 60.0, "acquisisce energia cinetica e arriva giù a girare le turbine"],
+      [60.0, 64.0, "Le turbine poi trasformano l'energia dell'acqua in movimento meccanico"],
+      [64.0, 66.0, "e a loro volta gli alternatori convertono"],
+      [66.0, 69.0, "questo movimento in corrente elettrica"],
+      [69.0, 72.0, "immettendo fino a 1000 MW nella rete"],
+      [72.0, 74.0, "Quando poi c'è meno richiesta, tipicamente di notte,"],
+      [74.0, 76.0, "le turbine invertono il giro e diventano pompe"],
+      [76.0, 79.0, "in grado di riportare l'acqua nel lago in quota"],
+      [79.0, 82.0, "Poi quando c'è di nuovo bisogno di elettricità il giro ricomincia"],
+      [82.0, 86.0, "l'acqua scende di nuovo e genera energia pulita all'istante"],
+      [86.0, 88.0, "Questo impianto non è soltanto una risorsa fondamentale"],
+      [88.0, 91.0, "capace di generare la stessa energia"],
+      [91.0, 94.0, "consumata da 120.000 famiglie ogni anno"],
+      [94.0, 96.0, "ma è anche un'attrazione turistica,"],
+      [96.0, 99.0, "visitata da più di 5000 persone ogni anno"],
+      [99.0, 102.0, "In definitiva, la centrale idroelettrica Enel di Edolo"],
+      [102.0, 105.0, "è la dimostrazione di come ingegno umano e rispetto per la natura"],
+      [105.0, 107.0, "possano convivere nel desiderio"],
+      [107.0, 112.0, "di dare forza al nostro futuro energetico"]
+    ];
+    var placeholder = box.innerHTML;
+    var current = -2;
+    function findIdx(t){
+      for(var i=0;i<cues.length;i++){ if(t >= cues[i][0] && t < cues[i][1]) return i; }
+      return -1;
+    }
+    function sync(){
+      var idx = findIdx(v.currentTime);
+      if(idx === current) return;
+      current = idx;
+      if(idx < 0){ box.innerHTML = placeholder; return; }
+      var s = document.createElement("span");
+      s.className = "cue";
+      s.textContent = cues[idx][2];
+      box.innerHTML = "";
+      box.appendChild(s);
+    }
+    v.addEventListener("timeupdate", sync);
+    v.addEventListener("seeked", sync);
+  }
+
+  /* lettura ad alta voce dei termini del glossario (voce italiana) */
+  (function(){
+    var synth = window.speechSynthesis;
+    var terms = document.querySelectorAll("#glossary .gloss .term");
+    if(!terms.length) return;
+    var supported = !!synth && typeof window.SpeechSynthesisUtterance === "function";
+    var ICON = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h3.5L13 19V5L7.5 9H4Z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7M18.5 6a7 7 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+    var voice = null;
+    function pickVoice(){
+      var vs = synth.getVoices() || [];
+      voice = vs.filter(function(x){return /^it(-|_|$)/i.test(x.lang);})[0] || null;
+    }
+    if(supported){
+      pickVoice();
+      if(synth.onvoiceschanged !== undefined) synth.addEventListener("voiceschanged", pickVoice);
+    }
+    [].forEach.call(terms, function(el){
+      var word = el.textContent.trim();
+      if(!word) return;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "say";
+      btn.innerHTML = ICON;
+      btn.setAttribute("aria-label", "Ascolta la pronuncia di " + word);
+      btn.title = "Ascolta: " + word;
+      if(!supported){ btn.disabled = true; btn.title = "Pronuncia non disponibile su questo browser"; }
+      btn.addEventListener("click", function(){
+        if(!supported) return;
+        synth.cancel();
+        var u = new SpeechSynthesisUtterance(word);
+        u.lang = (voice && voice.lang) || "it-IT";
+        if(voice) u.voice = voice;
+        u.rate = 0.9;
+        u.onstart = function(){ btn.classList.add("speaking"); };
+        u.onend = u.onerror = function(){ btn.classList.remove("speaking"); };
+        synth.speak(u);
+      });
+      el.appendChild(btn);
+    });
+  })();
+
+  /* attività 4 · esperimento altezza -> forza */
+  (function(){
+    var s = document.getElementById("hgt");
+    if(!s) return;
+    var hval = document.getElementById("hval"), fval = document.getElementById("fval");
+    var bar = document.getElementById("ebar"), msg = document.getElementById("emsg");
+    function upd(){
+      var h = +s.value;
+      var pct = Math.round(h/2500*100);
+      hval.textContent = h + " m";
+      bar.style.width = Math.max(4, pct) + "%";
+      var lvl, txt;
+      if(h < 600){ lvl = "bassa"; txt = "Con poca altezza l'acqua scende piano: poca energia."; }
+      else if(h < 1300){ lvl = "media"; txt = "L'acqua prende velocità: la forza aumenta."; }
+      else if(h < 2100){ lvl = "alta"; txt = "Da più in alto l'acqua arriva veloce e spinge forte."; }
+      else { lvl = "altissima"; txt = "Come a Edolo: dai 2500 metri l'acqua ha energia enorme, pronta a girare le turbine!"; }
+      fval.textContent = lvl;
+      msg.textContent = txt;
+    }
+    s.addEventListener("input", upd);
+    upd();
+  })();
+
+  /* attività 5 · metti in ordine */
+  (function(){
+    var pool = document.getElementById("pool");
+    if(!pool) return;
+    var answer = document.getElementById("answer");
+    var ansEmpty = document.getElementById("ansEmpty");
+    var msg = document.getElementById("orderMsg");
+    var steps = [
+      "L'acqua è raccolta nel bacino di presa, in alto",
+      "Scende nella condotta forzata, ripidissima",
+      "Prende velocità: acquista energia cinetica",
+      "Fa girare le turbine (energia meccanica)",
+      "Gli alternatori producono corrente elettrica",
+      "L'energia entra nella rete elettrica"
+    ];
+    var placed = []; // indici nell'ordine scelto
+    function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+    var order = shuffle(steps.map(function(_,i){return i;}));
+    function chip(i, where){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "ochip";
+      b.dataset.idx = i;
+      b.innerHTML = '<span class="n">'+(where==="answer"?(placed.indexOf(i)+1):"+")+'</span><span>'+steps[i]+'</span>';
+      return b;
+    }
+    function render(){
+      pool.innerHTML = "";
+      order.forEach(function(i){
+        if(placed.indexOf(i) !== -1) return;
+        var b = chip(i,"pool");
+        b.addEventListener("click", function(){ placed.push(i); msg.textContent=""; clearMarks(); render(); });
+        pool.appendChild(b);
+      });
+      // answer
+      [].slice.call(answer.querySelectorAll(".ochip")).forEach(function(n){n.remove();});
+      if(placed.length === 0){ ansEmpty.style.display=""; }
+      else{
+        ansEmpty.style.display="none";
+        placed.forEach(function(i){
+          var b = chip(i,"answer");
+          b.addEventListener("click", function(){ placed = placed.filter(function(x){return x!==i;}); msg.textContent=""; clearMarks(); render(); });
+          answer.appendChild(b);
+        });
+      }
+    }
+    function clearMarks(){ [].forEach.call(answer.querySelectorAll(".ochip"), function(n){ n.classList.remove("ok","ko"); }); }
+    document.getElementById("orderCheck").addEventListener("click", function(){
+      if(placed.length < steps.length){ msg.style.color="#8a6a13"; msg.textContent="Mancano ancora delle tessere: completane l'ordine prima di verificare."; return; }
+      var right = 0;
+      var chips = answer.querySelectorAll(".ochip");
+      placed.forEach(function(i,pos){
+        var ok = (i === pos);
+        if(ok) right++;
+        chips[pos].classList.add(ok?"ok":"ko");
+      });
+      if(right === steps.length){ msg.style.color="#1f7d49"; msg.textContent="Perfetto! Hai ricostruito tutto il viaggio dell'acqua, dal bacino alla corrente elettrica."; }
+      else{ msg.style.color="#8a6a13"; msg.textContent="Quasi! "+right+" tessere su "+steps.length+" sono al posto giusto. Sposta quelle segnate e riprova."; }
+    });
+    document.getElementById("orderReset").addEventListener("click", function(){
+      placed = []; order = shuffle(steps.map(function(_,i){return i;})); msg.textContent=""; render();
+    });
+    render();
+  })();
+
+  /* attività 6 · quiz */
+  (function(){
+    var host = document.getElementById("quiz");
+    if(!host) return;
+    var questions = [
+      { q:"A che altezza si trova il lago Venerocolo, da cui parte l'acqua?",
+        opts:["circa 250 metri","circa 2500 metri","circa 25 metri"], correct:1,
+        good:"Esatto: circa 2500 metri, in alta montagna vicino al Monte Adamello." },
+      { q:"Dov'è costruita la centrale di Edolo?",
+        opts:["su una grande diga bene in vista","scavata nella roccia, dentro la montagna","in riva a un lago"], correct:1,
+        good:"Giusto: è scavata nella roccia per azzerare l'impatto ambientale (1300 m di roccia sopra!)." },
+      { q:"Quanta energia può immettere nella rete elettrica?",
+        opts:["fino a 10 MW","fino a 100 MW","fino a 1000 MW"], correct:2,
+        good:"Proprio così: fino a 1000 MW, tantissima potenza." },
+      { q:"Che cosa succede di notte, quando serve meno energia?",
+        opts:["la centrale si spegne del tutto","le turbine diventano pompe e riportano l'acqua in alto","l'acqua viene buttata via"], correct:1,
+        good:"Esatto: le turbine girano al contrario e ripompano su l'acqua, come una batteria d'acqua." },
+      { q:"Perché la centrale è nascosta dentro la montagna?",
+        opts:["per farla sembrare più grande","per azzerare l'impatto ambientale","per risparmiare acqua"], correct:1,
+        good:"Giusto: così rispetta il paesaggio e la natura della valle." }
+    ];
+    var answered = new Array(questions.length).fill(false);
+    var CHECK = '<svg class="mk" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2f9d5e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var RETRY = '<svg class="mk" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 1 2.3 5.6M4 12V7m0 5h5" stroke="#B8860B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    questions.forEach(function(item, qi){
+      var wrap = document.createElement("div");
+      wrap.className = "q";
+      var t = document.createElement("p");
+      t.className = "qt";
+      t.innerHTML = '<span class="qn">'+(qi+1)+'.</span><span>'+item.q+'</span>';
+      wrap.appendChild(t);
+      var opts = document.createElement("div");
+      opts.className = "opts";
+      var fb = document.createElement("div");
+      fb.className = "fb";
+      item.opts.forEach(function(txt, oi){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "opt"; b.textContent = txt;
+        b.addEventListener("click", function(){
+          if(answered[qi]) return;
+          if(oi === item.correct){
+            answered[qi] = true;
+            b.classList.add("correct"); b.insertAdjacentHTML("afterbegin", CHECK);
+            [].forEach.call(opts.children, function(c){ c.disabled = true; });
+            fb.className = "fb good show"; fb.textContent = item.good;
+            updateScore();
+          } else {
+            b.classList.add("wrong"); b.disabled = true; b.insertAdjacentHTML("afterbegin", RETRY);
+            fb.className = "fb retry show"; fb.textContent = "Non proprio: prova un'altra risposta.";
+          }
+        });
+        opts.appendChild(b);
+      });
+      wrap.appendChild(opts);
+      wrap.appendChild(fb);
+      host.appendChild(wrap);
+    });
+    var box = document.getElementById("scorebox");
+    var scoreVal = document.getElementById("scoreVal");
+    var scoreMsg = document.getElementById("scoreMsg");
+    function updateScore(){
+      var n = answered.filter(Boolean).length;
+      if(n === questions.length){
+        box.classList.add("show");
+        scoreVal.textContent = n + " / " + questions.length;
+        scoreMsg.textContent = "Bravo! Hai completato il quiz sulla forza dell'acqua.";
+        box.scrollIntoView({behavior:"smooth", block:"center"});
+      }
+    }
+  })();
+})();
+</script>
+</body>
+</html>
