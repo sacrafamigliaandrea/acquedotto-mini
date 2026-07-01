@@ -4,8 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>La storia di questa app · Scuola Sacra Famiglia</title>
-<link rel="icon" href="logo.svg" />
-<link rel="apple-touch-icon" href="logo.jpg" />
+<link rel="icon" href="data:," />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -45,13 +44,6 @@
   /* ---- header compatto ---- */
   .topbar{flex:0 0 auto;text-align:center}
   .brand{display:inline-flex;align-items:center;gap:11px}
-  .brand-mark{width:38px;height:38px;flex:0 0 auto;filter:drop-shadow(0 6px 14px rgba(18,62,144,.20))}
-  .brand-mark .s-top{stop-color:var(--logo-1,var(--blu2,#1f5fc0))}
-  .brand-mark .s-bot{stop-color:var(--logo-2,var(--blu,#123E90))}
-  .brand-mark .b-step{fill:#fff}
-  .brand-mark .b-fig{stroke:var(--logo-accent,var(--gold,#B8860B));stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;fill:none}
-  .brand-mark .b-fig .fh{fill:var(--logo-accent,var(--gold,#B8860B));stroke:none}
-  .brand-mark .b-spark{fill:var(--logo-accent,var(--gold,#D4A017))}
   .brand-txt{display:flex;flex-direction:column;text-align:left;line-height:1.15}
   .brand-name{font-family:var(--head);font-size:12.5px;font-weight:700;letter-spacing:.6px;color:var(--logo-2,var(--blu));text-transform:uppercase}
   .brand-role{font-family:var(--head);font-size:10.5px;font-weight:500;letter-spacing:.2px;color:var(--muted)}
@@ -106,8 +98,10 @@
     transition:transform .8s cubic-bezier(.22,.72,.2,1.25),box-shadow .5s,opacity .45s,filter .45s,border-color .4s}
   .cc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--acc);opacity:0;transition:opacity .4s}
   .cc .num{position:absolute;top:6px;right:9px;font-family:var(--head);font-weight:700;font-size:17px;color:#eaf1fb;line-height:1}
-  .cc .ill{width:100%;height:44px;display:flex;align-items:center;justify-content:center;background:var(--warm);border-radius:9px;margin-bottom:7px}
-  .cc .ill svg{width:32px;height:32px}
+  .cc .ill{width:100%;height:56px;border-radius:9px;margin-bottom:7px;overflow:hidden;position:relative;background:var(--warm);border:1px solid var(--brd)}
+  .cc .ill img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+  .cc .ill .badge{position:absolute;right:5px;bottom:5px;width:21px;height:21px;border-radius:6px;background:rgba(255,255,255,.94);box-shadow:0 2px 6px rgba(9,28,66,.28);display:flex;align-items:center;justify-content:center}
+  .cc .ill .badge svg{width:14px;height:14px}
   .cc .eyebrow{font-family:var(--head);font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--acc)}
   .cc h3{font-family:var(--head);font-size:11px;font-weight:700;color:var(--bluD);margin:2px 0 3px;line-height:1.15}
   .cc p{margin:0;font-size:9px;color:var(--muted);line-height:1.35;
@@ -119,7 +113,9 @@
   .cc.done::before,.cc.current::before{opacity:1}
   .cc.current{border-color:var(--acc)}
   .cc.staged{z-index:60;box-shadow:0 34px 70px rgba(9,28,66,.42);filter:none;opacity:1}
-  .cc.staged .ill{background:color-mix(in srgb,var(--acc) 12%,#fff)}
+  .cc.staged .ill{border-color:var(--acc)}
+  .cc.staged .ill .badge{width:30px;height:30px;border-radius:8px}
+  .cc.staged .ill .badge svg{width:20px;height:20px}
 
   /* micro-animazioni interne SVG, solo sulla card sul palco */
   .a-spin{transform-box:fill-box;transform-origin:center}
@@ -143,7 +139,7 @@
   .bar-fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:6px;background:linear-gradient(90deg,var(--blu2),var(--blu))}
 
   @media (max-height:560px){
-    .cc .ill{height:34px} .cc .ill svg{width:26px;height:26px}
+    .cc .ill{height:42px}
     .cc p{-webkit-line-clamp:2}
   }
   @media (prefers-reduced-motion: reduce){
@@ -158,24 +154,6 @@
 <div class="stage-wrap">
   <header class="topbar">
     <div class="brand">
-      <svg class="brand-mark" viewBox="0 0 48 48" role="img" aria-label="Scuola Sacra Famiglia">
-        <defs><linearGradient id="sfLogo" x1="0" y1="0" x2="0" y2="1"><stop class="s-top" offset="0"/><stop class="s-bot" offset="1"/></linearGradient></defs>
-        <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#sfLogo)"/>
-        <g class="b-step">
-          <rect x="6" y="32" width="11" height="9" rx="1.6"/>
-          <rect x="18.5" y="26" width="11" height="15" rx="1.6"/>
-          <rect x="31" y="20" width="11" height="21" rx="1.6"/>
-        </g>
-        <g class="b-fig">
-          <circle class="fh" cx="11.5" cy="27" r="2.1"/>
-          <path d="M11.5 29.1 L11.5 32 M11.5 32 L9.7 34.6 M11.5 32 L13.3 34.6 M11.5 30 L15.8 27.4"/>
-          <circle class="fh" cx="24" cy="21" r="2.1"/>
-          <path d="M24 23.1 L24 26 M24 26 L22.2 28.6 M24 26 L25.8 28.6 M24 24 L15.8 27.4 M24 23.4 L28.3 21"/>
-          <circle class="fh" cx="36.5" cy="15" r="2.1"/>
-          <path d="M36.5 17.1 L36.5 20 M36.5 20 L34.7 22.6 M36.5 20 L38.3 22.6 M36.5 18 L28.3 21 M36.5 16.4 L40.2 12"/>
-        </g>
-        <path class="b-spark" d="M41 8.3 L41.8 10.7 L44.2 11.5 L41.8 12.3 L41 14.7 L40.2 12.3 L37.8 11.5 L40.2 10.7 Z"/>
-      </svg>
       <div class="brand-txt">
         <span class="brand-name">Scuola Sacra Famiglia</span>
         <span class="brand-role">Animatore Digitale · Andrea Cerioli</span>
@@ -266,15 +244,15 @@
 
   /* ---------- concetti sincronizzati (tempi in secondi) ---------- */
   var CC = [
-    {t:0.0,  acc:"#123E90", eye:"L'inizio",        title:"Come è nata questa app",   line:"Un'app che è diventata, per me, particolarmente significativa.", icon:"spark"},
-    {t:10.0, acc:"#1f7d49", eye:"Informatica",     title:"Il codice binario",        line:"Controllando le nuove Indicazioni, scopro un tema mai trattato.", icon:"binary"},
-    {t:21.0, acc:"#B8860B", eye:"Una scelta",      title:"Complesso e poco pratico", line:"Per questa età il binario è astratto, lontano dalla vita reale.", icon:"hourglass"},
-    {t:41.5, acc:"#123E90", eye:"La scoperta",     title:"Il plastico di uno studente", line:"All'esame di Stato: tubi e rubinetti d'acciaio, cisterna e pompa.", icon:"model"},
-    {t:54.5, acc:"#1f7d49", eye:"Uno e zero",      title:"Il rubinetto è binario",   line:"Aperto o chiuso: uno, e zero. Il concetto diventa tangibile.", icon:"tap"},
-    {t:65.0, acc:"#1f5fc0", eye:"Il simulatore",   title:"Fedele al plastico, su iPad", line:"Tutti provano l'acquedotto, in attesa di mettere le mani su quello vero.", icon:"ipad"},
-    {t:78.5, acc:"#B8860B", eye:"Il lavoro",       title:"Ore per un buon artefatto", line:"Diverse ore di lavoro per un solido artefatto digitale. Ed ero soddisfatto.", icon:"gears"},
-    {t:84.0, acc:"#1f7d94", eye:"L'integrazione",  title:"Binario, inglese, Edolo",  line:"Il video in inglese come stimolo; la centrale di Edolo sul territorio.", icon:"turbine"},
-    {t:104.0,acc:"#0c2a63", eye:"Il senso",        title:"Unità di apprendimento",   line:"Tutte le discipline si fondono in un'unica esperienza.", icon:"drop"}
+    {t:0.0,   acc:"#123E90", eye:"L'inizio",       title:"Come è nata questa app",         line:"Come molte altre: grazie a un mio studente.",                             icon:"spark",    img:"shot-index.jpg"},
+    {t:23.0,  acc:"#1f7d49", eye:"La mancanza",    title:"Il codice binario",              line:"Sulle nuove Indicazioni scopro un tema mai trattato.",                    icon:"binary",   img:"shot-binario.jpg"},
+    {t:42.0,  acc:"#B8860B", eye:"In sospeso",     title:"Come renderlo concreto?",        line:"Non lo sapevo: la domanda resta lì, messa da parte.",                     icon:"hourglass",img:"shot-binario.jpg"},
+    {t:54.8,  acc:"#123E90", eye:"La scoperta",    title:"Il plastico all'esame di Stato", line:"Uno studente porta il suo acquedotto: tubi, rubinetti, cisterna e pompa.", icon:"model",    img:"shot-simulatore.jpg"},
+    {t:71.1,  acc:"#1f7d49", eye:"Uno e zero",     title:"Il rubinetto è binario",         line:"Aperto o chiuso: uno, e zero. La risposta era lì.",                       icon:"tap",      img:"shot-binario.jpg"},
+    {t:76.6,  acc:"#1f5fc0", eye:"Il simulatore",  title:"Fedele al plastico, su iPad",    line:"Un simulatore per provare l'acquedotto dal proprio iPad.",                icon:"ipad",     img:"shot-simulatore.jpg"},
+    {t:89.6,  acc:"#B8860B", eye:"Il lavoro",      title:"Ore per un buon artefatto",      line:"Diverse ore di lavoro per un artefatto digitale solido.",                 icon:"gears",    img:"shot-simulatore.jpg"},
+    {t:99.2,  acc:"#1f7d94", eye:"L'integrazione", title:"Binario, inglese, Edolo",        line:"Il binario, un video in inglese, la centrale di Edolo.",                  icon:"turbine",  img:"shot-forza-acqua.jpg"},
+    {t:115.7, acc:"#0c2a63", eye:"Il senso",       title:"Unità di apprendimento",         line:"Le discipline si fondono in un'esperienza. Grazie, Emanuele.",            icon:"drop",     img:"shot-index.jpg"}
   ];
 
   /* ---------- costruzione card ---------- */
@@ -286,7 +264,8 @@
     el.dataset.idx = i;
     el.innerHTML =
       '<span class="num">' + (i+1) + '</span>' +
-      '<div class="ill">' + ICON[c.icon] + '</div>' +
+      '<div class="ill"><img src="' + c.img + '" alt="" loading="lazy" />' +
+        '<span class="badge">' + ICON[c.icon] + '</span></div>' +
       '<div class="eyebrow">' + c.eye + '</div>' +
       '<h3>' + c.title + '</h3>' +
       '<p>' + c.line + '</p>';
