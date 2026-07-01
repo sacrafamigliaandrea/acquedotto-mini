@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Codice binario · dagli interruttori 0/1 · Scuola Sacra Famiglia</title>
-<link rel="icon" href="logo.jpg" />
+<link rel="icon" href="logo.svg" />
 <link rel="apple-touch-icon" href="logo.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,18 @@
     padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none;color:var(--blu);
     box-shadow:0 2px 8px rgba(18,62,144,.18);display:inline-flex;align-items:center;gap:6px}
   .home-link svg{width:15px;height:15px}
-  header{text-align:center;padding:54px 16px 10px}
+  .brandbar{display:flex;justify-content:center;padding:14px 16px 0}
+  .brand{display:inline-flex;align-items:center;gap:11px}
+  .brand-mark{width:42px;height:42px;flex:0 0 auto;filter:drop-shadow(0 5px 14px rgba(18,62,144,.20))}
+  .brand-mark .s-top{stop-color:var(--logo-1,var(--blu2,#1f5fc0))}
+  .brand-mark .s-bot{stop-color:var(--logo-2,var(--blu,#123E90))}
+  .brand-mark .b-drop{fill:#fff}
+  .brand-mark .b-arch{stroke:var(--logo-2,var(--blu,#123E90))}
+  .brand-mark .b-dot{fill:var(--logo-accent,var(--gold,#B8860B))}
+  .brand-txt{display:flex;flex-direction:column;text-align:left;line-height:1.2}
+  .brand-name{font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:.6px;color:var(--logo-2,var(--blu));text-transform:uppercase}
+  .brand-role{font-family:var(--head);font-size:11.5px;font-weight:500;letter-spacing:.2px;color:var(--muted)}
+  header{text-align:center;padding:26px 16px 10px}
   header .badge{width:58px;height:58px;margin:0 auto;display:flex;align-items:center;justify-content:center;
     background:#fff;border-radius:50%;box-shadow:0 6px 16px rgba(18,62,144,.18)}
   h1{margin:12px 0 2px;font-size:clamp(26px,5vw,42px);color:var(--bluD);font-weight:700}
@@ -188,6 +199,22 @@
 </head>
 <body>
 <a class="home-link" href="index.html"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#123E90" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Home</a>
+
+<div class="brandbar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 48 48" role="img" aria-label="Scuola Sacra Famiglia">
+      <defs><linearGradient id="sfLogo" x1="0" y1="0" x2="0" y2="1"><stop class="s-top" offset="0"/><stop class="s-bot" offset="1"/></linearGradient></defs>
+      <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#sfLogo)"/>
+      <path class="b-drop" d="M24 11c1.8 3 8 9.6 8 15a8 8 0 0 1-16 0c0-5.4 6.2-12 8-15Z"/>
+      <path class="b-arch" d="M18.6 27.2a5.4 5.4 0 0 1 10.8 0" fill="none" stroke-width="1.7" stroke-linecap="round"/>
+      <circle class="b-dot" cx="24" cy="30.2" r="1.8"/>
+    </svg>
+    <div class="brand-txt">
+      <span class="brand-name">Scuola Sacra Famiglia</span>
+      <span class="brand-role">Animatore Digitale · Andrea Cerioli</span>
+    </div>
+  </div>
+</div>
 
 <header>
   <div class="badge" aria-hidden="true">

@@ -4,154 +4,251 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>La storia di questa app · Scuola Sacra Famiglia</title>
-<link rel="icon" href="logo.jpg" />
+<link rel="icon" href="logo.svg" />
 <link rel="apple-touch-icon" href="logo.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --blu:#123E90;
-    --blu2:#1f5fc0;
-    --bluD:#0c2a63;
-    --gold:#B8860B;
-    --gold2:#D4A017;
-    --ink:#1b2a3a;
-    --muted:#5a6b7c;
-    --card:#ffffff;
-    --warm:#eef4fb;
-    --brd:#cdd9ea;
-    --ok:#1f7d49;
-    --okL:#e8f7ec;
+    --blu:#123E90; --blu2:#1f5fc0; --bluD:#0c2a63;
+    --gold:#B8860B; --gold2:#D4A017;
+    --teal:#1f7d94; --green:#1f7d49;
+    --ink:#1b2a3a; --muted:#5a6b7c; --card:#ffffff; --warm:#eef4fb; --brd:#cdd9ea;
     --body:'Atkinson Hyperlegible',Helvetica,Arial,sans-serif;
     --head:'Lexend',sans-serif;
     --maxw:1080px;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
+  html{background:#c4d5ec}
   body{font-family:var(--body);color:var(--ink);font-size:18px;line-height:1.6;
-    background:radial-gradient(1200px 700px at 50% -10%,#eaf2fb,#dce7f3 55%,#cdd9ea);
-    min-height:100vh;padding:26px 18px 60px}
-  h1,h2,h3,.sub,.school,.ptitle,.chip,.play-lbl{font-family:var(--head)}
-  .wrap{max-width:var(--maxw);margin:0 auto}
+    background:radial-gradient(1200px 700px at 50% -8%,#eaf2fb,#dbe7f5 52%,#c4d5ec) fixed;
+    background-color:#c4d5ec;
+    min-height:100vh;padding:24px 18px 60px;position:relative;overflow-x:hidden}
 
-  /* header */
-  header{text-align:center;margin-bottom:22px}
-  .logo{width:66px;height:66px;object-fit:contain;border-radius:15px;background:#fff;
-    padding:7px;box-shadow:0 8px 22px rgba(18,62,144,.20)}
-  .school{margin:9px 0 0;font-size:12.5px;font-weight:700;letter-spacing:1.6px;color:var(--blu);text-transform:uppercase}
-  h1{margin:8px 0 4px;font-size:clamp(26px,4.4vw,40px);color:var(--bluD);font-weight:700;letter-spacing:.2px}
-  .sub{margin:0 auto;max-width:640px;color:var(--muted);font-size:clamp(15px,2.4vw,18px);font-weight:500}
+  /* ---- effetti di sfondo: bolle che salgono ---- */
+  .bg-bubbles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg-bubbles i{position:absolute;bottom:-40px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.7),rgba(31,95,192,.14));
+    animation:rise linear infinite;opacity:0}
+  @keyframes rise{
+    0%{transform:translateY(0) scale(.7);opacity:0}
+    12%{opacity:.55}
+    88%{opacity:.5}
+    100%{transform:translateY(-108vh) scale(1.1);opacity:0}}
 
-  /* audio player */
-  .player{background:var(--card);border:1px solid var(--brd);border-radius:22px;
-    box-shadow:0 16px 40px rgba(18,62,144,.16);padding:22px 24px;margin:22px auto 30px;
-    max-width:720px;display:flex;flex-direction:column;gap:16px}
-  .player-top{display:flex;align-items:center;gap:16px}
-  .play{flex:0 0 auto;width:64px;height:64px;border:0;border-radius:50%;cursor:pointer;
+  .wrap{max-width:var(--maxw);margin:0 auto;position:relative;z-index:1}
+
+  /* ---- header ---- */
+  header{text-align:center;margin-bottom:14px}
+  .brand{display:inline-flex;align-items:center;gap:12px;margin-bottom:6px}
+  .brand-mark{width:44px;height:44px;flex:0 0 auto;filter:drop-shadow(0 6px 16px rgba(18,62,144,.20))}
+  .brand-mark .s-top{stop-color:var(--logo-1,var(--blu2,#1f5fc0))}
+  .brand-mark .s-bot{stop-color:var(--logo-2,var(--blu,#123E90))}
+  .brand-mark .b-drop{fill:#fff}
+  .brand-mark .b-arch{stroke:var(--logo-2,var(--blu,#123E90))}
+  .brand-mark .b-dot{fill:var(--logo-accent,var(--gold,#B8860B))}
+  .brand-txt{display:flex;flex-direction:column;text-align:left;line-height:1.2}
+  .brand-name{font-family:var(--head,'Lexend',sans-serif);font-size:14px;font-weight:700;letter-spacing:.6px;color:var(--logo-2,var(--blu,#123E90));text-transform:uppercase}
+  .brand-role{font-family:var(--head,'Lexend',sans-serif);font-size:11.5px;font-weight:500;letter-spacing:.2px;color:var(--muted,#5a6b7c)}
+  h1{margin:6px 0 3px;font-family:var(--head);font-size:clamp(26px,4.6vw,42px);color:var(--bluD);font-weight:700;letter-spacing:.2px}
+  .sub{margin:0 auto;max-width:600px;color:var(--muted);font-size:clamp(14px,2.4vw,17px);font-weight:500}
+
+  /* ---- scena acquedotto animata ---- */
+  .scene{max-width:860px;margin:14px auto 0;border-radius:20px;overflow:hidden;
+    box-shadow:0 16px 40px rgba(18,62,144,.18);background:linear-gradient(180deg,#cfe4fb,#eaf3fc)}
+  .scene svg{display:block;width:100%;height:auto}
+  .turbine{transform-box:fill-box;transform-origin:center;animation:spin 7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .wave1{animation:sway 7s ease-in-out infinite}
+  .wave2{animation:sway 9s ease-in-out infinite reverse}
+  @keyframes sway{0%,100%{transform:translateX(0)}50%{transform:translateX(-22px)}}
+  .sun{transform-box:fill-box;transform-origin:center;animation:pulseSun 3.4s ease-in-out infinite}
+  @keyframes pulseSun{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
+
+  /* ---- player ---- */
+  .player{background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border:1px solid var(--brd);
+    border-radius:20px;box-shadow:0 14px 36px rgba(18,62,144,.16);padding:18px 22px;
+    margin:18px auto 8px;max-width:720px;display:flex;flex-direction:column;gap:13px}
+  .player-top{display:flex;align-items:center;gap:15px}
+  .play{flex:0 0 auto;width:60px;height:60px;border:0;border-radius:50%;cursor:pointer;
     background:linear-gradient(180deg,var(--blu2),var(--blu));color:#fff;
     display:flex;align-items:center;justify-content:center;
-    box-shadow:0 10px 24px rgba(18,62,144,.40);transition:transform .12s,box-shadow .2s}
-  .play:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(18,62,144,.52)}
-  .play:active{transform:translateY(0)}
-  .play svg{width:28px;height:28px}
+    box-shadow:0 10px 24px rgba(18,62,144,.42);transition:transform .12s,box-shadow .2s}
+  .play:hover{transform:translateY(-2px)}
+  .play svg{width:26px;height:26px}
+  .player:not(.playing):not(.started) .play{animation:invite 2s ease-in-out infinite}
+  @keyframes invite{0%,100%{box-shadow:0 10px 24px rgba(18,62,144,.42)}50%{box-shadow:0 10px 30px rgba(31,95,192,.75),0 0 0 8px rgba(31,95,192,.12)}}
   .play-meta{flex:1 1 auto;min-width:0}
-  .play-lbl{font-size:17px;font-weight:600;color:var(--bluD)}
+  .play-lbl{font-family:var(--head);font-size:17px;font-weight:600;color:var(--bluD)}
   .play-hint{font-size:13.5px;color:var(--muted)}
-  .eq{display:flex;align-items:flex-end;gap:3px;height:26px}
-  .eq span{width:4px;height:8px;background:var(--blu2);border-radius:2px;opacity:.55}
+  .eq{display:flex;align-items:flex-end;gap:3px;height:24px}
+  .eq span{width:4px;height:7px;background:var(--blu2);border-radius:2px;opacity:.5}
   .player.playing .eq span{animation:eq 1s ease-in-out infinite}
   .player.playing .eq span:nth-child(2){animation-delay:.15s}
   .player.playing .eq span:nth-child(3){animation-delay:.30s}
   .player.playing .eq span:nth-child(4){animation-delay:.45s}
   .player.playing .eq span:nth-child(5){animation-delay:.60s}
-  @keyframes eq{0%,100%{height:7px}50%{height:24px}}
+  @keyframes eq{0%,100%{height:6px}50%{height:22px}}
   .bar-row{display:flex;align-items:center;gap:12px}
-  .time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:44px;text-align:center}
+  .time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:42px;text-align:center}
   .bar{flex:1 1 auto;height:8px;border-radius:6px;background:#dbe6f5;cursor:pointer;position:relative}
-  .bar-fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:6px;
-    background:linear-gradient(90deg,var(--blu2),var(--blu))}
-  .bar-knob{position:absolute;top:50%;left:0;width:16px;height:16px;border-radius:50%;background:#fff;
+  .bar-fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:6px;background:linear-gradient(90deg,var(--blu2),var(--blu))}
+  .bar-knob{position:absolute;top:50%;left:100%;width:15px;height:15px;border-radius:50%;background:#fff;
     border:3px solid var(--blu);transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(18,62,144,.35)}
 
-  /* chapters intro */
-  .lead{max-width:680px;margin:0 auto 18px;text-align:center;color:#33455a;font-size:16.5px}
-  .lead b{color:var(--blu)}
+  .instr{max-width:640px;margin:6px auto 20px;text-align:center;color:#33455a;font-size:15.5px}
+  .instr b{color:var(--blu)}
 
-  /* chapter grid */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-  .chapter{background:var(--card);border:1px solid var(--brd);border-radius:18px;padding:18px;
-    cursor:pointer;text-align:left;box-shadow:0 8px 22px rgba(18,62,144,.10);
-    transition:transform .16s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
-  .chapter:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(18,62,144,.18);border-color:var(--blu2)}
-  .chapter:focus-visible{outline:3px solid var(--blu2);outline-offset:2px}
-  .num{position:absolute;top:12px;right:16px;font-family:var(--head);font-weight:700;
-    font-size:34px;color:#e6eefa;line-height:1}
-  .ill{width:100%;height:118px;display:flex;align-items:center;justify-content:center;
-    background:var(--warm);border-radius:13px;margin-bottom:13px}
-  .ill svg{width:88px;height:88px}
-  .ptitle{font-size:18px;font-weight:700;color:var(--bluD);margin:0 0 5px}
-  .teaser{font-size:14.5px;color:var(--muted);margin:0}
-  .more{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-family:var(--head);
-    font-size:13px;font-weight:600;color:var(--blu)}
-  .more svg{width:14px;height:14px}
+  /* ---- griglia card-concetto ---- */
+  .track{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:15px}
+  .cc{position:relative;border-radius:18px;padding:17px 17px 16px;background:var(--card);
+    border:1px solid var(--brd);box-shadow:0 8px 20px rgba(18,62,144,.09);cursor:default;
+    overflow:hidden;transition:transform .3s cubic-bezier(.2,.9,.3,1.2),box-shadow .3s,border-color .3s,filter .4s;
+    --acc:var(--blu)}
+  .cc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--acc);
+    opacity:.0;transition:opacity .4s}
+  .cc .num{position:absolute;top:12px;right:15px;font-family:var(--head);font-weight:700;font-size:30px;color:#eaf1fb;line-height:1}
+  .cc .ill{width:100%;height:104px;display:flex;align-items:center;justify-content:center;
+    background:var(--warm);border-radius:13px;margin-bottom:12px}
+  .cc .ill svg{width:78px;height:78px}
+  .cc .eyebrow{font-family:var(--head);font-size:11.5px;font-weight:700;letter-spacing:1.2px;
+    text-transform:uppercase;color:var(--acc)}
+  .cc h3{font-family:var(--head);font-size:17.5px;font-weight:700;color:var(--bluD);margin:3px 0 5px}
+  .cc p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.45}
 
-  /* modal / popup */
-  .overlay{position:fixed;inset:0;background:rgba(12,42,99,.55);backdrop-filter:blur(4px);
-    display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;
-    opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
-  .overlay.open{opacity:1;visibility:visible}
-  .modal{background:#fff;border-radius:22px;max-width:560px;width:100%;max-height:88vh;overflow:auto;
-    box-shadow:0 30px 70px rgba(12,42,99,.4);transform:translateY(18px) scale(.96);
-    transition:transform .28s cubic-bezier(.2,.9,.3,1.2)}
-  .overlay.open .modal{transform:none}
-  .m-head{position:relative;padding:26px 26px 8px;display:flex;align-items:center;gap:16px}
-  .m-ill{flex:0 0 auto;width:92px;height:92px;border-radius:16px;background:var(--warm);
-    display:flex;align-items:center;justify-content:center}
-  .m-ill svg{width:64px;height:64px}
-  .m-titles{min-width:0}
-  .m-eyebrow{font-family:var(--head);font-size:12px;font-weight:700;letter-spacing:1.4px;
-    text-transform:uppercase;color:var(--gold)}
-  .m-title{font-family:var(--head);font-size:22px;font-weight:700;color:var(--bluD);margin:2px 0 0}
-  .m-body{padding:6px 26px 26px;font-size:16.5px;line-height:1.65;color:#2c3e52}
-  .m-body b{color:var(--blu)}
-  .m-close{position:absolute;top:-8px;right:-4px;width:38px;height:38px;border:0;border-radius:50%;
-    background:var(--warm);color:var(--blu);cursor:pointer;display:flex;align-items:center;justify-content:center}
-  .m-close:hover{background:#e0e9f8}
-  .m-close svg{width:18px;height:18px}
-  .m-nav{display:flex;justify-content:space-between;gap:10px;padding:0 26px 24px}
-  .navbtn{display:inline-flex;align-items:center;gap:7px;font-family:var(--head);font-size:14px;font-weight:600;
-    padding:9px 16px;border:1px solid var(--brd);border-radius:30px;background:#fff;color:var(--blu);cursor:pointer}
-  .navbtn:hover:not(:disabled){background:var(--warm)}
-  .navbtn:disabled{opacity:.35;cursor:default}
-  .navbtn svg{width:15px;height:15px}
+  /* stato BLOCCATO */
+  .cc.locked{filter:grayscale(.9) opacity(.5)}
+  .cc.locked .content{opacity:.15}
+  .cc .lock{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    color:var(--muted);opacity:1;transition:opacity .35s}
+  .cc .lock svg{width:30px;height:30px}
+  .cc .lock span{font-family:var(--head);font-size:12px;font-weight:600;letter-spacing:.4px}
+  .cc:not(.locked) .lock{opacity:0;pointer-events:none}
+  .cc:not(.locked){cursor:pointer}
+  .cc:not(.locked)::before{opacity:1}
+  .cc:not(.locked):hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(18,62,144,.18);border-color:var(--acc)}
 
-  /* closing + footer */
-  .closing{margin:34px auto 0;max-width:720px;background:linear-gradient(180deg,#0e347e,#123E90);
+  /* comparsa (pop) allo sblocco */
+  .cc.unlocked{animation:pop .55s cubic-bezier(.2,.9,.3,1.3)}
+  @keyframes pop{0%{transform:scale(.9);filter:blur(6px)}60%{transform:scale(1.03)}100%{transform:none;filter:none}}
+
+  /* card CORRENTE: evidenziata + alone */
+  .cc.current{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 30%,transparent),0 18px 40px rgba(18,62,144,.22);
+    transform:translateY(-4px) scale(1.02)}
+  .cc.current .ill{background:color-mix(in srgb,var(--acc) 12%,#fff)}
+  .cc.current::after{content:"in ascolto";position:absolute;top:12px;left:14px;font-family:var(--head);
+    font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#fff;
+    background:var(--acc);padding:3px 9px;border-radius:20px}
+
+  /* animazioni interne SVG, solo sulla card corrente */
+  .a-spin{transform-box:fill-box;transform-origin:center}
+  .cc.current .a-spin{animation:spin 4.5s linear infinite}
+  .cc.current .a-blink{animation:blink 1.1s steps(1,end) infinite}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.15}}
+  .cc.current .a-float{animation:floaty 2.6s ease-in-out infinite}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .cc.current .a-drip{animation:drip 1.9s ease-in infinite}
+  @keyframes drip{0%{transform:translateY(-3px);opacity:0}25%{opacity:1}100%{transform:translateY(10px);opacity:0}}
+
+  /* ---- chiusura + link ---- */
+  .closing{margin:32px auto 0;max-width:720px;background:linear-gradient(180deg,#0e347e,#123E90);
     color:#eaf1fc;border-radius:22px;padding:26px 28px;text-align:center;box-shadow:0 16px 40px rgba(18,62,144,.3)}
-  .closing h2{font-size:clamp(20px,3vw,26px);margin:0 0 8px;color:#fff}
+  .closing h2{font-family:var(--head);font-size:clamp(20px,3vw,26px);margin:0 0 8px;color:#fff}
   .closing p{margin:0 auto;max-width:560px;font-size:16px;color:#cfe0f7}
-  .pagelinks{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px}
+  .pagelinks{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:26px}
   .pl{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:var(--head);
     font-weight:600;font-size:16px;padding:13px 22px;border-radius:34px;
-    background:linear-gradient(180deg,var(--blu2),var(--blu));color:#fff;box-shadow:0 10px 24px rgba(18,62,144,.34)}
+    background:linear-gradient(180deg,var(--blu2),var(--blu));color:#fff;box-shadow:0 10px 24px rgba(18,62,144,.34);transition:transform .12s}
   .pl.ghost{background:#fff;color:var(--blu);border:1px solid var(--brd);box-shadow:0 6px 16px rgba(18,62,144,.12)}
   .pl:hover{transform:translateY(-2px)}
   .pl svg{width:18px;height:18px}
-  .foot{margin-top:30px;text-align:center;font-size:13px;color:var(--muted)}
+  .foot{margin-top:28px;text-align:center;font-size:13px;color:var(--muted)}
+
+  @media (prefers-reduced-motion: reduce){
+    .bg-bubbles i,.turbine,.wave1,.wave2,.sun,.play,.cc.current .a-spin,.cc.current .a-blink,
+    .cc.current .a-float,.cc.current .a-drip,.cc.unlocked{animation:none !important}
+  }
 </style>
 </head>
 <body>
+<div class="bg-bubbles" id="bubbles" aria-hidden="true"></div>
+
 <div class="wrap">
   <header>
-    <img class="logo" src="logo.jpg" alt="Logo Scuola Sacra Famiglia" />
-    <p class="school">Scuola Sacra Famiglia</p>
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 48 48" role="img" aria-label="Scuola Sacra Famiglia">
+        <defs><linearGradient id="sfLogo" x1="0" y1="0" x2="0" y2="1"><stop class="s-top" offset="0"/><stop class="s-bot" offset="1"/></linearGradient></defs>
+        <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#sfLogo)"/>
+        <path class="b-drop" d="M24 11c1.8 3 8 9.6 8 15a8 8 0 0 1-16 0c0-5.4 6.2-12 8-15Z"/>
+        <path class="b-arch" d="M18.6 27.2a5.4 5.4 0 0 1 10.8 0" fill="none" stroke-width="1.7" stroke-linecap="round"/>
+        <circle class="b-dot" cx="24" cy="30.2" r="1.8"/>
+      </svg>
+      <div class="brand-txt">
+        <span class="brand-name">Scuola Sacra Famiglia</span>
+        <span class="brand-role">Animatore Digitale · Andrea Cerioli</span>
+      </div>
+    </div>
     <h1>La storia di questa app</h1>
-    <p class="sub">Come è nata l'idea dell'Acquedotto Interattivo: dal plastico di uno studente
-      a un'unità di apprendimento in cui le discipline si fondono.</p>
+    <p class="sub">Premi play e lascia che il racconto accenda, uno a uno, i concetti chiave.</p>
   </header>
 
-  <!-- AUDIO PLAYER -->
+  <!-- SCENA ACQUEDOTTO ANIMATA -->
+  <div class="scene" aria-hidden="true">
+    <svg viewBox="0 0 860 250" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#dcecfc"/><stop offset="1" stop-color="#eff6fd"/>
+        </linearGradient>
+        <path id="flow" d="M150 74 L235 150 L150 74" fill="none"/>
+        <path id="flowLine" d="M150 74 C 175 110, 205 130, 250 150 L 640 150" fill="none"/>
+      </defs>
+      <rect width="860" height="250" fill="url(#sky)"/>
+      <!-- sole/energia -->
+      <circle class="sun" cx="720" cy="60" r="26" fill="#f4d27a"/>
+      <!-- montagne -->
+      <polygon points="60,150 150,40 240,150" fill="#9fb8d6"/>
+      <polygon points="150,150 235,70 320,150" fill="#b7cbe4"/>
+      <polygon points="120,66 150,40 178,64 168,70 150,58 132,70" fill="#ffffff"/>
+      <!-- lago -->
+      <ellipse cx="150" cy="150" rx="70" ry="12" fill="#8fc3ec"/>
+      <!-- condotta forzata + acquedotto (percorso acqua) -->
+      <path d="M150 74 C 175 110, 205 130, 250 150 L 640 150" fill="none" stroke="#c3d4ea" stroke-width="10" stroke-linecap="round"/>
+      <path d="M150 74 C 175 110, 205 130, 250 150 L 640 150" fill="none" stroke="#e8f1fb" stroke-width="3" stroke-linecap="round"/>
+      <!-- archi acquedotto -->
+      <g stroke="#a9c0dc" stroke-width="6" fill="none">
+        <path d="M270 156 v34 M330 156 v34 M390 156 v34 M450 156 v34 M510 156 v34 M570 156 v34"/>
+        <path d="M270 190 q30 -26 60 0 M330 190 q30 -26 60 0 M390 190 q30 -26 60 0 M450 190 q30 -26 60 0 M510 190 q30 -26 60 0"/>
+      </g>
+      <rect x="255" y="196" width="330" height="8" fill="#b7cbe4"/>
+      <!-- gocce che scorrono lungo il percorso -->
+      <circle r="5" fill="#3f9ae0"><animateMotion dur="4.4s" repeatCount="indefinite" begin="0s"><mpath xlink:href="#flowLine"/></animateMotion></circle>
+      <circle r="4" fill="#5fb0ea"><animateMotion dur="4.4s" repeatCount="indefinite" begin="1.1s"><mpath xlink:href="#flowLine"/></animateMotion></circle>
+      <circle r="5" fill="#2f88d4"><animateMotion dur="4.4s" repeatCount="indefinite" begin="2.2s"><mpath xlink:href="#flowLine"/></animateMotion></circle>
+      <circle r="4" fill="#5fb0ea"><animateMotion dur="4.4s" repeatCount="indefinite" begin="3.3s"><mpath xlink:href="#flowLine"/></animateMotion></circle>
+      <!-- centrale + turbina -->
+      <rect x="612" y="120" width="70" height="70" rx="6" fill="#dfeaf6" stroke="#a9c0dc" stroke-width="2"/>
+      <g class="turbine">
+        <circle cx="647" cy="150" r="22" fill="#eef5fc" stroke="#1f5fc0" stroke-width="3"/>
+        <g stroke="#1f5fc0" stroke-width="4" stroke-linecap="round">
+          <path d="M647 150 L647 131 M647 150 L663 159 M647 150 L631 159"/>
+        </g>
+        <circle cx="647" cy="150" r="4" fill="#123E90"/>
+      </g>
+      <!-- linea elettrica verso la città -->
+      <path d="M682 140 L720 140" stroke="#B8860B" stroke-width="3" stroke-dasharray="5 5"/>
+      <!-- città -->
+      <g fill="#c7d6ea" stroke="#a9c0dc" stroke-width="1.5">
+        <rect x="726" y="150" width="26" height="40"/><rect x="756" y="132" width="30" height="58"/><rect x="790" y="158" width="24" height="32"/>
+      </g>
+      <!-- onde alla base -->
+      <path class="wave1" d="M-40 224 q40 -12 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 v40 h-880 Z" fill="#9cc7ee" opacity=".6"/>
+      <path class="wave2" d="M-40 232 q40 -10 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 v30 h-880 Z" fill="#6fb0e6" opacity=".7"/>
+    </svg>
+  </div>
+
+  <!-- PLAYER -->
   <div class="player" id="player">
     <div class="player-top">
       <button class="play" id="playBtn" type="button" aria-label="Riproduci il racconto">
@@ -159,7 +256,7 @@
       </button>
       <div class="play-meta">
         <div class="play-lbl">Ascolta il racconto</div>
-        <div class="play-hint">La voce narra come è nata l'app · circa 1 minuto e mezzo</div>
+        <div class="play-hint">La voce narra come è nata l'app · poco più di due minuti</div>
       </div>
       <div class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
     </div>
@@ -175,12 +272,12 @@
     </audio>
   </div>
 
-  <p class="lead">Tocca un <b>capitolo</b> per leggere il momento del racconto, con la sua illustrazione.</p>
+  <p class="instr">I concetti si <b>accendono</b> seguendo la voce. Tocca una card già accesa per <b>riascoltare</b> quel momento.</p>
 
-  <!-- CHAPTERS -->
-  <div class="grid" id="grid"></div>
+  <!-- CARD-CONCETTO -->
+  <div class="track" id="track"></div>
 
-  <!-- CLOSING -->
+  <!-- CHIUSURA -->
   <div class="closing">
     <h2>Ecco la forza di queste app</h2>
     <p>Non sono semplici esercizi: sono vere e proprie unità di apprendimento, in cui tutte
@@ -195,117 +292,81 @@
   <p class="foot">Scuola Sacra Famiglia · Acquedotto Interattivo · il racconto dietro il progetto</p>
 </div>
 
-<!-- MODAL -->
-<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-  <div class="modal">
-    <div class="m-head">
-      <div class="m-ill" id="mIll"></div>
-      <div class="m-titles">
-        <div class="m-eyebrow" id="mEye">Capitolo</div>
-        <p class="m-title" id="mTitle"></p>
-      </div>
-      <button class="m-close" id="mClose" type="button" aria-label="Chiudi">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#123E90" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-    <div class="m-body" id="mBody"></div>
-    <div class="m-nav">
-      <button class="navbtn" id="mPrev" type="button"><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Precedente</button>
-      <button class="navbtn" id="mNext" type="button">Successivo <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
-</div>
-
 <script>
 (function(){
   "use strict";
 
-  /* ---- illustrazioni SVG (una per capitolo) ---- */
-  var ICONS = {
-    doc: '<svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="#1f5fc0" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l1.4 1.4L13 11M9 16l1.4 1.4L13 15" stroke="#B8860B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    model: '<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="9" width="6" height="5" rx="1" stroke="#123E90" stroke-width="1.6"/><path d="M9 11.5h5a2 2 0 0 1 2 2V19" stroke="#1f5fc0" stroke-width="1.6" stroke-linecap="round"/><path d="M16 8v3.5M14.5 8h3" stroke="#B8860B" stroke-width="1.6" stroke-linecap="round"/><path d="M14 19h4" stroke="#123E90" stroke-width="1.6" stroke-linecap="round"/><path d="M5 14v3a1 1 0 0 0 1 1h1" stroke="#123E90" stroke-width="1.4" stroke-linecap="round"/></svg>',
-    binary: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3v7" stroke="#1f5fc0" stroke-width="1.6" stroke-linecap="round"/><path d="M9.5 6.5h5" stroke="#1f5fc0" stroke-width="1.6" stroke-linecap="round"/><path d="M12 10c-3 0-5 2-5 5v4h10v-4c0-3-2-5-5-5Z" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/><text x="8.6" y="18.4" font-family="monospace" font-size="4.4" font-weight="700" fill="#B8860B">1</text><text x="12.4" y="18.4" font-family="monospace" font-size="4.4" font-weight="700" fill="#B8860B">0</text></svg>',
-    ipad: '<svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="#123E90" stroke-width="1.6"/><path d="M9 7h6M9 10h6" stroke="#1f5fc0" stroke-width="1.5" stroke-linecap="round"/><path d="M8.5 14.5c1.5-1 2.5-1 4 0s2.5 1 4 0" stroke="#B8860B" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="18.4" r=".9" fill="#123E90"/></svg>',
-    layers: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 4l8 4-8 4-8-4 8-4Z" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 12l8 4 8-4" stroke="#1f5fc0" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 16l8 4 8-4" stroke="#B8860B" stroke-width="1.6" stroke-linejoin="round"/></svg>',
-    drop: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3s6 6.6 6 10.5a6 6 0 0 1-12 0C6 9.6 12 3 12 3Z" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 14a3 3 0 0 0 3 3" stroke="#1f5fc0" stroke-width="1.5" stroke-linecap="round"/><path d="M12 8v4M10 10h4" stroke="#B8860B" stroke-width="1.5" stroke-linecap="round"/></svg>'
+  /* ---------- bolle di sfondo ---------- */
+  (function(){
+    var box = document.getElementById("bubbles");
+    for(var i=0;i<14;i++){
+      var b = document.createElement("i");
+      var size = 8 + Math.random()*26;
+      b.style.width = b.style.height = size + "px";
+      b.style.left = (Math.random()*100) + "%";
+      b.style.animationDuration = (9 + Math.random()*10) + "s";
+      b.style.animationDelay = (-Math.random()*12) + "s";
+      box.appendChild(b);
+    }
+  })();
+
+  /* ---------- illustrazioni SVG ---------- */
+  var ICON = {
+    spark:'<svg viewBox="0 0 24 24" fill="none"><path class="a-float" d="M12 3v3M12 18v3M4.5 12h-2M21.5 12h-2M6 6l1.6 1.6M18 6l-1.6 1.6M6 18l1.6-1.6M18 18l-1.6-1.6" stroke="#B8860B" stroke-width="1.6" stroke-linecap="round"/><circle class="a-float" cx="12" cy="12" r="4.4" stroke="#123E90" stroke-width="1.7"/></svg>',
+    binary:'<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="#123E90" stroke-width="1.6"/><path d="M8 21h8M12 18v3" stroke="#1f5fc0" stroke-width="1.5" stroke-linecap="round"/><text class="a-blink" x="6.4" y="14" font-family="monospace" font-size="7" font-weight="700" fill="#1f7d49">0</text><text class="a-blink" x="13.4" y="14" font-family="monospace" font-size="7" font-weight="700" fill="#B8860B">1</text></svg>',
+    hourglass:'<svg viewBox="0 0 24 24" fill="none"><path d="M7 3h10M7 21h10" stroke="#123E90" stroke-width="1.7" stroke-linecap="round"/><path d="M7 3c0 4 4 5 5 9 1-4 5-5 5-9M7 21c0-4 4-5 5-9 1 4 5 5 5 9" stroke="#1f5fc0" stroke-width="1.6" stroke-linejoin="round"/><circle class="a-drip" cx="12" cy="12" r="1.4" fill="#B8860B"/></svg>',
+    model:'<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="9" width="6" height="5" rx="1" stroke="#123E90" stroke-width="1.6"/><path d="M9 11.5h5a2 2 0 0 1 2 2V19" stroke="#1f5fc0" stroke-width="1.6" stroke-linecap="round"/><path d="M16 8v3.5M14.5 8h3" stroke="#B8860B" stroke-width="1.6" stroke-linecap="round"/><path d="M14 19h4" stroke="#123E90" stroke-width="1.6" stroke-linecap="round"/><circle class="a-drip" cx="16" cy="13" r="1.3" fill="#3f9ae0"/></svg>',
+    tap:'<svg viewBox="0 0 24 24" fill="none"><path d="M4 8h6v3H4z" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 9.5h4a3 3 0 0 1 3 3V14" stroke="#1f5fc0" stroke-width="1.6" stroke-linecap="round"/><path d="M15 6h4M17 6v3.5" stroke="#B8860B" stroke-width="1.6" stroke-linecap="round"/><circle class="a-drip" cx="17" cy="17" r="1.5" fill="#3f9ae0"/><text x="3.2" y="20" font-family="monospace" font-size="5.4" font-weight="700" fill="#1f7d49">1</text><text x="8" y="20" font-family="monospace" font-size="5.4" font-weight="700" fill="#9aa6ad">0</text></svg>',
+    ipad:'<svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="#123E90" stroke-width="1.6"/><path d="M9 7h6M9 10h6" stroke="#1f5fc0" stroke-width="1.5" stroke-linecap="round"/><path class="a-float" d="M8.5 14.5c1.5-1 2.5-1 4 0s2.5 1 4 0" stroke="#3f9ae0" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="18.4" r=".9" fill="#123E90"/></svg>',
+    gears:'<svg viewBox="0 0 24 24" fill="none"><g class="a-spin"><circle cx="9" cy="10" r="3" stroke="#123E90" stroke-width="1.6"/><path d="M9 4v2M9 14v2M3 10h2M13 10h2M5 6l1.4 1.4M11.6 12.6 13 14M5 14l1.4-1.4M11.6 7.4 13 6" stroke="#123E90" stroke-width="1.5" stroke-linecap="round"/></g><g class="a-spin"><circle cx="16.5" cy="16" r="2.2" stroke="#B8860B" stroke-width="1.5"/><path d="M16.5 12.5v1.5M16.5 18v1.5M12.8 16h1.4M18.8 16h1.4" stroke="#B8860B" stroke-width="1.4" stroke-linecap="round"/></g></svg>',
+    turbine:'<svg viewBox="0 0 24 24" fill="none"><g class="a-spin"><circle cx="12" cy="12" r="7" stroke="#1f7d94" stroke-width="1.6"/><path d="M12 12V5M12 12l6 3.5M12 12l-6 3.5" stroke="#1f7d94" stroke-width="1.8" stroke-linecap="round"/></g><circle cx="12" cy="12" r="1.8" fill="#123E90"/><path d="M19 9l2-1M3 15l-2 1" stroke="#B8860B" stroke-width="1.5" stroke-linecap="round"/></svg>',
+    drop:'<svg viewBox="0 0 24 24" fill="none"><path class="a-float" d="M12 3s6 6.6 6 10.5a6 6 0 0 1-12 0C6 9.6 12 3 12 3Z" stroke="#123E90" stroke-width="1.6" stroke-linejoin="round"/><path class="a-float" d="M9 14a3 3 0 0 0 3 3" stroke="#1f5fc0" stroke-width="1.5" stroke-linecap="round"/><path class="a-float" d="M12 8v4M10 10h4" stroke="#B8860B" stroke-width="1.5" stroke-linecap="round"/></svg>'
   };
 
-  /* ---- i capitoli del racconto ---- */
-  var CH = [
-    { icon:"doc", title:"Il controllo",
-      teaser:"Verificando le nuove Indicazioni, scopro una lacuna voluta.",
-      body:"Stavo lavorando sulle <b>nuove Indicazioni ministeriali</b>, verificando quanto le mie web app rispondessero ai requisiti, quando mi sono accorto di una mancanza: non avevo mai affrontato il tema del <b>codice binario</b>. In realtà era una scelta voluta: per questa fascia d'età è un argomento piuttosto complesso da spiegare e, soprattutto, poco pratico da usare nella vita di tutti i giorni." },
-    { icon:"model", title:"La scoperta",
-      teaser:"All'esame di Stato, uno studente porta il suo acquedotto.",
-      body:"Poi, all'<b>esame di Stato</b>, è successo qualcosa. Uno studente ha portato il suo acquedotto: un <b>plastico vero</b>, fatto di tubi e rubinetti d'acciaio, con una cisterna e una pompa. Fantastico. Quello studente mi aveva messo davanti proprio ciò che cercavo: un esempio concreto e tangibile." },
-    { icon:"binary", title:"Uno e zero",
-      teaser:"Un rubinetto aperto o chiuso: ecco il codice binario.",
-      body:"Un <b>rubinetto aperto o chiuso</b>: uno, e zero. Il codice binario smetteva di essere un'astrazione e diventava qualcosa che si poteva toccare, aprire e chiudere con le mani. Era il ponte tra l'acqua e l'informatica che stavo cercando." },
-    { icon:"ipad", title:"Il simulatore",
-      teaser:"Un modello digitale fedele al plastico, da provare su iPad.",
-      body:"Da lì ho costruito un <b>simulatore fedele</b> a quel plastico, così che tutti gli studenti potessero provare il funzionamento dell'acquedotto direttamente dal loro <b>iPad</b>, in attesa di mettere le mani su quello vero. Ci sono volute diverse ore di lavoro per ottenere un buon artefatto digitale. Ed ero soddisfatto." },
-    { icon:"layers", title:"L'integrazione",
-      teaser:"Binario, un video stimolo in inglese, la centrale di Edolo.",
-      body:"Ma lo sono stato ancora di più quando ho <b>collegato il simulatore al codice binario</b>; quando ho trovato un <b>video in inglese</b> e l'ho inserito come stimolo iniziale; e quando ho aggiunto un video sulla <b>centrale di Edolo</b>, qui sul nostro territorio bresciano. Ogni pezzo parlava a una disciplina diversa." },
-    { icon:"drop", title:"Unità di apprendimento",
-      teaser:"Tutte le discipline si fondono in un'unica esperienza.",
-      body:"Ecco la forza di queste applicazioni: sono <b>vere e proprie unità di apprendimento</b>, in cui tecnologia, informatica, inglese ed educazione civica si fondono in un'<b>unica esperienza</b>. L'acqua che scende dai duemilacinquecento metri diventa il filo che tiene insieme tutto." }
+  /* ---------- concetti sincronizzati (tempi in secondi) ---------- */
+  var CC = [
+    {t:0.0,  acc:"#123E90", eye:"L'inizio",        title:"Come è nata questa app",   line:"Un'app che è diventata, per me, particolarmente significativa.", icon:"spark"},
+    {t:10.0, acc:"#1f7d49", eye:"Informatica",     title:"Il codice binario",        line:"Controllando le nuove Indicazioni, scopro un tema mai trattato.", icon:"binary"},
+    {t:21.0, acc:"#B8860B", eye:"Una scelta",      title:"Complesso e poco pratico", line:"Per questa età il binario è astratto, lontano dalla vita reale.", icon:"hourglass"},
+    {t:41.5, acc:"#123E90", eye:"La scoperta",     title:"Il plastico di uno studente", line:"All'esame di Stato: tubi e rubinetti d'acciaio, cisterna e pompa.", icon:"model"},
+    {t:54.5, acc:"#1f7d49", eye:"Uno e zero",      title:"Il rubinetto è binario",   line:"Aperto o chiuso: uno, e zero. Il concetto diventa tangibile.", icon:"tap"},
+    {t:65.0, acc:"#1f5fc0", eye:"Il simulatore",   title:"Fedele al plastico, su iPad", line:"Tutti provano l'acquedotto, in attesa di mettere le mani su quello vero.", icon:"ipad"},
+    {t:78.5, acc:"#B8860B", eye:"Il lavoro",       title:"Ore per un buon artefatto", line:"Diverse ore di lavoro per un solido artefatto digitale. Ed ero soddisfatto.", icon:"gears"},
+    {t:84.0, acc:"#1f7d94", eye:"L'integrazione",  title:"Binario, inglese, Edolo",  line:"Il video in inglese come stimolo; la centrale di Edolo sul territorio.", icon:"turbine"},
+    {t:104.0, acc:"#0c2a63", eye:"Il senso",        title:"Unità di apprendimento",   line:"Tutte le discipline si fondono in un'unica esperienza.", icon:"drop"}
   ];
 
-  /* ---- costruzione griglia ---- */
-  var grid = document.getElementById("grid");
-  CH.forEach(function(c, i){
-    var card = document.createElement("button");
-    card.type = "button";
-    card.className = "chapter";
-    card.setAttribute("aria-label", "Capitolo " + (i+1) + ": " + c.title);
-    card.innerHTML =
+  /* ---------- costruzione card ---------- */
+  var track = document.getElementById("track");
+  CC.forEach(function(c, i){
+    var el = document.createElement("div");
+    el.className = "cc locked";
+    el.style.setProperty("--acc", c.acc);
+    el.setAttribute("role","button");
+    el.setAttribute("tabindex","0");
+    el.setAttribute("aria-label","Concetto " + (i+1) + ": " + c.title);
+    el.dataset.idx = i;
+    el.innerHTML =
       '<span class="num">' + (i+1) + '</span>' +
-      '<div class="ill">' + ICONS[c.icon] + '</div>' +
-      '<p class="ptitle">' + c.title + '</p>' +
-      '<p class="teaser">' + c.teaser + '</p>' +
-      '<span class="more">Leggi il momento ' +
-        '<svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
-    card.addEventListener("click", function(){ openModal(i); });
-    grid.appendChild(card);
+      '<div class="content">' +
+        '<div class="ill">' + ICON[c.icon] + '</div>' +
+        '<div class="eyebrow">' + c.eye + '</div>' +
+        '<h3>' + c.title + '</h3>' +
+        '<p>' + c.line + '</p>' +
+      '</div>' +
+      '<div class="lock"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.7"/></svg><span>lo racconta la voce</span></div>';
+    function go(){
+      if(el.classList.contains("locked")) return;
+      audio.currentTime = CC[i].t + 0.05;
+      audio.play();
+    }
+    el.addEventListener("click", go);
+    el.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
+    track.appendChild(el);
   });
+  var cards = [].slice.call(track.children);
 
-  /* ---- modal ---- */
-  var overlay = document.getElementById("overlay");
-  var mIll = document.getElementById("mIll");
-  var mTitle = document.getElementById("mTitle");
-  var mEye = document.getElementById("mEye");
-  var mBody = document.getElementById("mBody");
-  var mPrev = document.getElementById("mPrev");
-  var mNext = document.getElementById("mNext");
-  var cur = -1;
-
-  function openModal(i){
-    cur = i;
-    var c = CH[i];
-    mIll.innerHTML = ICONS[c.icon];
-    mEye.textContent = "Capitolo " + (i+1) + " di " + CH.length;
-    mTitle.textContent = c.title;
-    mBody.innerHTML = "<p>" + c.body + "</p>";
-    mPrev.disabled = (i === 0);
-    mNext.disabled = (i === CH.length - 1);
-    overlay.classList.add("open");
-    document.getElementById("mClose").focus();
-  }
-  function closeModal(){ overlay.classList.remove("open"); cur = -1; }
-
-  document.getElementById("mClose").addEventListener("click", closeModal);
-  overlay.addEventListener("click", function(e){ if(e.target === overlay) closeModal(); });
-  mPrev.addEventListener("click", function(){ if(cur > 0) openModal(cur - 1); });
-  mNext.addEventListener("click", function(){ if(cur < CH.length - 1) openModal(cur + 1); });
-  document.addEventListener("keydown", function(e){
-    if(!overlay.classList.contains("open")) return;
-    if(e.key === "Escape") closeModal();
-    else if(e.key === "ArrowLeft" && cur > 0) openModal(cur - 1);
-    else if(e.key === "ArrowRight" && cur < CH.length - 1) openModal(cur + 1);
-  });
-
-  /* ---- player audio personalizzato ---- */
+  /* ---------- player audio ---------- */
   var audio = document.getElementById("audio");
   var player = document.getElementById("player");
   var playBtn = document.getElementById("playBtn");
@@ -320,32 +381,54 @@
   function fmt(s){
     if(!isFinite(s)) return "0:00";
     var m = Math.floor(s/60), r = Math.floor(s%60);
-    return m + ":" + (r < 10 ? "0"+r : r);
+    return m + ":" + (r<10?"0"+r:r);
   }
-  playBtn.addEventListener("click", function(){
-    if(audio.paused) audio.play(); else audio.pause();
-  });
+  playBtn.addEventListener("click", function(){ if(audio.paused) audio.play(); else audio.pause(); });
   audio.addEventListener("play", function(){
-    playIcon.innerHTML = PAUSE; player.classList.add("playing");
-    playBtn.setAttribute("aria-label", "Metti in pausa il racconto");
+    playIcon.innerHTML = PAUSE; player.classList.add("playing","started");
+    playBtn.setAttribute("aria-label","Metti in pausa il racconto");
   });
   audio.addEventListener("pause", function(){
     playIcon.innerHTML = PLAY; player.classList.remove("playing");
-    playBtn.setAttribute("aria-label", "Riproduci il racconto");
+    playBtn.setAttribute("aria-label","Riproduci il racconto");
   });
   audio.addEventListener("loadedmetadata", function(){ durT.textContent = fmt(audio.duration); });
+
+  var lastCurrent = -1;
+  function syncCards(){
+    var now = audio.currentTime;
+    var idx = -1;
+    for(var i=0;i<CC.length;i++){ if(now >= CC[i].t - 0.15) idx = i; else break; }
+    for(var j=0;j<cards.length;j++){
+      var unlocked = (j <= idx);
+      var was = !cards[j].classList.contains("locked");
+      cards[j].classList.toggle("locked", !unlocked);
+      // riattiva l'animazione "pop" solo su nuovo sblocco
+      if(unlocked && !was){
+        cards[j].classList.remove("unlocked"); void cards[j].offsetWidth; cards[j].classList.add("unlocked");
+      }
+      cards[j].classList.toggle("current", j === idx);
+    }
+    if(idx !== lastCurrent && idx >= 0){
+      lastCurrent = idx;
+    }
+  }
   audio.addEventListener("timeupdate", function(){
-    var p = audio.duration ? (audio.currentTime / audio.duration) : 0;
+    var p = audio.duration ? (audio.currentTime/audio.duration) : 0;
     fill.style.width = (p*100) + "%";
     curT.textContent = fmt(audio.currentTime);
+    syncCards();
   });
+  audio.addEventListener("seeked", syncCards);
   audio.addEventListener("ended", function(){
-    playIcon.innerHTML = PLAY; player.classList.remove("playing"); fill.style.width = "0%";
+    playIcon.innerHTML = PLAY; player.classList.remove("playing");
+    // lascia tutte le card accese alla fine
+    cards.forEach(function(c){ c.classList.remove("locked","current"); });
   });
   bar.addEventListener("click", function(e){
     var rect = bar.getBoundingClientRect();
-    var p = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-    if(audio.duration) audio.currentTime = p * audio.duration;
+    var p = Math.min(1, Math.max(0, (e.clientX-rect.left)/rect.width));
+    if(audio.duration) audio.currentTime = p*audio.duration;
   });
 })();
 </script>
