@@ -45,15 +45,62 @@
   .topbar{flex:0 0 auto;text-align:center}
   .brand{display:inline-flex;align-items:center;gap:11px}
   .brand-txt{display:flex;flex-direction:column;text-align:left;line-height:1.15}
-  .brand-name{font-family:var(--head);font-size:12.5px;font-weight:700;letter-spacing:.6px;color:var(--logo-2,var(--blu));text-transform:uppercase}
+  .brand-name{font-family:var(--head);font-size:12.5px;font-weight:700;letter-spacing:.6px;color:var(--blu);text-transform:uppercase}
   .brand-role{font-family:var(--head);font-size:10.5px;font-weight:500;letter-spacing:.2px;color:var(--muted)}
   .topbar h1{margin:4px 0 0;font-family:var(--head);font-size:clamp(19px,3vw,30px);color:var(--bluD);font-weight:700;letter-spacing:.2px}
 
   /* ---- palco centrale ---- */
   .presentation{position:relative;flex:1 1 auto;min-height:0}
   .spot{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .55s;
-    background:radial-gradient(closest-side at 50% 46%,rgba(9,28,66,0),rgba(9,28,66,.30))}
+    background:radial-gradient(closest-side at 50% 48%,rgba(9,28,66,0),rgba(9,28,66,.26))}
   .spot.on{opacity:1}
+
+  /* ---- pannello in scena: immagine grande + testo ---- */
+  .hero{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    gap:clamp(18px,4vw,54px);padding:clamp(8px,3vh,30px) clamp(12px,4vw,46px);--acc:var(--blu)}
+  .hero[hidden]{display:none}
+  .hero-media{flex:1 1 56%;min-width:0;height:100%;display:flex;align-items:center;justify-content:center}
+  .frame{position:relative;max-width:100%;max-height:100%;border-radius:16px;overflow:hidden;
+    background:#fff;border:1px solid var(--brd);line-height:0;
+    box-shadow:0 30px 60px rgba(9,28,66,.28),0 6px 18px rgba(9,28,66,.14)}
+  .frame img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+  .hero-badge{position:absolute;left:13px;bottom:13px;width:44px;height:44px;border-radius:12px;
+    background:rgba(255,255,255,.96);box-shadow:0 6px 16px rgba(9,28,66,.26);
+    display:flex;align-items:center;justify-content:center}
+  .hero-badge svg{width:28px;height:28px}
+  .hero-num{position:absolute;right:12px;top:12px;font-family:var(--head);font-weight:700;font-size:15px;
+    color:#fff;background:var(--acc);width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(9,28,66,.3)}
+
+  .hero-text{flex:1 1 40%;min-width:0;max-width:440px}
+  .hero-eye{display:inline-flex;align-items:center;gap:9px;font-family:var(--head);font-weight:700;
+    font-size:clamp(12px,1.5vw,15px);letter-spacing:1.6px;text-transform:uppercase;color:var(--acc)}
+  .hero-eye::before{content:"";width:26px;height:3px;border-radius:3px;background:var(--acc)}
+  .hero-title{font-family:var(--head);font-weight:700;font-size:clamp(23px,3.4vw,40px);line-height:1.08;
+    color:var(--bluD);margin:10px 0 12px}
+  .hero-line{font-size:clamp(15px,1.9vw,21px);line-height:1.5;color:var(--ink);margin:0}
+
+  /* effetti d'ingresso: l'immagine entra in "zoom in avanti", il testo sale */
+  @keyframes heroMediaIn{from{opacity:0;transform:scale(.9) translateY(18px);filter:blur(5px)}
+    to{opacity:1;transform:none;filter:none}}
+  @keyframes heroUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .hero{transition:opacity .17s ease,transform .17s ease}
+  .hero.leaving{opacity:0;transform:scale(.985)}
+  .hero.enter .hero-media{animation:heroMediaIn .7s cubic-bezier(.22,.72,.2,1.08) both}
+  .hero.enter .hero-eye{animation:heroUp .5s ease .14s both}
+  .hero.enter .hero-title{animation:heroUp .55s ease .22s both}
+  .hero.enter .hero-line{animation:heroUp .55s ease .34s both}
+
+  /* micro-animazioni dell'icona-badge in scena */
+  .a-spin{transform-box:fill-box;transform-origin:center}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.15}}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  @keyframes drip{0%{transform:translateY(-3px);opacity:0}25%{opacity:1}100%{transform:translateY(9px);opacity:0}}
+  .hero-badge .a-spin{animation:spin 4.5s linear infinite}
+  .hero-badge .a-blink{animation:blink 1.1s steps(1,end) infinite}
+  .hero-badge .a-float{animation:floaty 2.6s ease-in-out infinite}
+  .hero-badge .a-drip{animation:drip 1.9s ease-in infinite}
 
   /* overlay di avvio */
   .layer{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -71,7 +118,7 @@
   .starthint b{color:var(--blu)}
 
   /* overlay finale */
-  .endlayer{background:radial-gradient(closest-side at 50% 45%,rgba(255,255,255,.86),rgba(255,255,255,.6));
+  .endlayer{background:radial-gradient(closest-side at 50% 45%,rgba(255,255,255,.9),rgba(255,255,255,.66));
     backdrop-filter:blur(2px)}
   .endcard{max-width:640px;background:linear-gradient(180deg,#0e347e,#123E90);color:#eaf1fc;
     border-radius:22px;padding:24px 28px;box-shadow:0 20px 50px rgba(18,62,144,.4)}
@@ -88,45 +135,29 @@
     font-family:var(--head);font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:7px}
   .replay svg{width:16px;height:16px}
 
-  /* ---- dock: il "posto" delle card ---- */
-  .dock{flex:0 0 auto;display:flex;gap:11px;justify-content:center;align-items:stretch;
-    overflow:visible;padding:4px 0 2px}
-  .cc{flex:1 1 0;min-width:0;max-width:150px;position:relative;overflow:hidden;
-    background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:10px 10px 11px;
-    box-shadow:0 6px 16px rgba(18,62,144,.10);--acc:var(--blu);
-    transform-origin:center center;
-    transition:transform .8s cubic-bezier(.22,.72,.2,1.25),box-shadow .5s,opacity .45s,filter .45s,border-color .4s}
+  /* ---- dock: la striscia dei concetti (il loro "posto") ---- */
+  .dock{flex:0 0 auto;display:flex;gap:10px;justify-content:center;align-items:stretch;padding:2px 0 0}
+  .cc{flex:1 1 0;min-width:0;max-width:140px;position:relative;overflow:hidden;
+    background:var(--card);border:1px solid var(--brd);border-radius:12px;padding:8px 8px 9px;
+    box-shadow:0 5px 14px rgba(18,62,144,.09);--acc:var(--blu);
+    transition:transform .4s cubic-bezier(.22,.72,.2,1.2),box-shadow .4s,opacity .4s,filter .4s,border-color .4s}
   .cc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--acc);opacity:0;transition:opacity .4s}
-  .cc .num{position:absolute;top:6px;right:9px;font-family:var(--head);font-weight:700;font-size:17px;color:#eaf1fb;line-height:1}
-  .cc .ill{width:100%;height:56px;border-radius:9px;margin-bottom:7px;overflow:hidden;position:relative;background:var(--warm);border:1px solid var(--brd)}
+  .cc .num{position:absolute;top:5px;right:8px;font-family:var(--head);font-weight:700;font-size:15px;color:#eaf1fb;line-height:1}
+  .cc .ill{width:100%;height:48px;border-radius:8px;margin-bottom:6px;overflow:hidden;position:relative;background:var(--warm);border:1px solid var(--brd)}
   .cc .ill img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
-  .cc .ill .badge{position:absolute;right:5px;bottom:5px;width:21px;height:21px;border-radius:6px;background:rgba(255,255,255,.94);box-shadow:0 2px 6px rgba(9,28,66,.28);display:flex;align-items:center;justify-content:center}
-  .cc .ill .badge svg{width:14px;height:14px}
-  .cc .eyebrow{font-family:var(--head);font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--acc)}
-  .cc h3{font-family:var(--head);font-size:11px;font-weight:700;color:var(--bluD);margin:2px 0 3px;line-height:1.15}
-  .cc p{margin:0;font-size:9px;color:var(--muted);line-height:1.35;
-    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .cc .ill .badge{position:absolute;right:4px;bottom:4px;width:18px;height:18px;border-radius:5px;background:rgba(255,255,255,.94);box-shadow:0 2px 6px rgba(9,28,66,.28);display:flex;align-items:center;justify-content:center}
+  .cc .ill .badge svg{width:12px;height:12px}
+  .cc .eyebrow{font-family:var(--head);font-size:8px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--acc)}
+  .cc h3{font-family:var(--head);font-size:10.5px;font-weight:700;color:var(--bluD);margin:2px 0 3px;line-height:1.15}
+  .cc p{margin:0;font-size:8.5px;color:var(--muted);line-height:1.3;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-  /* stati */
-  .cc.upcoming{opacity:.42;filter:grayscale(.7)}
-  .cc.done{opacity:1}
+  /* stati dock */
+  .cc.upcoming{opacity:.4;filter:grayscale(.7)}
+  .cc.done{opacity:.92}
   .cc.done::before,.cc.current::before{opacity:1}
-  .cc.current{border-color:var(--acc)}
-  .cc.staged{z-index:60;box-shadow:0 34px 70px rgba(9,28,66,.42);filter:none;opacity:1}
-  .cc.staged .ill{border-color:var(--acc)}
-  .cc.staged .ill .badge{width:30px;height:30px;border-radius:8px}
-  .cc.staged .ill .badge svg{width:20px;height:20px}
-
-  /* micro-animazioni interne SVG, solo sulla card sul palco */
-  .a-spin{transform-box:fill-box;transform-origin:center}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .cc.staged .a-spin{animation:spin 4.5s linear infinite}
-  .cc.staged .a-blink{animation:blink 1.1s steps(1,end) infinite}
-  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.15}}
-  .cc.staged .a-float{animation:floaty 2.6s ease-in-out infinite}
-  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-  .cc.staged .a-drip{animation:drip 1.9s ease-in infinite}
-  @keyframes drip{0%{transform:translateY(-3px);opacity:0}25%{opacity:1}100%{transform:translateY(9px);opacity:0}}
+  .cc.current{opacity:1;border-color:var(--acc);transform:translateY(-5px);box-shadow:0 14px 26px rgba(18,62,144,.20)}
+  .cc.current .ill{border-color:var(--acc)}
 
   /* ---- controlli minimi ---- */
   .controls{flex:0 0 auto;display:flex;align-items:center;gap:12px;width:100%;max-width:720px;margin:2px auto 0}
@@ -138,13 +169,22 @@
   .bar{flex:1 1 auto;height:7px;border-radius:6px;background:#dbe6f5;cursor:pointer;position:relative}
   .bar-fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:6px;background:linear-gradient(90deg,var(--blu2),var(--blu))}
 
+  /* schermi stretti: il pannello si impila */
+  @media (max-width:720px){
+    .hero{flex-direction:column;gap:12px;padding:8px 14px}
+    .hero-media{flex:0 1 auto;max-width:100%;height:auto;min-height:0}
+    .frame img{max-height:38vh}
+    .hero-text{flex:0 0 auto;max-width:none;text-align:center}
+    .hero-eye{justify-content:center}
+  }
   @media (max-height:560px){
-    .cc .ill{height:42px}
-    .cc p{-webkit-line-clamp:2}
+    .cc .ill{height:38px}
+    .cc p{-webkit-line-clamp:1}
   }
   @media (prefers-reduced-motion: reduce){
-    .bg-bubbles i,.startbtn,.cc,.cc.staged .a-spin,.cc.staged .a-blink,.cc.staged .a-float,.cc.staged .a-drip{animation:none !important}
-    .cc{transition:opacity .3s,filter .3s,box-shadow .3s}
+    .bg-bubbles i,.startbtn,.hero.enter .hero-media,.hero.enter .hero-eye,.hero.enter .hero-title,.hero.enter .hero-line,
+    .hero-badge .a-spin,.hero-badge .a-blink,.hero-badge .a-float,.hero-badge .a-drip{animation:none !important}
+    .hero,.cc{transition:opacity .3s,box-shadow .3s}
   }
 </style>
 </head>
@@ -165,6 +205,22 @@
   <!-- PALCO -->
   <main class="presentation" id="pres">
     <div class="spot" id="spot" aria-hidden="true"></div>
+
+    <!-- pannello in scena -->
+    <div class="hero" id="hero" hidden aria-live="polite">
+      <div class="hero-media">
+        <figure class="frame">
+          <img id="heroImg" src="" alt="" />
+          <span class="hero-num" id="heroNum"></span>
+          <span class="hero-badge" id="heroBadge" aria-hidden="true"></span>
+        </figure>
+      </div>
+      <div class="hero-text">
+        <div class="hero-eye" id="heroEye"></div>
+        <h2 class="hero-title" id="heroTitle"></h2>
+        <p class="hero-line" id="heroLine"></p>
+      </div>
+    </div>
 
     <div class="layer" id="startlayer">
       <button class="startbtn" id="startBtn" type="button">
@@ -191,7 +247,7 @@
     </div>
   </main>
 
-  <!-- DOCK: il posto delle card -->
+  <!-- DOCK: la striscia dei concetti -->
   <section class="dock" id="dock" aria-label="Concetti del racconto"></section>
 
   <!-- CONTROLLI -->
@@ -209,6 +265,9 @@
     Il tuo browser non riesce a riprodurre l'audio. Puoi aprirlo qui:
     <a href="racconto.mp3">racconto.mp3</a>.
   </audio>
+
+  <!-- Musica di sottofondo: player YouTube nascosto (IFrame API). Volume basso, parte e chiude col parlato. -->
+  <div id="bgm-yt" aria-hidden="true" style="position:fixed;left:-9999px;top:0;width:200px;height:150px;opacity:0;pointer-events:none"></div>
 </div>
 
 <script>
@@ -229,7 +288,7 @@
     }
   })();
 
-  /* ---------- illustrazioni SVG ---------- */
+  /* ---------- icone (badge in scena) ---------- */
   var ICON = {
     spark:'<svg viewBox="0 0 24 24" fill="none"><path class="a-float" d="M12 3v3M12 18v3M4.5 12h-2M21.5 12h-2M6 6l1.6 1.6M18 6l-1.6 1.6M6 18l1.6-1.6M18 18l-1.6-1.6" stroke="#B8860B" stroke-width="1.6" stroke-linecap="round"/><circle class="a-float" cx="12" cy="12" r="4.4" stroke="#123E90" stroke-width="1.7"/></svg>',
     binary:'<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="#123E90" stroke-width="1.6"/><path d="M8 21h8M12 18v3" stroke="#1f5fc0" stroke-width="1.5" stroke-linecap="round"/><text class="a-blink" x="6.4" y="14" font-family="monospace" font-size="7" font-weight="700" fill="#1f7d49">0</text><text class="a-blink" x="13.4" y="14" font-family="monospace" font-size="7" font-weight="700" fill="#B8860B">1</text></svg>',
@@ -255,7 +314,7 @@
     {t:115.7, acc:"#0c2a63", eye:"Il senso",       title:"Unità di apprendimento",         line:"Le discipline si fondono in un'esperienza. Grazie, Emanuele.",            icon:"drop",     img:"shot-index.jpg"}
   ];
 
-  /* ---------- costruzione card ---------- */
+  /* ---------- striscia dock ---------- */
   var dock = document.getElementById("dock");
   CC.forEach(function(c, i){
     var el = document.createElement("div");
@@ -275,8 +334,14 @@
 
   /* ---------- elementi ---------- */
   var audio = document.getElementById("audio");
-  var pres  = document.getElementById("pres");
   var spot  = document.getElementById("spot");
+  var hero  = document.getElementById("hero");
+  var heroImg   = document.getElementById("heroImg");
+  var heroNum   = document.getElementById("heroNum");
+  var heroBadge = document.getElementById("heroBadge");
+  var heroEye   = document.getElementById("heroEye");
+  var heroTitle = document.getElementById("heroTitle");
+  var heroLine  = document.getElementById("heroLine");
   var startlayer = document.getElementById("startlayer");
   var endlayer   = document.getElementById("endlayer");
   var startBtn = document.getElementById("startBtn");
@@ -296,27 +361,7 @@
     return m + ":" + (r<10?"0"+r:r);
   }
 
-  /* ---------- calcolo trasformazione "zoom in avanti" ---------- */
-  function computeStage(){
-    var pr = pres.getBoundingClientRect();
-    var targetCX = pr.left + pr.width/2;
-    var targetCY = pr.top  + pr.height*0.48;
-    var targetH  = pr.height*0.78;
-    var maxW     = pr.width*0.92;
-    cards.forEach(function(el){
-      var r = el.getBoundingClientRect(); // misura a riposo (nella dock)
-      if(!r.height) { el.dataset.tf=""; return; }
-      var S = targetH / r.height;
-      if(r.width*S > maxW) S = maxW / r.width;
-      var cx = r.left + r.width/2, cy = r.top + r.height/2;
-      var dx = targetCX - cx, dy = targetCY - cy;
-      el.dataset.tf = "translate("+dx.toFixed(1)+"px,"+dy.toFixed(1)+"px) scale("+S.toFixed(3)+")";
-    });
-  }
-
-  /* ---------- palco / dock ---------- */
-  var current = -1, stageTimer = null;
-
+  /* ---------- stati dock ---------- */
   function applyStates(idx){
     cards.forEach(function(el,j){
       el.classList.toggle("current",  j===idx);
@@ -324,28 +369,49 @@
       el.classList.toggle("upcoming", j>idx);
     });
   }
-  function unstage(el){ if(el){ el.style.transform=""; el.classList.remove("staged"); } }
-  function stageCard(idx){
-    cards.forEach(function(el,j){
-      if(j===idx){ el.style.transform = el.dataset.tf || ""; el.classList.add("staged"); }
-      else unstage(el);
-    });
-    spot.classList.add("on");
+
+  /* ---------- pannello in scena ---------- */
+  function fillHero(idx){
+    var c = CC[idx];
+    hero.style.setProperty("--acc", c.acc);
+    heroImg.src = c.img;
+    heroNum.textContent = idx+1;
+    heroBadge.innerHTML = ICON[c.icon];
+    heroEye.textContent = c.eye;
+    heroTitle.textContent = c.title;
+    heroLine.textContent = c.line;
+    hero.classList.remove("enter");
+    void hero.offsetWidth;          // riavvia le animazioni d'ingresso
+    hero.classList.add("enter");
   }
-  function unstageAll(){ cards.forEach(unstage); spot.classList.remove("on"); }
+  function hideHero(){
+    hero.classList.remove("enter","leaving");
+    hero.hidden = true;
+    spot.classList.remove("on");
+  }
+
+  var current = -1, swapTimer = null;
 
   function setCurrent(idx){
     if(idx === current) return;
-    var prev = current; current = idx;
+    current = idx;
     applyStates(idx);
-    if(prev>=0 && cards[prev]) unstage(cards[prev]); // torna al suo posto
-    clearTimeout(stageTimer);
-    if(idx < 0){ unstageAll(); return; }
-    // piccola pausa: la precedente rientra, poi la nuova si apre in avanti
-    var wait = prev>=0 ? 220 : 30;
-    stageTimer = setTimeout(function(){
-      if(current === idx && !audio.ended) stageCard(idx);
-    }, wait);
+    clearTimeout(swapTimer);
+    if(idx < 0){ hideHero(); return; }
+    if(hero.hidden){          // prima apertura: nessuna uscita, entra e basta
+      hero.hidden = false;
+      spot.classList.add("on");
+      fillHero(idx);
+      return;
+    }
+    // la scena precedente esce, poi entra la nuova
+    hero.classList.remove("enter");
+    hero.classList.add("leaving");
+    swapTimer = setTimeout(function(){
+      if(current !== idx || audio.ended) return;
+      hero.classList.remove("leaving");
+      fillHero(idx);
+    }, 170);
   }
 
   function syncCards(){
@@ -358,16 +424,19 @@
   function begin(){
     startlayer.setAttribute("hidden","");
     endlayer.setAttribute("hidden","");
-    computeStage();
+    bgmRestart();
     audio.play();
+    syncCards();
   }
   startBtn.addEventListener("click", begin);
   replayBtn.addEventListener("click", function(){
     endlayer.setAttribute("hidden","");
     audio.currentTime = 0;
     current = -1;
-    computeStage();
+    hideHero();
+    bgmRestart();
     audio.play();
+    syncCards();
   });
   playBtn.addEventListener("click", function(){
     if(startlayer.hasAttribute("hidden")===false){ begin(); return; }
@@ -375,8 +444,8 @@
   });
 
   /* ---------- eventi audio ---------- */
-  audio.addEventListener("play",  function(){ playIcon.innerHTML = PAUSE; });
-  audio.addEventListener("pause", function(){ if(!audio.ended) playIcon.innerHTML = PLAY; });
+  audio.addEventListener("play",  function(){ playIcon.innerHTML = PAUSE; bgmPlay(); });
+  audio.addEventListener("pause", function(){ if(!audio.ended){ playIcon.innerHTML = PLAY; bgmPause(); } });
   audio.addEventListener("loadedmetadata", function(){ durT.textContent = fmt(audio.duration); });
   audio.addEventListener("timeupdate", function(){
     var p = audio.duration ? (audio.currentTime/audio.duration) : 0;
@@ -387,11 +456,12 @@
   audio.addEventListener("seeked", syncCards);
   audio.addEventListener("ended", function(){
     playIcon.innerHTML = PLAY;
-    clearTimeout(stageTimer);
-    unstageAll();
+    clearTimeout(swapTimer);
+    hideHero();
     current = CC.length;
-    applyStates(CC.length);        // tutte "done", in bella mostra nella dock
+    applyStates(CC.length);        // tutte "done" nella striscia
     endlayer.removeAttribute("hidden");
+    bgmFadeOut();                  // la musica chiude col parlato
   });
 
   bar.addEventListener("click", function(e){
@@ -400,19 +470,37 @@
     if(audio.duration) audio.currentTime = p*audio.duration;
   });
 
-  /* ---------- misure ---------- */
-  window.addEventListener("load", function(){ computeStage(); setTimeout(computeStage, 400); });
-  computeStage();
-  var rz;
-  window.addEventListener("resize", function(){
-    clearTimeout(rz);
-    rz = setTimeout(function(){
-      var cur = current;
-      unstageAll();
-      computeStage();
-      if(cur>=0 && cur<CC.length && !audio.paused && !audio.ended) stageCard(cur);
-    }, 150);
-  });
+  /* ---------- musica di sottofondo (YouTube IFrame API) ---------- */
+  var bgm = null, bgmReady = false, bgmWanted = false, bgmFadeIv = null;
+  var BGM_VOL = 12;               // volume basso rispetto al parlato (0-100)
+  function bgmClearFade(){ if(bgmFadeIv){ clearInterval(bgmFadeIv); bgmFadeIv = null; } }
+  function bgmFade(to, after){
+    if(!bgm || !bgmReady){ if(after) after(); return; }
+    bgmClearFade();
+    var v = Math.round((bgm.getVolume()||0)/2)*2;   // parti da un valore pari
+    bgmFadeIv = setInterval(function(){
+      v = (v < to) ? Math.min(to, v+2) : Math.max(to, v-2);
+      bgm.setVolume(v);
+      if(v === to){ bgmClearFade(); if(after) after(); }
+    }, 80);
+  }
+  function bgmPlay(){ bgmWanted = true; if(bgm && bgmReady){ bgm.playVideo(); bgmFade(BGM_VOL); } }
+  function bgmPause(){ if(bgm && bgmReady){ bgmClearFade(); bgm.pauseVideo(); } }
+  function bgmRestart(){
+    bgmWanted = true;
+    if(bgm && bgmReady){ bgm.seekTo(0); bgm.setVolume(0); bgm.playVideo(); bgmFade(BGM_VOL); }
+  }
+  function bgmFadeOut(){ bgmWanted = false; bgmFade(0, function(){ if(bgm && bgmReady) bgm.pauseVideo(); }); }
+
+  window.onYouTubeIframeAPIReady = function(){
+    bgm = new YT.Player("bgm-yt", {
+      videoId: "q0SJ9TnD-B4",
+      playerVars: { autoplay:0, controls:0, disablekb:1, loop:1, playlist:"q0SJ9TnD-B4",
+                    modestbranding:1, rel:0, fs:0, iv_load_policy:3, playsinline:1 },
+      events: { onReady: function(e){ bgmReady = true; e.target.setVolume(0); if(bgmWanted) bgmRestart(); } }
+    });
+  };
+  (function(){ var t = document.createElement("script"); t.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(t); })();
 })();
 </script>
 </body>
